@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IShopify.WebApi", "IShopify
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IShopify.Core", "IShopify.Core\IShopify.Core.csproj", "{5BA9EEB1-5BBD-4322-AEFF-2CDEE7DBEC31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IShopify.Services", "IShopify.Services\IShopify.Services.csproj", "{60F8F660-43C1-4DC7-85FE-CB52CAD24764}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IShopify.DomainServices", "IShopify.Services\IShopify.DomainServices.csproj", "{60F8F660-43C1-4DC7-85FE-CB52CAD24764}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IShopify.WebApiServices", "IShopify.WebApiServices\IShopify.WebApiServices.csproj", "{1294C09E-9FC6-41EF-8ADA-260EF8142016}"
 EndProject
