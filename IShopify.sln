@@ -13,15 +13,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04.Framework", "04.Framewor
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "90.Tests", "90.Tests", "{3D7E935D-6A5C-45D8-AA8C-3E118C8F2559}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IShopify.WebApi", "IShopify.WebApi\IShopify.WebApi.csproj", "{854E1690-3036-40EE-B367-2D71A023C4AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IShopify.WebApi", "IShopify.WebApi\IShopify.WebApi.csproj", "{854E1690-3036-40EE-B367-2D71A023C4AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IShopify.Core", "IShopify.Core\IShopify.Core.csproj", "{5BA9EEB1-5BBD-4322-AEFF-2CDEE7DBEC31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IShopify.Core", "IShopify.Core\IShopify.Core.csproj", "{5BA9EEB1-5BBD-4322-AEFF-2CDEE7DBEC31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IShopify.DomainServices", "IShopify.Services\IShopify.DomainServices.csproj", "{60F8F660-43C1-4DC7-85FE-CB52CAD24764}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IShopify.DomainServices", "IShopify.Services\IShopify.DomainServices.csproj", "{60F8F660-43C1-4DC7-85FE-CB52CAD24764}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IShopify.WebApiServices", "IShopify.WebApiServices\IShopify.WebApiServices.csproj", "{1294C09E-9FC6-41EF-8ADA-260EF8142016}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IShopify.WebApiServices", "IShopify.WebApiServices\IShopify.WebApiServices.csproj", "{1294C09E-9FC6-41EF-8ADA-260EF8142016}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IShopify.Data", "IShopify.Data\IShopify.Data.csproj", "{B93B8821-7C32-4AD6-A8DD-2491F1D99DB7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IShopify.Data", "IShopify.Data\IShopify.Data.csproj", "{B93B8821-7C32-4AD6-A8DD-2491F1D99DB7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IShopify.Common", "I\IShopify.Common.csproj", "{D4D25449-1E03-4058-BEF7-58B308E47031}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +51,10 @@ Global
 		{B93B8821-7C32-4AD6-A8DD-2491F1D99DB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B93B8821-7C32-4AD6-A8DD-2491F1D99DB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B93B8821-7C32-4AD6-A8DD-2491F1D99DB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4D25449-1E03-4058-BEF7-58B308E47031}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4D25449-1E03-4058-BEF7-58B308E47031}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4D25449-1E03-4058-BEF7-58B308E47031}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4D25449-1E03-4058-BEF7-58B308E47031}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +65,7 @@ Global
 		{60F8F660-43C1-4DC7-85FE-CB52CAD24764} = {53B3A6C9-CA11-4E5A-8A70-3C333FF698FC}
 		{1294C09E-9FC6-41EF-8ADA-260EF8142016} = {DB15EF6A-6F59-4D85-84C3-7AACC3C74174}
 		{B93B8821-7C32-4AD6-A8DD-2491F1D99DB7} = {C1C88029-25B3-4675-8DA2-4C6F8179F264}
+		{D4D25449-1E03-4058-BEF7-58B308E47031} = {53B3A6C9-CA11-4E5A-8A70-3C333FF698FC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E853DF51-11E9-492D-8E3C-EE667F9E6452}

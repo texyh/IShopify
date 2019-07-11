@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IShopify.Data;
+using IShopify.WebApi.Bootstrap;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -17,6 +18,9 @@ namespace IShopify.WebApi
 {
     public class Startup
     {
+        private const string SwaggerOpenAPISpecification = "/swagger/v1/swagger.json";
+        private const string SwaggerOpenAPISpecificationDisplayName = "IShopify Api";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -33,12 +37,22 @@ namespace IShopify.WebApi
             {
                 options.UseMySql(Configuration["ConnectionString"]);
             });
+
+            services.AddDependencies();
+            services.ConfigureSwagger();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseHsts();
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
+            app.UseSwaggerUI(x =>
+            {
+                x.SwaggerEndpoint(SwaggerOpenAPISpecification, SwaggerOpenAPISpecificationDisplayName);
+            });
             app.UseHttpsRedirection();
             app.UseMvc();
         }

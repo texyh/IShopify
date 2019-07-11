@@ -18,8 +18,8 @@ namespace IShopify.Data.Repositories
         }
         public async Task AddAllAsync(IEnumerable<TEntity> entities)
         {
-            _dbContext.Set<TEntity>().AddRangeAsync(entities);
-            await _dbContext.SaveChangesAsync();
+             await _dbContext.Set<TEntity>().AddRangeAsync(entities);
+             await _dbContext.SaveChangesAsync();
         }
 
         public Task<int> AddAsync(TEntity entity)
