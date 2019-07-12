@@ -17,7 +17,10 @@ namespace IShopify.Data
         
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(builder);
+            var productBuilder = builder.Entity<ProductEntity>().ToTable("product");
+            productBuilder.Property(x => x.Id).HasColumnName("product_id");
+            productBuilder.Property(x => x.DisCountedPrice).HasColumnName("discounted_price");
+            productBuilder.Property(x => x.Image2).HasColumnName("image_2");
         }
     }
 }

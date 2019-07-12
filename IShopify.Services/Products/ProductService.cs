@@ -1,4 +1,5 @@
-﻿using IShopify.Core.Data;
+﻿using AutoMapper;
+using IShopify.Core.Data;
 using IShopify.Core.Products;
 using IShopify.Core.Products.Models;
 using System;
@@ -20,7 +21,7 @@ namespace IShopify.DomainServices.Products
         {
             var entity =  await _productRepository.GetAsync(id, true);
 
-            return new Product(); // TODO implement when automapper is added;
+            return Mapper.Map<ProductEntity, Product>(entity);
         }
     }
 }
