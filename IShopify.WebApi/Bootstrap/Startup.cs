@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IShopify.Data;
+using IShopify.DomainServices.Bootstrap;
+using IShopify.WebApi.Bootstrap;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -15,6 +19,9 @@ namespace IShopify.WebApi
 {
     public class Startup
     {
+        private const string SwaggerOpenAPISpecification = "/swagger/v1/swagger.json";
+        private const string SwaggerOpenAPISpecificationDisplayName = "IShopify Api";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -23,9 +30,21 @@ namespace IShopify.WebApi
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddDbContextPool<IShopifyDbContext>(options =>
+            {
+                options.UseMySql(Configuration["ConnectionString"]);
+            });
+
+            services.ConfigureSwagger();
+
+            AutoMapper.Mapper.Initialize(cfg => cfg.AddProfile<DomainServicesMapperProfile>());
+
+            var serviceProvider = services.AddDependencies();
+            return serviceProvider;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,10 +56,16 @@ namespace IShopify.WebApi
             }
             else
             {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
+            app.UseSwaggerUI(x =>
+            {
+                x.SwaggerEndpoint(SwaggerOpenAPISpecification, SwaggerOpenAPISpecificationDisplayName);
+            });
             app.UseHttpsRedirection();
             app.UseMvc();
         }
