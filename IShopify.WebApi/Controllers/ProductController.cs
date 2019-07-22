@@ -25,5 +25,6 @@ namespace IShopify.WebApi.Controllers
         {
             return await _productService.Get(id);
         }
+
     }
 }
