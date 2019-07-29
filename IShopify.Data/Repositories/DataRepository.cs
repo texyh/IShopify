@@ -32,7 +32,7 @@ namespace IShopify.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<bool> ExistsAsync(System.Linq.Expressions.Expression<Func<TEntity, bool>> filter)
+        public Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> filter)
         {
             throw new NotImplementedException();
         }
@@ -42,7 +42,7 @@ namespace IShopify.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IList<TEntity>> FindAllAsync(System.Linq.Expressions.Expression<Func<TEntity, bool>> filter)
+        public Task<IList<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> filter)
         {
             throw new NotImplementedException();
         }
@@ -57,7 +57,7 @@ namespace IShopify.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IList<Guid>> FindAllIdsAsync(System.Linq.Expressions.Expression<Func<TEntity, bool>> filter, bool includeDeleted = false)
+        public Task<IList<Guid>> FindAllIdsAsync(Expression<Func<TEntity, bool>> filter, bool includeDeleted = false)
         {
             throw new NotImplementedException();
         }

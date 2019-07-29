@@ -7,6 +7,12 @@ namespace IShopify.Core.Products.Models
 {
     public class ProductEntity : IEntity
     {
+        public ProductEntity()
+        {
+            ProductCategories = new List<ProductCategoryEntity>();
+            Reviews = new List<ReviewEntity>();
+        }
+
         public int Id { get; set; }
 
         public string Name { get; set; }
@@ -21,6 +27,10 @@ namespace IShopify.Core.Products.Models
 
         public string Image2 { get; set; }
 
-       public int Display { get; set; }
-    }
+        public int Display { get; set; }
+
+        public virtual ICollection<ProductCategoryEntity> ProductCategories { get; set; }
+
+        public virtual ICollection<ReviewEntity> Reviews { get; set; }
+    } 
 }

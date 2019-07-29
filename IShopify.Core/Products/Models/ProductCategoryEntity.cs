@@ -8,10 +8,10 @@ namespace IShopify.Core.Products.Models
     {
         public int ProductId { get; set; }
 
-        public ProductEntity Product { get; set; }
+        public virtual ProductEntity Product { get; set; }
 
         public int CategoryId { get; set; }
 
-        public CategoryEntity Category { get; set; }
+        public virtual CategoryEntity Category { get; set; }
     }
 }

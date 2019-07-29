@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using IShopify.Data;
 using IShopify.DomainServices.Bootstrap;
 using IShopify.WebApi.Bootstrap;
+using IShopify.WebApiServices.Bootstrap;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -41,7 +42,11 @@ namespace IShopify.WebApi
 
             services.ConfigureSwagger();
 
-            AutoMapper.Mapper.Initialize(cfg => cfg.AddProfile<DomainServicesMapperProfile>());
+            AutoMapper.Mapper.Initialize(cfg => 
+            {
+                cfg.AddProfile<DomainServicesMapperProfile>();
+                cfg.AddProfile<ApiServiceMapperProfile>();
+            });
 
             var serviceProvider = services.AddDependencies();
             return serviceProvider;
