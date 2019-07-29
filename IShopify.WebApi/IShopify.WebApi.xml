@@ -4,5 +4,43 @@
         <name>IShopify.WebApi</name>
     </assembly>
     <members>
+        <member name="T:IShopify.WebApi.Bootstrap.IocConfig">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:IShopify.WebApi.Bootstrap.IocConfig.AddDependencies(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IShopify.WebApi.Controllers.ProductController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:IShopify.WebApi.Controllers.ProductController.#ctor(IShopify.Core.Products.IProductService,IShopify.WebApiServices.IProductComposerService)">
+            <summary>
+            
+            </summary>
+            <param name="productService"></param>
+            <param name="productComposerService"></param>
+        </member>
+        <member name="M:IShopify.WebApi.Controllers.ProductController.Get(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IShopify.WebApi.Controllers.ProductController.Search(IShopify.Core.Products.Models.ProductQueryModel)">
+            <summary>
+            
+            </summary>
+            <param name="query"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>
