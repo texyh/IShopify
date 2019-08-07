@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using IShopify.Data;
 using IShopify.DomainServices.Bootstrap;
+using IShopify.Framework.Bootstrap;
 using IShopify.WebApi.Bootstrap;
 using IShopify.WebApiServices.Bootstrap;
 using Microsoft.AspNetCore.Builder;
@@ -46,6 +47,7 @@ namespace IShopify.WebApi
             {
                 cfg.AddProfile<DomainServicesMapperProfile>();
                 cfg.AddProfile<ApiServiceMapperProfile>();
+                cfg.AddProfile<FrameworkMapperProfile>();
             });
 
             var serviceProvider = services.AddDependencies();

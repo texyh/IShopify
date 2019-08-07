@@ -11,11 +11,9 @@ namespace IShopify.Core.Data
         Task<int> AddAsync(TEntity entity);
 
         Task AddAllAsync(IEnumerable<TEntity> documents);
+        
+        Task UpdateAsync(TEntity entity);
 
-        Task MarkentityDeletedAsync(int entityId);
-
-        Task<long> MarkDocumentsDeletedAsync(Expression<Func<TEntity, bool>> filter);
-
-        Task<long> MarkDocumentsDeletedAsync(IEnumerable<int> entityIds);
+        Task UpdateSingleField(TEntity entity, Expression<Func<TEntity, object>> expression);
     }
 }

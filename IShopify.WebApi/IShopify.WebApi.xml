@@ -16,6 +16,51 @@
             <param name="services"></param>
             <returns></returns>
         </member>
+        <member name="T:IShopify.WebApi.Controllers.CustomerController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:IShopify.WebApi.Controllers.CustomerController.#ctor(IShopify.Core.Customer.ICustomerService,IShopify.Framework.Auth.IAccountService)">
+            <summary>
+            
+            </summary>
+            <param name="customerService"></param>
+        </member>
+        <member name="M:IShopify.WebApi.Controllers.CustomerController.UpdateCustomer(IShopify.Core.Customer.Models.SaveCustomerViewModel)">
+            <summary>
+            
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IShopify.WebApi.Controllers.CustomerController.Get">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IShopify.WebApi.Controllers.CustomerController.UpdateCustomerAddress(IShopify.Core.Customer.Models.SaveCustomerAddressViewModel)">
+            <summary>
+            
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IShopify.WebApi.Controllers.CustomerController.UpdateCustomerCreditCard(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="creditCard"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IShopify.WebApi.Controllers.CustomerController.RegisterCustomerAsync(IShopify.Core.Customer.Models.CustomerRegistrationViewModel)">
+            <summary>
+            
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
         <member name="T:IShopify.WebApi.Controllers.ProductController">
             <summary>
             

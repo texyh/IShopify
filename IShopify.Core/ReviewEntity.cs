@@ -1,4 +1,5 @@
 ﻿using IShopify.Core.Customer;
+using IShopify.Core.Customer.Models;
 using IShopify.Core.Data;
 using IShopify.Core.Products.Models;
 using System;
