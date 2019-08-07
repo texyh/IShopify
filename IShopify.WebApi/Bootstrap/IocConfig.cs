@@ -3,6 +3,7 @@ using Autofac.Extensions.DependencyInjection;
 using IShopify.Common.IocContainer;
 using IShopify.Data.Bootstrap;
 using IShopify.DomainServices.Bootstrap;
+using IShopify.Framework.Bootstrap;
 using IShopify.WebApiServices.Bootstrap;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -26,6 +27,7 @@ namespace IShopify.WebApi.Bootstrap
             containerBuilder.RegisterModule<DomainServicesAutoFacModule>();
             containerBuilder.RegisterModule<DataAutofacModule>();
             containerBuilder.RegisterModule<ApiServicesAutofacModule>();
+            containerBuilder.RegisterModule<FrameworkAutoFacModule>();
 
             containerBuilder.Populate(services);
 

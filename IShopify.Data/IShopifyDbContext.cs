@@ -1,5 +1,6 @@
 ﻿using IShopify.Core;
 using IShopify.Core.Customer;
+using IShopify.Core.Customer.Models;
 using IShopify.Core.Products.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -61,6 +62,14 @@ namespace IShopify.Data
 
             var customerBuilder = builder.Entity<CustomerEntity>().ToTable("customer");
             customerBuilder.Property(x => x.Id).HasColumnName("customer_id");
+            customerBuilder.Property(x => x.Address1).HasColumnName("address_1");
+            customerBuilder.Property(x => x.Address2).HasColumnName("address_2");
+            customerBuilder.Property(x => x.CreditCard).HasColumnName("credit_card");
+            customerBuilder.Property(x => x.DayPhone).HasColumnName("day_phone");
+            customerBuilder.Property(x => x.EveningPhone).HasColumnName("eve_phone");
+            customerBuilder.Property(x => x.MobilePhone).HasColumnName("mob_phone");
+            customerBuilder.Property(x => x.PostalCode).HasColumnName("postal_code");
+            customerBuilder.Property(x => x.ShippingRegionId).HasColumnName("shipping_region_id");
             customerBuilder.HasMany(x => x.Reviews).WithOne(x => x.Customer).HasForeignKey(x => x.CustomerId);
 
         }

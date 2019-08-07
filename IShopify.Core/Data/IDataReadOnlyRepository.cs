@@ -10,11 +10,14 @@ namespace IShopify.Core.Data
     {
         Task<TEntity> GetAsync(int id, bool allowNull = false);
 
-        Task<IList<TEntity>> FindAllAsync(IEnumerable<int> Ids, bool includeDeleted = false);
+        Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> expression, bool allowNull = false);
+
+
+        Task<IList<TEntity>> FindAllAsync(IEnumerable<int> Ids);
 
         Task<IList<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> filter);
 
-        Task<IList<Guid>> FindAllIdsAsync(Expression<Func<TEntity, bool>> filter, bool includeDeleted = false);
+        Task<IList<Guid>> FindAllIdsAsync(Expression<Func<TEntity, bool>> filter);
 
         Task<long> CountAsync(Expression<Func<TEntity, bool>> filter);
 

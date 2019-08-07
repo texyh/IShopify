@@ -1,7 +1,9 @@
 ﻿using IShopify.Core.Data;
+using IShopify.Core.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,22 +24,25 @@ namespace IShopify.Data.Repositories
              await _dbContext.SaveChangesAsync();
         }
 
-        public Task<int> AddAsync(TEntity entity)
+        public async Task<int> AddAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Set<TEntity>().Add(entity);
+            await _dbContext.SaveChangesAsync();
+
+            return entity.Id;
         }
 
-        public Task<long> CountAsync(System.Linq.Expressions.Expression<Func<TEntity, bool>> filter)
+        public Task<long> CountAsync(Expression<Func<TEntity, bool>> filter)
         {
             throw new NotImplementedException();
         }
 
         public Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> filter)
         {
-            throw new NotImplementedException();
+            return _dbContext.Set<TEntity>().AnyAsync(filter);
         }
 
-        public Task<IList<TEntity>> FindAllAsync(IEnumerable<Guid> Ids, bool includeDeleted = false)
+        public Task<IList<TEntity>> FindAllAsync(IEnumerable<Guid> Ids)
         {
             throw new NotImplementedException();
         }
@@ -47,17 +52,13 @@ namespace IShopify.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IList<TEntity>> FindAllAsync(IEnumerable<int> Ids, bool includeDeleted = false)
+
+        public Task<IList<TEntity>> FindAllAsync(IEnumerable<int> Ids)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IList<TEntity>> FindAllDeletedAsync(DateTime? maxDeletedDate = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IList<Guid>> FindAllIdsAsync(Expression<Func<TEntity, bool>> filter, bool includeDeleted = false)
+        public Task<IList<Guid>> FindAllIdsAsync(Expression<Func<TEntity, bool>> filter)
         {
             throw new NotImplementedException();
         }
@@ -73,19 +74,37 @@ namespace IShopify.Data.Repositories
             return entity;
         }
 
-        public Task<long> MarkDocumentsDeletedAsync(Expression<Func<TEntity, bool>> filter)
+        public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> expression, bool allowNull = false)
         {
-            throw new NotImplementedException();
+            var entity = await _dbContext.Set<TEntity>().FirstOrDefaultAsync(expression);
+            
+            if(entity.IsNull() &&  !allowNull)
+            {
+                throw new Exception("No entity found"); //TODO change when adding exceptions;
+            }
+
+            return entity;
         }
 
-        public Task<long> MarkDocumentsDeletedAsync(IEnumerable<int> entityIds)
+        public Task UpdateAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Set<TEntity>().Update(entity);
+            return _dbContext.SaveChangesAsync();
         }
 
-        public Task MarkentityDeletedAsync(int entityId)
+        public Task UpdateSingleField(TEntity entity, Expression<Func<TEntity, object>> expression)
         {
-            throw new NotImplementedException();
+            ArgumentGuard.NotDefault(entity.Id, nameof(entity.Id));
+
+            var dbEntity = _dbContext.Set<TEntity>().Local.FirstOrDefault(x => x.Id == entity.Id);
+
+            if(dbEntity.IsNull())
+            {
+                _dbContext.Set<TEntity>().Attach(dbEntity);
+            }
+
+            _dbContext.Entry(dbEntity).Property(expression).IsModified = true;
+            return _dbContext.SaveChangesAsync();
         }
     }
 }
