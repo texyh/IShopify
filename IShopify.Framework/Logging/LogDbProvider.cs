@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using IShopify.Common;
 using IShopify.Core.Config;
 using IShopify.Core.Framework;
 using IShopify.Core.Framework.Logging;
@@ -15,19 +16,17 @@ namespace IShopify.Framework.Logging
 {
     class LogDbProvider : BaseLogProvider
     {
-        private readonly AppSettings _appSettings;
         private const string tableName = "logs";
         
-        public LogDbProvider(IOptions<AppSettings> appSettings)
+        public LogDbProvider()
         {
-            _appSettings = appSettings.Value;
         }
 
         protected override Serilog.Core.Logger GetLogger()
         {
             var logger = new LoggerConfiguration()
                     .WriteTo.PostgreSQL
-                    (_appSettings.LoggingDB, 
+                    (AppSettingsProvider.Current.LoggingDB, 
                     tableName, 
                     ColumnWriters, 
                     needAutoCreateTable: true, 

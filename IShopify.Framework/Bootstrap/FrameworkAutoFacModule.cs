@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using IShopify.Common;
 using IShopify.Core.Config;
 using IShopify.Core.Framework.Logging;
 using IShopify.Framework.Auth;
@@ -32,9 +33,12 @@ namespace IShopify.Framework.Bootstrap
 
             builder.Register<ILogProvider>(context =>
             {
-                var appsettings = context.Resolve<IOptions<AppSettings>>();
-                return new LogDbProvider(appsettings);
-                //return new ConsoleLogProvider();
+                if(AppSettingsProvider.Current.LogTarget == LogTarget.Console)
+                {
+                    return new ConsoleLogProvider();
+                }
+
+                return new LogDbProvider();
             })
             .SingleInstance()
             .As<ILogProvider>();

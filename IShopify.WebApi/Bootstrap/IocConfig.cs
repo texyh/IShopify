@@ -24,8 +24,6 @@ namespace IShopify.WebApi.Bootstrap
         /// <returns></returns>
         public static IServiceProvider AddDependencies(this IServiceCollection services, IConfiguration configuration)
         {
-            services.Configure<AppSettings>(options => configuration.GetSection("AppSettings").Bind(options));
-
             var containerBuilder = new ContainerBuilder();
 
             containerBuilder.RegisterModule<DomainServicesAutoFacModule>();
