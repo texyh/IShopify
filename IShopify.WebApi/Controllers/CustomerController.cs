@@ -29,12 +29,10 @@ namespace IShopify.WebApi.Controllers
         /// </summary>
         /// <param name="customerService"></param>
         public CustomerController(ICustomerService customerService, 
-            IAccountService accountService,
-            IOptions<AppSettings> appsettings)
+            IAccountService accountService)
         {
             _customerService = customerService;
             _accountService = accountService;
-            _appSettings = appsettings.Value;
         }
 
         /// <summary>

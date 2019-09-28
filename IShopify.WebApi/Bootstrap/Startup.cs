@@ -6,6 +6,8 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using dotenv.net.DependencyInjection.Extensions;
+using IShopify.Common;
+using IShopify.Core.Config;
 using IShopify.Data;
 using IShopify.DomainServices.Bootstrap;
 using IShopify.Framework.Bootstrap;
@@ -42,19 +44,16 @@ namespace IShopify.WebApi
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             SetupAppConfiguration(Environment, Configuration, services);
 
+            AppSettingsProvider.Register(new AppSettings(Configuration));
+
             services.AddDbContextPool<IShopifyDbContext>(options =>
             {
-                options.UseMySql(Configuration["ConnectionString"]);
+                options.UseMySql(AppSettingsProvider.Current.IshopifyDB);
             });
 
             services.ConfigureSwagger();
 
-            AutoMapper.Mapper.Initialize(cfg =>
-            {
-                cfg.AddProfile<DomainServicesMapperProfile>();
-                cfg.AddProfile<ApiServiceMapperProfile>();
-                cfg.AddProfile<FrameworkMapperProfile>();
-            });
+            AutoMapperConfig.Initialize();
 
             var serviceProvider = services.AddDependencies(Configuration);
             return serviceProvider;
@@ -88,8 +87,6 @@ namespace IShopify.WebApi
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-
-                builder.AddEnvironmentVariables();
                 configuration = builder.Build();
                 
                 var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;

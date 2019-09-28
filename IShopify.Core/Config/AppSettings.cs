@@ -1,4 +1,7 @@
-﻿using System;
+﻿using IShopify.Core.Framework.Logging;
+using IShopify.Core.Helpers;
+using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,17 +9,31 @@ namespace IShopify.Core.Config
 {
     public class AppSettings
     {
-        public string TokenKey { get; set; }
+        private readonly IConfiguration _configuration;
+        public AppSettings(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
-        public string BaseUrl { get; set; }
+        public string TokenKey => GetValue("TokenKey");
 
-        public string AppName { get; set; }
+        public string BaseUrl => GetValue("BaseUrl");
 
-        public string Salt { get; set; }
+        public string AppName => GetValue("AppName");
 
-        public bool SendErrorDetails { get; set; } = false;
+        public string Salt => GetValue("Salt");
 
-        public string LoggingDB {get; set;}
+        public bool SendErrorDetails  => GetValue("SendErrorDetails", "false").ToBool();
 
+        public string LoggingDB => GetValue("LoggingDB");
+
+        public string IshopifyDB => GetValue("IshopifyDB");
+
+        public LogTarget LogTarget => (LogTarget)Convert.ToInt32(GetValue("LogTarget"));
+
+        public string GetValue(string key, string defaultValue = null)
+        {
+            return Environment.GetEnvironmentVariable(key)?.Trim() ?? _configuration[key]?.Trim() ?? defaultValue;
+        }
     }
 }

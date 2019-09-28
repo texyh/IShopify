@@ -6,6 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IShopify.Core\IShopify.Core.csproj" />
   </ItemGroup>
 
 </Project>

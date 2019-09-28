@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IShopify.WebApi.Middleware;
+using IShopify.Common;
 
 namespace IShopify.WebApi.Bootstrap
 {
@@ -15,9 +16,8 @@ namespace IShopify.WebApi.Bootstrap
         public static void AddGlobalLogger(this IApplicationBuilder app, IServiceProvider serviceProvider)
         {
             var logger = serviceProvider.GetRequiredService<Framework.ILogger>();
-            var appSettings = serviceProvider.GetRequiredService<IOptions<AppSettings>>();
 
-            app.UseExceptionHandler(builder => builder.HandleExceptions(logger, appSettings.Value));
+            app.UseExceptionHandler(builder => builder.HandleExceptions(logger, AppSettingsProvider.Current));
         }
     }
 }

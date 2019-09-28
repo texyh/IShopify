@@ -1,4 +1,5 @@
-﻿using IShopify.Core.Config;
+﻿using IShopify.Common;
+using IShopify.Core.Config;
 using IShopify.Core.Customer.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -12,19 +13,17 @@ namespace IShopify.Framework.Auth
 {
     public class JwtHandler : IJwtHandler
     {
-        private readonly AppSettings _appSettings;
         private const int MinutesToExpire = 24 * 60; // One day;
 
-        public JwtHandler(IOptions<AppSettings> appsettings)
+        public JwtHandler()
         {
-            _appSettings = appsettings.Value;
         }
 
         public string CreateAccessToken(Customer customer)
         {
-            var tokenKey = _appSettings.TokenKey;
-            var baseUrl = _appSettings.BaseUrl;
-            var appName = _appSettings.AppName;
+            var tokenKey = AppSettingsProvider.Current.TokenKey;
+            var baseUrl = AppSettingsProvider.Current.BaseUrl;
+            var appName = AppSettingsProvider.Current.AppName;
             
             var claims = new List<Claim>()
             {
