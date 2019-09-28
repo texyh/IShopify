@@ -9,7 +9,7 @@
             
             </summary>
         </member>
-        <member name="M:IShopify.WebApi.Bootstrap.IocConfig.AddDependencies(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:IShopify.WebApi.Bootstrap.IocConfig.AddDependencies(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             
             </summary>
@@ -21,7 +21,7 @@
             
             </summary>
         </member>
-        <member name="M:IShopify.WebApi.Controllers.CustomerController.#ctor(IShopify.Core.Customer.ICustomerService,IShopify.Framework.Auth.IAccountService)">
+        <member name="M:IShopify.WebApi.Controllers.CustomerController.#ctor(IShopify.Core.Customer.ICustomerService,IShopify.Framework.Auth.IAccountService,Microsoft.Extensions.Options.IOptions{IShopify.Core.Config.AppSettings})">
             <summary>
             
             </summary>
@@ -59,6 +59,20 @@
             
             </summary>
             <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IShopify.WebApi.Controllers.CustomerController.Login(IShopify.Core.Customer.Models.CustomerLoginViewModel)">
+            <summary>
+            
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IShopify.WebApi.Controllers.CustomerController.LoginByFaceBook(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="token"></param>
             <returns></returns>
         </member>
         <member name="T:IShopify.WebApi.Controllers.ProductController">
