@@ -1,5 +1,9 @@
 ﻿using Autofac;
+using IShopify.Core.Config;
+using IShopify.Core.Framework.Logging;
 using IShopify.Framework.Auth;
+using IShopify.Framework.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +25,20 @@ namespace IShopify.Framework.Bootstrap
             builder.RegisterType<JwtHandler>()
                 .As<IJwtHandler>()
                 .InstancePerLifetimeScope();
+
+            builder.RegisterType<Logger>()
+                .As<ILogger>()
+                .InstancePerLifetimeScope();
+
+            builder.Register<ILogProvider>(context =>
+            {
+                var appsettings = context.Resolve<IOptions<AppSettings>>();
+                return new LogDbProvider(appsettings);
+                //return new ConsoleLogProvider();
+            })
+            .SingleInstance()
+            .As<ILogProvider>();
+                
         }
     }
 }

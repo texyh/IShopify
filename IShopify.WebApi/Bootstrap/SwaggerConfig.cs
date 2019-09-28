@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
@@ -11,6 +12,9 @@ namespace IShopify.WebApi.Bootstrap
 {
     public static class SwaggerConfig
     {
+        private const string SwaggerOpenAPISpecification = "/swagger/v1/swagger.json";
+        private const string SwaggerOpenAPISpecificationDisplayName = "IShopify Api";
+
         public static void ConfigureSwagger(this IServiceCollection services)
         {
             services.AddSwaggerGen(opt =>
@@ -35,6 +39,15 @@ namespace IShopify.WebApi.Bootstrap
             });
 
             
+        }
+
+        public static void UseSwaggerConfiguration (this IApplicationBuilder app)
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI(x =>
+            {
+                x.SwaggerEndpoint(SwaggerOpenAPISpecification, SwaggerOpenAPISpecificationDisplayName);
+            });
         }
     }
 }
