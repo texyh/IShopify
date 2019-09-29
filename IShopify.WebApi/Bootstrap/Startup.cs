@@ -20,7 +20,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace IShopify.WebApi
@@ -30,6 +29,9 @@ namespace IShopify.WebApi
         public IConfiguration Configuration { get; }
 
         private IHostingEnvironment Environment;
+
+        private Core.Framework.Logging.ILogger _logger;
+
 
         public Startup(IConfiguration configuration, IHostingEnvironment environment)
         {
@@ -41,29 +43,37 @@ namespace IShopify.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             SetupAppConfiguration(Environment, Configuration, services);
-
             AppSettingsProvider.Register(new AppSettings(Configuration));
+
+            _logger = SystemLogFactory.Create();
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            _logger.Info("Configured MVC");
 
             services.AddDbContextPool<IShopifyDbContext>(options =>
             {
                 options.UseMySql(AppSettingsProvider.Current.IshopifyDB);
             });
+            _logger.Info("Configured DbContext");
 
             services.ConfigureSwagger();
+            _logger.Info("Configured Swagger");
+
 
             AutoMapperConfig.Initialize();
+            _logger.Info("Initialized AutoMapper");
+
 
             var serviceProvider = services.AddDependencies(Configuration);
+            _logger.Info("Configured AllServices");
+
             return serviceProvider;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
-            var _logger = serviceProvider.GetRequiredService<Framework.ILogger>();
-
             app.AddGlobalLogger(serviceProvider);
             _logger.Info("Configured Global Logger");
 
@@ -71,13 +81,16 @@ namespace IShopify.WebApi
             _logger.Info("Configured Hsts");
 
             app.UseSwaggerConfiguration();
-            _logger.Info("Configured Swagger");
+            _logger.Info("Configured Swagger UI");
 
             app.UseHttpsRedirection();
             _logger.Info("Configured HttpsRedirection");
 
             app.UseMvc();
             _logger.Info("Configured Mvc");
+
+            app.UseAuthentication();
+            _logger.Info("Configured Authentication");
 
         }
 

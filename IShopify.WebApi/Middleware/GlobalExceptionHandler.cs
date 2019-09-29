@@ -1,5 +1,6 @@
 ﻿using IShopify.Core.Config;
 using IShopify.Core.Exceptions;
+using IShopify.Core.Framework.Logging;
 using IShopify.Core.Helpers;
 using IShopify.Framework;
 using IShopify.WebApiServices.ViewModels;

@@ -1,5 +1,6 @@
 ﻿using IShopify.Core.Framework.Logging;
 using IShopify.Core.Helpers;
+using IShopify.Core.Security;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -7,13 +8,15 @@ using System.Text;
 
 namespace IShopify.Framework.Logging
 {
-    class Logger : ILogger
+    public class Logger : ILogger
     {
         private readonly ILogProvider _logProvider;
+        private readonly IUserContext _userContext;
 
-        public Logger(ILogProvider logProvider)
+        public Logger(ILogProvider logProvider, IUserContext userContext)
         {
             _logProvider = logProvider;
+            _userContext = userContext;
         }
 
         public Guid Debug(string message, [CallerMemberName] string callerMemberName = null, [CallerFilePath] string callerFilePath = null, [CallerLineNumber] int callerLineNumber = 0)
@@ -62,7 +65,7 @@ namespace IShopify.Framework.Logging
                 ExceptionType = exception?.GetType()?.Name,
                 Exception = exception?.ToJson(camelCasing: true),
                 Logger = string.Empty, // TODO update
-                User = string.Empty // TODO update
+                User = $"{_userContext?.Email} <{_userContext?.DisplayName}>"
             };
 
             return _logProvider.LogEvent(logLevel, logEntryValues);

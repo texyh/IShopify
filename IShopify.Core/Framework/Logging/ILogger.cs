@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace IShopify.Framework
+namespace IShopify.Core.Framework.Logging
 {
     public interface ILogger
     {

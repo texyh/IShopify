@@ -1,11 +1,14 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using IShopify.Common;
 using IShopify.Common.IocContainer;
 using IShopify.Core.Config;
+using IShopify.Core.Security;
 using IShopify.Data.Bootstrap;
 using IShopify.DomainServices.Bootstrap;
 using IShopify.Framework.Bootstrap;
 using IShopify.WebApiServices.Bootstrap;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -30,6 +33,16 @@ namespace IShopify.WebApi.Bootstrap
             containerBuilder.RegisterModule<DataAutofacModule>();
             containerBuilder.RegisterModule<ApiServicesAutofacModule>();
             containerBuilder.RegisterModule<FrameworkAutoFacModule>();
+            containerBuilder.RegisterInstance(new AppSettings(configuration)).AsSelf().SingleInstance();
+
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = AppSettingsProvider.Current.RedisUrl;
+                options.InstanceName = "IShopifyInstance";
+            });
+
+            services.AddScoped<IUserContext, WebUserContext>();
+            services.AddScoped<IHttpContextAccessor, HttpContextAccessor>();
 
             containerBuilder.Populate(services);
 

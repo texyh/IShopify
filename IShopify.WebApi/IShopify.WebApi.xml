@@ -21,7 +21,7 @@
             
             </summary>
         </member>
-        <member name="M:IShopify.WebApi.Controllers.CustomerController.#ctor(IShopify.Core.Customer.ICustomerService,IShopify.Framework.Auth.IAccountService)">
+        <member name="M:IShopify.WebApi.Controllers.CustomerController.#ctor(IShopify.Core.Customer.ICustomerService,IShopify.Framework.Auth.IAccountService,System.IServiceProvider)">
             <summary>
             
             </summary>

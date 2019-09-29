@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IShopify.Common;
 using IShopify.Core.Config;
 using IShopify.Core.Customer;
 using IShopify.Core.Customer.Models;
+using IShopify.Core.Security;
+using IShopify.DomainServices.Customer;
 using IShopify.Framework.Auth;
 using IShopify.Framework.Auth.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 namespace IShopify.WebApi.Controllers
@@ -22,14 +26,13 @@ namespace IShopify.WebApi.Controllers
     {
         private readonly ICustomerService _customerService;
         private readonly IAccountService _accountService;
-        private readonly AppSettings _appSettings;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="customerService"></param>
         public CustomerController(ICustomerService customerService, 
-            IAccountService accountService)
+            IAccountService accountService, IServiceProvider serviceProvider)
         {
             _customerService = customerService;
             _accountService = accountService;
@@ -110,7 +113,6 @@ namespace IShopify.WebApi.Controllers
         {
             throw new NotImplementedException();
         }
-
 
     }
 }

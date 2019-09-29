@@ -1,4 +1,5 @@
 ﻿using IShopify.Core.Data;
+using IShopify.Core.Exceptions;
 using IShopify.Core.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -68,7 +69,7 @@ namespace IShopify.Data.Repositories
             var entity = await _dbContext.Set<TEntity>().FindAsync(id);
             if(entity == null && !allowNull)
             {
-                throw new Exception("No entity found"); //TODO change when adding exceptions;
+                throw new ObjectNotFoundException($"{nameof(TEntity)} with id {id} is not found");
             }
 
             return entity;
@@ -80,7 +81,7 @@ namespace IShopify.Data.Repositories
             
             if(entity.IsNull() &&  !allowNull)
             {
-                throw new Exception("No entity found"); //TODO change when adding exceptions;
+                throw new ObjectNotFoundException($"{nameof(TEntity)} not found");
             }
 
             return entity;

@@ -4,6 +4,7 @@ using IShopify.Core.Common.Models;
 using IShopify.Core.Data;
 using IShopify.Core.Products;
 using IShopify.Core.Products.Models;
+using IShopify.Core.Security;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,10 +15,12 @@ namespace IShopify.DomainServices.Products
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
+        private readonly IUserContext _userContext;
 
-        public ProductService(IProductRepository productRepository)
+        public ProductService(IProductRepository productRepository, IUserContext userContext)
         {
             _productRepository = productRepository;
+            _userContext = userContext;
         }
         public async Task<Product> Get(int id)
         {
@@ -55,7 +58,7 @@ namespace IShopify.DomainServices.Products
         {
             var reviewEntity = new ReviewEntity
             {
-                CustomerId = 1, // TODO get login user
+                CustomerId = _userContext.UserId,
                 ProductId = id,
                 Rating = rating,
                 Review = review,
