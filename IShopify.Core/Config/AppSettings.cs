@@ -29,6 +29,8 @@ namespace IShopify.Core.Config
 
         public string IshopifyDB => GetValue("IshopifyDB");
 
+        public string RedisUrl => GetValue("RedisUrl");
+
         public LogTarget LogTarget => (LogTarget)Convert.ToInt32(GetValue("LogTarget"));
 
         public string GetValue(string key, string defaultValue = null)

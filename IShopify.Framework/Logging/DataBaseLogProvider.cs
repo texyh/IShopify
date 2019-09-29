@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using IShopify.Common;
 using IShopify.Core.Config;
 using IShopify.Core.Framework;
 using IShopify.Core.Framework.Logging;
@@ -14,19 +13,21 @@ using Serilog.Sinks.PostgreSQL;
 
 namespace IShopify.Framework.Logging
 {
-    class LogDbProvider : BaseLogProvider
+    public class DataBaseLogProvider : BaseLogProvider
     {
         private const string tableName = "logs";
+        private readonly AppSettings _appSettings;
         
-        public LogDbProvider()
+        public DataBaseLogProvider(AppSettings appSettings)
         {
+            _appSettings = appSettings;
         }
 
         protected override Serilog.Core.Logger GetLogger()
         {
             var logger = new LoggerConfiguration()
                     .WriteTo.PostgreSQL
-                    (AppSettingsProvider.Current.LoggingDB, 
+                    (_appSettings.LoggingDB, 
                     tableName, 
                     ColumnWriters, 
                     needAutoCreateTable: true, 

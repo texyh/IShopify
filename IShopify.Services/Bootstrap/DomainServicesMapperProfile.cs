@@ -6,6 +6,7 @@ using IShopify.Core.Products.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Models = IShopify.Core.Customer.Models;
 
 namespace IShopify.DomainServices.Bootstrap
 {
@@ -25,7 +26,7 @@ namespace IShopify.DomainServices.Bootstrap
             CreateMap<SaveCustomerAddressViewModel, CustomerEntity>()
                 .ForAllMembers(x => x.Condition(y => !y.IsNull()));
 
-            CreateMap<CustomerEntity, Customer>();
+            CreateMap<CustomerEntity, Models.Customer>();
         }
     }
 }

@@ -2,13 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IShopify.Common;
 using IShopify.Core.Config;
 using IShopify.Core.Customer;
 using IShopify.Core.Customer.Models;
+using IShopify.Core.Security;
+using IShopify.DomainServices.Customer;
 using IShopify.Framework.Auth;
 using IShopify.Framework.Auth.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 namespace IShopify.WebApi.Controllers
@@ -22,8 +27,6 @@ namespace IShopify.WebApi.Controllers
     {
         private readonly ICustomerService _customerService;
         private readonly IAccountService _accountService;
-        private readonly AppSettings _appSettings;
-
         /// <summary>
         /// 
         /// </summary>
@@ -84,6 +87,7 @@ namespace IShopify.WebApi.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
+        [AllowAnonymous]
         public async Task<AuthenticationResponse> RegisterCustomerAsync([FromBody]CustomerRegistrationViewModel model)
         {
             return  await _accountService.RegisterCustomerAsync(model);
@@ -95,6 +99,7 @@ namespace IShopify.WebApi.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<AuthenticationResponse> Login([FromBody] CustomerLoginViewModel model)
         {
             return await _accountService.LoginCustomerAsync(model);
@@ -106,11 +111,10 @@ namespace IShopify.WebApi.Controllers
         /// <param name="token"></param>
         /// <returns></returns>
         [HttpPost("facebook")]
+        [AllowAnonymous]
         public async Task<AuthenticationResponse> LoginByFaceBook(string token)
         {
             throw new NotImplementedException();
         }
-
-
     }
 }

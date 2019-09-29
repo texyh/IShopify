@@ -1,6 +1,6 @@
 ﻿using Autofac;
-using IShopify.Common;
 using IShopify.Core.Config;
+using IShopify.Core.Framework;
 using IShopify.Core.Framework.Logging;
 using IShopify.Framework.Auth;
 using IShopify.Framework.Logging;
@@ -27,18 +27,24 @@ namespace IShopify.Framework.Bootstrap
                 .As<IJwtHandler>()
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<RedisCacheService>()
+                .As<IRedisCacheService>()
+                .SingleInstance();
+
             builder.RegisterType<Logger>()
                 .As<ILogger>()
                 .InstancePerLifetimeScope();
 
             builder.Register<ILogProvider>(context =>
             {
-                if(AppSettingsProvider.Current.LogTarget == LogTarget.Console)
+                var appSettings = context.Resolve<AppSettings>();
+
+                if(appSettings.LogTarget == LogTarget.Console)
                 {
                     return new ConsoleLogProvider();
                 }
 
-                return new LogDbProvider();
+                return new DataBaseLogProvider(appSettings);
             })
             .SingleInstance()
             .As<ILogProvider>();
