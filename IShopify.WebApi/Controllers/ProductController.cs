@@ -9,6 +9,7 @@ using IShopify.Core.Products.Models;
 using IShopify.WebApiServices;
 using IShopify.WebApiServices.ViewModels;
 using IShopify.WebApiServices.ViewModels.Products;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,6 +44,7 @@ namespace IShopify.WebApi.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}/details")]
+        [AllowAnonymous]
         public async Task<Product> Get(int id)
         {
             return await _productService.Get(id);
@@ -54,30 +56,35 @@ namespace IShopify.WebApi.Controllers
         /// <param name="query"></param>
         /// <returns></returns>
         [HttpGet("search")]
+        [AllowAnonymous]
         public async Task<PagedResult<ProductSummaryViewModel>> Search([FromQuery] ProductQueryModel query)
         {
             return await _productComposerService.Search(query);
         }
 
         [HttpGet("category/{categoryId}")]
+        [AllowAnonymous]
         public async Task<PagedResult<ProductSummaryViewModel>> GetProductsInCategory(int categoryId, [FromQuery]PagedQuery query) 
         {
             return await _productComposerService.GetProductInCategory(categoryId, query);
         }
 
         [HttpGet("department/{departmentId}")]
+        [AllowAnonymous]
         public async Task<PagedResult<ProductSummaryViewModel>> GetProductsInDepartment(int departmentId, [FromQuery]PagedQuery query)
         {
             return await _productComposerService.GetProductInDepartment(departmentId, query);
         }
 
         [HttpGet("{id}/locations")]
+        [AllowAnonymous]
         public async Task<ProductLocationViewModel> GetProductLocations(int id)
         {
             return await _productComposerService.GetProductLocation(id);
         }
 
         [HttpGet("{id}/reviews")]
+        [AllowAnonymous]
         public async Task<IList<Review>> GetProductReviews(int id)
         {
             return await _productService.GetProductReviewsAsync(id);

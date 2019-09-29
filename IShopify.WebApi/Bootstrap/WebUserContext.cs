@@ -45,7 +45,7 @@ namespace IShopify.WebApi.Bootstrap
             return new Customer
             {
                 Id = id,
-                Name = claimsPrincipal?.FindFirstValue(ClaimTypes.Name),
+                Name = claimsPrincipal?.FindFirstValue(ClaimTypes.GivenName),
                 Email = claimsPrincipal?.FindFirstValue(ClaimTypes.Email)
             };
         }

@@ -15,6 +15,6 @@ namespace IShopify.Core.Security
 
         bool IsAnonymous { get; }
 
-        CustomerRole[] Roles { get; }
+        // CustomerRole[] Roles { get; }
     }
 }

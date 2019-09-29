@@ -34,7 +34,7 @@ namespace IShopify.Framework.Auth
             ArgumentGuard.NotNullOrEmpty(model.Email, nameof(model.Email));
             ArgumentGuard.NotNullOrEmpty(model.Password, nameof(model.Password));
 
-            var userEntity = await _customerReposiotry.GetAsync(x => x.Email == model.Email);
+            var userEntity = await _customerReposiotry.GetAsync(x => x.Email == model.Email, true);
 
             if(userEntity.IsNull())
             {

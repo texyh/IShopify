@@ -48,8 +48,11 @@ namespace IShopify.WebApi
 
             _logger = SystemLogFactory.Create();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.ConfigureMvc();
             _logger.Info("Configured MVC");
+
+            services.AddApplicationAuthentication();
+            _logger.Info("Configured App Auth");
 
             services.AddDbContextPool<IShopifyDbContext>(options =>
             {

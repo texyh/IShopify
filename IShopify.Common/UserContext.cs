@@ -34,7 +34,7 @@ namespace IShopify.Common
 
         public bool IsAnonymous => UserId.IsDefault();
 
-        public virtual CustomerRole[] Roles => throw new NotImplementedException(); // TODO revisit
+        // public virtual CustomerRole[] Roles => throw new NotImplementedException(); // TODO revisit
 
         protected virtual Customer GetCustomer(int id)
         {
