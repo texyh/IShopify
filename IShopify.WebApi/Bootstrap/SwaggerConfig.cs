@@ -39,28 +39,6 @@ namespace IShopify.WebApi.Bootstrap
                 opt.IncludeXmlComments(string.Format(basePath));
             });
 
-            //services.ConfigureSwaggerGen(opt =>
-            //{
-            //    //opt.AddSecurityDefinition("auth2_security",
-            //    //    new OAuth2Scheme
-            //    //    {
-            //    //        Type = "oauth2",
-            //    //        Description = "OAuth2 client credentials flow",
-            //    //        Flow = "implicit",
-            //    //        AuthorizationUrl = $"{AppSettingsProvider.Current.BaseUrl}Customer/Login",
-            //    //        Scopes = new Dictionary<string, string>
-            //    //        {
-            //    //            { AppSettingsProvider.Current.AppName, "IShopify API" }
-            //    //        },
-            //    //    });
-
-            //    opt.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
-            //    {
-            //        { "oauth2", new[] { AppSettingsProvider.Current.AppName } }
-            //    });
-
-            //});
-
             services.ConfigureSwaggerGen(opt =>
             {
                 opt.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
