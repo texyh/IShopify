@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace IShopify.WebApi.Controllers
 {
     /// <summary>
-    /// 
+    /// Controller for managing Product
     /// </summary>
     [Route("products")]
     [ApiController]
@@ -26,7 +26,7 @@ namespace IShopify.WebApi.Controllers
         private readonly IProductComposerService _productComposerService;
 
         /// <summary>
-        /// 
+        /// Constructor for ProductController
         /// </summary>
         /// <param name="productService"></param>
         /// <param name="productComposerService"></param>
@@ -39,7 +39,7 @@ namespace IShopify.WebApi.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Endpoint for get product by ID
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -51,7 +51,7 @@ namespace IShopify.WebApi.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Endpoint for searching products
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>
@@ -62,6 +62,12 @@ namespace IShopify.WebApi.Controllers
             return await _productComposerService.Search(query);
         }
 
+        /// <summary>
+        /// Endpoint for get products of a certain category
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <param name="query"></param>
+        /// <returns></returns>
         [HttpGet("category/{categoryId}")]
         [AllowAnonymous]
         public async Task<PagedResult<ProductSummaryViewModel>> GetProductsInCategory(int categoryId, [FromQuery]PagedQuery query) 
@@ -69,6 +75,12 @@ namespace IShopify.WebApi.Controllers
             return await _productComposerService.GetProductInCategory(categoryId, query);
         }
 
+        /// <summary>
+        /// Endpoint for getting Products in a department
+        /// </summary>
+        /// <param name="departmentId"></param>
+        /// <param name="query"></param>
+        /// <returns></returns>
         [HttpGet("department/{departmentId}")]
         [AllowAnonymous]
         public async Task<PagedResult<ProductSummaryViewModel>> GetProductsInDepartment(int departmentId, [FromQuery]PagedQuery query)
@@ -76,6 +88,11 @@ namespace IShopify.WebApi.Controllers
             return await _productComposerService.GetProductInDepartment(departmentId, query);
         }
 
+        /// <summary>
+        /// Endpoint for getting product locations
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}/locations")]
         [AllowAnonymous]
         public async Task<ProductLocationViewModel> GetProductLocations(int id)
@@ -83,6 +100,11 @@ namespace IShopify.WebApi.Controllers
             return await _productComposerService.GetProductLocation(id);
         }
 
+        /// <summary>
+        /// Endpoint for Product reviews
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}/reviews")]
         [AllowAnonymous]
         public async Task<IList<Review>> GetProductReviews(int id)
@@ -90,6 +112,13 @@ namespace IShopify.WebApi.Controllers
             return await _productService.GetProductReviewsAsync(id);
         }
 
+        /// <summary>
+        /// Endpoint for adding a review ot a product
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="review"></param>
+        /// <param name="rating"></param>
+        /// <returns></returns>
         [HttpPost("{id}/reviews")]
         public async Task ReviewProduct(int id, string review, int rating)
         {

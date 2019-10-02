@@ -8,18 +8,21 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Users\Onwuzulike Emeka\Desktop\Work\Personal\IShopify\IShopify.WebApi\IShopify.WebApi.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netcoreapp2.2\IShopify.WebApi.xml</DocumentationFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <OutputPath></OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <DocumentationFile>C:\Users\Onwuzulike Emeka\Desktop\Work\Personal\IShopify\IShopify.WebApi\IShopify.WebApi.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netcoreapp2.2\IShopify.WebApi.xml</DocumentationFile>
+    <OutputPath></OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.3" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="dotenv.net" Version="1.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />

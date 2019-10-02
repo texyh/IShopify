@@ -24,15 +24,25 @@ using Microsoft.Extensions.Options;
 
 namespace IShopify.WebApi
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// Configuration
+        /// </summary>
         public IConfiguration Configuration { get; }
 
         private IHostingEnvironment Environment;
 
         private Core.Framework.Logging.ILogger _logger;
 
-
+        /// <summary>
+        /// Constructor for the startup class
+        /// </summary>
+        /// <param name="configuration"></param>
+        /// <param name="environment"></param>
         public Startup(IConfiguration configuration, IHostingEnvironment environment)
         {
             Configuration = configuration;
@@ -41,6 +51,11 @@ namespace IShopify.WebApi
 
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// Configures the services
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             SetupAppConfiguration(Environment, Configuration, services);
@@ -64,8 +79,8 @@ namespace IShopify.WebApi
             _logger.Info("Configured Swagger");
 
 
-            AutoMapperConfig.Initialize();
-            _logger.Info("Initialized AutoMapper");
+            services.RegisterAutoMapper();
+            _logger.Info("Registered AutoMapper");
 
 
             var serviceProvider = services.AddDependencies(Configuration);
@@ -74,6 +89,12 @@ namespace IShopify.WebApi
             return serviceProvider;
         }
 
+        /// <summary>
+        /// Configures HTTP pipeline
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
+        /// <param name="serviceProvider"></param>
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {

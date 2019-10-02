@@ -11,11 +11,18 @@ using System.Threading.Tasks;
 
 namespace IShopify.WebApi.Bootstrap
 {
+    /// <summary>
+    /// Configures Swagger
+    /// </summary>
     public static class SwaggerConfig
     {
         private const string SwaggerOpenAPISpecification = "/swagger/v1/swagger.json";
         private const string SwaggerOpenAPISpecificationDisplayName = "IShopify Api";
 
+        /// <summary>
+        /// Registers Swagger.
+        /// </summary>
+        /// <param name="services"></param>
         public static void ConfigureSwagger(this IServiceCollection services)
         {
             services.AddSwaggerGen(opt =>
@@ -58,6 +65,10 @@ namespace IShopify.WebApi.Bootstrap
 
         }
 
+        /// <summary>
+        /// Configures swagger ui
+        /// </summary>
+        /// <param name="app"></param>
         public static void UseSwaggerConfiguration (this IApplicationBuilder app)
         {
             app.UseSwagger();

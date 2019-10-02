@@ -11,8 +11,15 @@ using System.Threading.Tasks;
 
 namespace IShopify.WebApi.Bootstrap
 {
+    /// <summary>
+    /// Configures MVC
+    /// </summary>
     public static class MvcConfig
     {
+        /// <summary>
+        ///  Registers MVC
+        /// </summary>
+        /// <param name="services"></param>
         public static void ConfigureMvc(this IServiceCollection services)
         {
             services
@@ -37,6 +44,7 @@ namespace IShopify.WebApi.Bootstrap
             //    x.AddPolicy(corsPolicy, policyBuilder => BuildCorsPolicy(corsPolicy, policyBuilder, appSettings));
             //});
         }
+
 
     //    private static void BuildCorsPolicy(string policyName, CorsPolicyBuilder builder, IAppSettings appSettings)
     //    {

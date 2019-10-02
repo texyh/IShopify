@@ -19,7 +19,7 @@ using Microsoft.Extensions.Options;
 namespace IShopify.WebApi.Controllers
 {
     /// <summary>
-    /// 
+    /// Controller for managing customers
     /// </summary>
     [Route("customer")]
     [ApiController]
@@ -27,10 +27,12 @@ namespace IShopify.WebApi.Controllers
     {
         private readonly ICustomerService _customerService;
         private readonly IAccountService _accountService;
+
         /// <summary>
-        /// 
+        ///  constructor for customer controller
         /// </summary>
         /// <param name="customerService"></param>
+        /// <param name="accountService"></param>
         public CustomerController(ICustomerService customerService, 
             IAccountService accountService)
         {
@@ -39,7 +41,7 @@ namespace IShopify.WebApi.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Endpoint for updating customer details
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -50,7 +52,7 @@ namespace IShopify.WebApi.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Endpoint for getting logged customer details
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -60,7 +62,7 @@ namespace IShopify.WebApi.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Endpoint for updated customer address
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -71,7 +73,7 @@ namespace IShopify.WebApi.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Endpoint for updated customer credit card
         /// </summary>
         /// <param name="creditCard"></param>
         /// <returns></returns>
@@ -82,11 +84,11 @@ namespace IShopify.WebApi.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Endpoint for registering a customer
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("register")]
         [AllowAnonymous]
         public async Task<AuthenticationResponse> RegisterCustomerAsync([FromBody]CustomerRegistrationViewModel model)
         {
@@ -94,7 +96,7 @@ namespace IShopify.WebApi.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Endpoint for logging In
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -106,15 +108,15 @@ namespace IShopify.WebApi.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Endpoint for logging in with facebook
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
         [HttpPost("facebook")]
         [AllowAnonymous]
-        public async Task<AuthenticationResponse> LoginByFaceBook(string token)
+        public Task<AuthenticationResponse> LoginByFaceBook(string token)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(); // TODO implement
         }
     }
 }
