@@ -16,11 +16,16 @@ namespace IShopify.DomainServices
     {
         private readonly ICustomerRepository _customerRepository;
         private readonly IUserContext _userContext;
+        private readonly IMapper _mapper;
 
-        public CustomerService(ICustomerRepository customerRepository, IUserContext userContext)
+        public CustomerService(
+            ICustomerRepository customerRepository, 
+            IUserContext userContext,
+            IMapper mapper)
         {
             _customerRepository = customerRepository;
             _userContext = userContext;
+            _mapper = mapper;
         }
 
         public async Task<Models.Customer> GetAsync()
@@ -28,29 +33,29 @@ namespace IShopify.DomainServices
             var customerId = _userContext.UserId;
             var entity = await _customerRepository.GetAsync(customerId);
 
-            return Mapper.Map<CustomerEntity, Models.Customer>(entity);
+            return _mapper.Map<CustomerEntity, Models.Customer>(entity);
         }
 
         public async Task<Models.Customer> UpdateCustomerAddressAsync(SaveCustomerAddressViewModel model)
         {
             var customerId = _userContext.UserId;
             var entity = await _customerRepository.GetAsync(customerId);
-            var updatedEntity = Mapper.Map(model, entity);
+            var updatedEntity = _mapper.Map(model, entity);
 
             await _customerRepository.UpdateAsync(updatedEntity);
 
-            return Mapper.Map<CustomerEntity, Models.Customer>(updatedEntity);
+            return _mapper.Map<CustomerEntity, Models.Customer>(updatedEntity);
         }
 
         public async Task<Models.Customer> UpdateCustomerAsync(SaveCustomerViewModel model)
         {
             var customerId = _userContext.UserId;
             var entity = await _customerRepository.GetAsync(customerId);
-            var updatedEntity = Mapper.Map(model, entity);
+            var updatedEntity = _mapper.Map(model, entity);
 
             await _customerRepository.UpdateAsync(updatedEntity);
 
-            return Mapper.Map<CustomerEntity, Models.Customer>(updatedEntity);
+            return _mapper.Map<CustomerEntity, Models.Customer>(updatedEntity);
         }
 
         public async Task UpdateCustomerCreditCardAsync(string creditCard)

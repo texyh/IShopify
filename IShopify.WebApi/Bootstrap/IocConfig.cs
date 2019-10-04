@@ -16,14 +16,15 @@ using System;
 namespace IShopify.WebApi.Bootstrap
 {
     /// <summary>
-    /// 
+    /// Registers The inversion of control
     /// </summary>
     public static class IocConfig
     {
         /// <summary>
-        /// 
+        /// Adds Dependencies to Iservicecollection
         /// </summary>
         /// <param name="services"></param>
+        /// <param name="configuration"></param>
         /// <returns></returns>
         public static IServiceProvider AddDependencies(this IServiceCollection services, IConfiguration configuration)
         {

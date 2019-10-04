@@ -2,22 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using IShopify.DomainServices.Bootstrap;
 using IShopify.Framework.Bootstrap;
 using IShopify.WebApiServices.Bootstrap;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace IShopify.WebApi.Bootstrap
 {
+    /// <summary>
+    /// This class is used Initiaze Automapper
+    /// </summary>
     public static class AutoMapperConfig
     {
-        public static void Initialize()
+        /// <summary>
+        /// Adds Automapper to IServiceCollection
+        /// </summary>
+        public static void RegisterAutoMapper(this IServiceCollection services)
         {
-            AutoMapper.Mapper.Initialize(cfg =>
-            {
-                cfg.AddProfile<DomainServicesMapperProfile>();
-                cfg.AddProfile<ApiServiceMapperProfile>();
-                cfg.AddProfile<FrameworkMapperProfile>();
-            });
+            services.AddAutoMapper(
+                typeof(DomainServicesMapperProfile), 
+                typeof(ApiServiceMapperProfile),
+                typeof(FrameworkMapperProfile));
         }
     }
 }

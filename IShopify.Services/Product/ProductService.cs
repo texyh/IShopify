@@ -16,16 +16,21 @@ namespace IShopify.DomainServices.Products
     {
         private readonly IProductRepository _productRepository;
         private readonly IUserContext _userContext;
+        private readonly IMapper _mapper;
 
-        public ProductService(IProductRepository productRepository, IUserContext userContext)
+        public ProductService(
+            IProductRepository productRepository, 
+            IUserContext userContext,
+            IMapper mapper)
         {
             _productRepository = productRepository;
             _userContext = userContext;
+            _mapper = mapper;
         }
         public async Task<Product> Get(int id)
         {
             var entity =  await _productRepository.GetAsync(id, true);
-            return Mapper.Map<ProductEntity, Product>(entity);
+            return _mapper.Map<ProductEntity, Product>(entity);
         }
 
         public async Task<IList<Product>> GetProductInCategoryAsync(int categoryId, PagedQuery query)
@@ -45,13 +50,13 @@ namespace IShopify.DomainServices.Products
         public async Task<Category> GetProductLocationAsync(int id)
         {
             var result = await _productRepository.GetProductLocation(id);
-            return Mapper.Map<CategoryEntity, Category>(result);
+            return _mapper.Map<CategoryEntity, Category>(result);
         }
 
         public async Task<IList<Review>> GetProductReviewsAsync(int id)
         {
             var result = await _productRepository.GetProductReviews(id);
-            return Mapper.Map<IList<ReviewEntity>, IList<Review>>(result);
+            return _mapper.Map<IList<ReviewEntity>, IList<Review>>(result);
         }
 
         public async Task ReviewProduct(int id, string review, int rating)
@@ -78,7 +83,7 @@ namespace IShopify.DomainServices.Products
 
         private IList<Product> ToProduct(IList<ProductEntity> products)
         {
-            return Mapper.Map<IList<ProductEntity>, IList<Product>>(products);
+            return _mapper.Map<IList<ProductEntity>, IList<Product>>(products);
         }
     }
 }

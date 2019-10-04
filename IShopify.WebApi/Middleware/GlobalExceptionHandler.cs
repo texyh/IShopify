@@ -16,11 +16,20 @@ using System.Threading.Tasks;
 
 namespace IShopify.WebApi.Middleware
 {
+    /// <summary>
+    /// Global exception handler
+    /// </summary>
     public static class GlobalExceptionHandler
     {
         private static  ILogger _logger;
         private static  bool _sendErrorDetails;
 
+        /// <summary>
+        /// Handler for exceptions
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="logger"></param>
+        /// <param name="appSettings"></param>
         public static void HandleExceptions(this IApplicationBuilder builder, ILogger logger, AppSettings appSettings)
         {
             _logger = logger;

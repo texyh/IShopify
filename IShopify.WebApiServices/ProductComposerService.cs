@@ -14,10 +14,12 @@ namespace IShopify.WebApiServices
     public class ProductComposerService : IProductComposerService
     {
         private readonly IProductService _productService;
+        private readonly IMapper _mapper;
 
-        public ProductComposerService(IProductService productService)
+        public ProductComposerService(IProductService productService, IMapper mapper)
         {
             _productService = productService;
+            _mapper = mapper;
         }
 
         public async Task<PagedResult<ProductSummaryViewModel>> GetProductInCategory(int categoryId, PagedQuery query)
@@ -57,7 +59,7 @@ namespace IShopify.WebApiServices
 
         private PagedResult<ProductSummaryViewModel> ToProductSummaries(IList<Product> products, PagedQuery query)
         {
-            var summaries = Mapper.Map<IList<Product>, IList<ProductSummaryViewModel>>(products);
+            var summaries = _mapper.Map<IList<Product>, IList<ProductSummaryViewModel>>(products);
 
             return new PagedResult<ProductSummaryViewModel>
             {
