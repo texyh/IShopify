@@ -36,12 +36,12 @@ namespace IShopify.WebApi.Bootstrap
         {
             get
             {
-                if(!_userId.HasValue)
+                if(!_userId.HasValue || _userId.Value.IsDefault())
                 {
                     var claimsPrincipal = _httpContextAccessor.HttpContext?.User;
-                    var userIdString = claimsPrincipal?.FindFirstValue(ClaimTypes.NameIdentifier);
+                    var userId = claimsPrincipal?.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                    _userId = userIdString.IsNullOrEmpty() ? default : int.Parse(userIdString);
+                    _userId = userId.IsNullOrEmpty() ? default : int.Parse(userId);
                 }
 
                 return _userId.Value;

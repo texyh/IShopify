@@ -23,15 +23,8 @@ namespace IShopify.WebApi.Bootstrap
         public static void ConfigureMvc(this IServiceCollection services)
         {
             services
-                .AddMvc(options =>
-                {
-                    var policy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
-                        .RequireAuthenticatedUser()
-                        .Build();
-                    options.Filters.Add(new AuthorizeFilter(policy));
-                })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddJsonOptions(options =>
+                .AddControllers()
+                .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;

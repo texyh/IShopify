@@ -34,7 +34,7 @@ namespace IShopify.WebApi
         /// </summary>
         public IConfiguration Configuration { get; }
 
-        private IHostingEnvironment Environment;
+        private IWebHostEnvironment Environment;
 
         private Core.Framework.Logging.ILogger _logger;
 
@@ -43,7 +43,7 @@ namespace IShopify.WebApi
         /// </summary>
         /// <param name="configuration"></param>
         /// <param name="environment"></param>
-        public Startup(IConfiguration configuration, IHostingEnvironment environment)
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
             Environment = environment;
@@ -96,10 +96,13 @@ namespace IShopify.WebApi
         /// <param name="env"></param>
         /// <param name="serviceProvider"></param>
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             app.AddGlobalLogger(serviceProvider);
             _logger.Info("Configured Global Logger");
+
+            app.UseRouting();
+            _logger.Info("Configured Routing");
 
             app.UseHsts();
             _logger.Info("Configured Hsts");
@@ -110,15 +113,20 @@ namespace IShopify.WebApi
             app.UseHttpsRedirection();
             _logger.Info("Configured HttpsRedirection");
 
-            app.UseMvc();
-            _logger.Info("Configured Mvc");
-
             app.UseAuthentication();
             _logger.Info("Configured Authentication");
 
+            app.UseAuthorization();
+            _logger.Info("Configured Authorization");
+
+            app.UseEndpoints(endpoints => {
+                endpoints.MapControllers().RequireAuthorization();
+            });
+            _logger.Info("Configured Endpoints");
+
         }
 
-        private void SetupAppConfiguration(IHostingEnvironment env, IConfiguration configuration, IServiceCollection services)
+        private void SetupAppConfiguration(IWebHostEnvironment env, IConfiguration configuration, IServiceCollection services)
         {
                 var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
@@ -128,7 +136,7 @@ namespace IShopify.WebApi
                 
                 var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
-                var envFile = Environment.IsDevelopment() ? ".env" : "test.env";
+                var envFile = Environment.EnvironmentName == "Development" ? ".env" : "test.env";
                 services.AddEnv(x =>
                 {
                     x.AddEncoding(Encoding.Default)
