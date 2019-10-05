@@ -7,6 +7,7 @@
   <ItemGroup>
     <Folder Include="Attributes\" />
     <Folder Include="Accounting\" />
+    <Folder Include="Products\Models\Entities\" />
   </ItemGroup>
 
   <ItemGroup>
