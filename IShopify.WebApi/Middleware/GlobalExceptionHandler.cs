@@ -35,7 +35,6 @@ namespace IShopify.WebApi.Middleware
             _logger = logger;
             _sendErrorDetails = appSettings.SendErrorDetails;
             builder.Run(HandleServerError);
-
         }
 
         private static async Task HandleServerError(HttpContext context)
@@ -70,11 +69,10 @@ namespace IShopify.WebApi.Middleware
                 response.InnerExceptionMessage = error.InnerException.IsNotNull() ? error.GetBaseException().Message : null;
             }
 
-            // always send data for validationException
-            //else if (error is ValidationException)
-            //{
-            //    response.Data = error.Data;
-            //}
+            else if (error is Core.Exceptions.ValidationException)
+            {
+                response.Data = error.Data;
+            }
 
             await context.Response.WriteAsync(response.ToJson(true)).ConfigureAwait(false);
         }
@@ -93,7 +91,8 @@ namespace IShopify.WebApi.Middleware
                     break;
 
                 case ArgumentException aExcption:
-                case ValidationException vException:
+                case Core.Exceptions.ValidationException vException:
+                case InvalidProgramException iException:
                     statusCode = HttpStatusCode.BadRequest;
                     defaultMsg = "Invalid request";
                     break;
@@ -120,10 +119,10 @@ namespace IShopify.WebApi.Middleware
 
         private static string GetErrorMessage(Exception exception, string defaultMessage)
         {
-            //if (exception is ValidationException)
-            //{
-            //    return exception.Message;
-            //}
+            if (exception is Core.Exceptions.ValidationException)
+            {
+                return exception.Message;
+            }
 
             var errorMsg = default(string);
 

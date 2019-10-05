@@ -6,6 +6,7 @@ using IShopify.Core;
 using IShopify.Core.Common.Models;
 using IShopify.Core.Products;
 using IShopify.Core.Products.Models;
+using IShopify.DomainServices.Validation;
 using IShopify.WebApiServices;
 using IShopify.WebApiServices.ViewModels;
 using IShopify.WebApiServices.ViewModels.Products;
@@ -124,9 +125,6 @@ namespace IShopify.WebApi.Controllers
         {
             await _productService.ReviewProduct(id, review, rating);
         }
-
-
-
 
     }
 }

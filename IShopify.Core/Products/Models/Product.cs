@@ -21,5 +21,12 @@ namespace IShopify.Core.Products.Models
         public string Image2 { get; set; }
 
         public int Display { get; set; }
+
+        public IProductPermissions Permissions { get; private set; }
+
+        public void SetPermissions(IProductPermissions permissions)
+        {
+            Permissions = permissions;
+        }
     }
 }

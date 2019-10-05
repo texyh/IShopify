@@ -80,7 +80,7 @@ namespace IShopify.Data.Repositories
 
             if(entity == null && !allowNull)
             {
-                throw new ObjectNotFoundException($"No record with id {id} was found");
+                throw new ObjectNotFoundException($"{typeof(TEntity).Name} with id {id} was not found");
             }
 
             return entity;
@@ -94,7 +94,7 @@ namespace IShopify.Data.Repositories
             
             if(entity.IsNull() &&  !allowNull)
             {
-                throw new ObjectNotFoundException($"{nameof(TEntity)} not found");
+                throw new ObjectNotFoundException($"{typeof(TEntity).Name} not found");
             }
 
             return entity;
