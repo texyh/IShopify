@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using FluentValidation;
+using IShopify.DomainServices.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +18,15 @@ namespace IShopify.DomainServices.Bootstrap
                 .Where(t => t.GetInterfaces().Any(i => i.Name.EndsWith("Service")))
                 .As(t => t.GetInterfaces().Where(i => i.Name.EndsWith("Service")))
                 .InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(assembly)
+                .Where(t => t.IsClosedTypeOf(typeof(IValidator<>)))
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
+            builder.RegisterType<ValidatorFactory>()
+                .As<Validation.IValidatorFactory>()
+                .SingleInstance();
         }
     }
 }

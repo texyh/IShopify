@@ -6,7 +6,8 @@ using IShopify.Core.Products.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Models = IShopify.Core.Customer.Models;
+using models = IShopify.Core.Customer.Models;
+using productModels = IShopify.Core.Products.Models;
 
 namespace IShopify.DomainServices.Bootstrap
 {
@@ -14,7 +15,7 @@ namespace IShopify.DomainServices.Bootstrap
     {
         public DomainServicesMapperProfile()
         {
-            CreateMap<ProductEntity, Product>();
+            CreateMap<ProductEntity, productModels.Product>();
             CreateMap<CategoryEntity, Category>();
             CreateMap<DepartmentEntity, Department>();
             CreateMap<ReviewEntity, Review>()
@@ -26,7 +27,7 @@ namespace IShopify.DomainServices.Bootstrap
             CreateMap<SaveCustomerAddressViewModel, CustomerEntity>()
                 .ForAllMembers(x => x.Condition(y => !y.IsNull()));
 
-            CreateMap<CustomerEntity, Models.Customer>();
+            CreateMap<CustomerEntity, models.Customer>();
         }
     }
 }

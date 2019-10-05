@@ -21,7 +21,7 @@
             
             </summary>
         </member>
-        <member name="M:IShopify.WebApi.Controllers.CustomerController.#ctor(IShopify.Core.Customer.ICustomerService,IShopify.Framework.Auth.IAccountService,IShopify.Core.Security.IUserContext)">
+        <member name="M:IShopify.WebApi.Controllers.CustomerController.#ctor(IShopify.Core.Customer.ICustomerService,IShopify.Framework.Auth.IAccountService)">
             <summary>
             
             </summary>
@@ -80,7 +80,7 @@
             
             </summary>
         </member>
-        <member name="M:IShopify.WebApi.Controllers.ProductController.#ctor(IShopify.Core.Products.IProductService,IShopify.WebApiServices.IProductComposerService)">
+        <member name="M:IShopify.WebApi.Controllers.ProductController.#ctor(IShopify.Core.Products.IProductService,IShopify.WebApiServices.IProductComposerService,IShopify.DomainServices.Validation.IValidatorFactory)">
             <summary>
             
             </summary>

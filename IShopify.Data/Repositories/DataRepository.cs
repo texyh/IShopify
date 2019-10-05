@@ -69,7 +69,7 @@ namespace IShopify.Data.Repositories
             var entity = await _dbContext.Set<TEntity>().FindAsync(id);
             if(entity == null && !allowNull)
             {
-                throw new ObjectNotFoundException($"{nameof(TEntity)} with id {id} is not found");
+                throw new ObjectNotFoundException($"{typeof(TEntity).Name} with id {id} is not found");
             }
 
             return entity;
@@ -81,7 +81,7 @@ namespace IShopify.Data.Repositories
             
             if(entity.IsNull() &&  !allowNull)
             {
-                throw new ObjectNotFoundException($"{nameof(TEntity)} not found");
+                throw new ObjectNotFoundException($"{typeof(TEntity).Name} not found");
             }
 
             return entity;

@@ -5,10 +5,12 @@ using IShopify.Core.Data;
 using IShopify.Core.Products;
 using IShopify.Core.Products.Models;
 using IShopify.Core.Security;
+using IShopify.DomainServices.Validation;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using models = IShopify.Core.Products.Models;
 
 namespace IShopify.DomainServices.Products
 {
@@ -16,26 +18,31 @@ namespace IShopify.DomainServices.Products
     {
         private readonly IProductRepository _productRepository;
         private readonly IUserContext _userContext;
+        private readonly IValidatorFactory _validatorFactory;
 
-        public ProductService(IProductRepository productRepository, IUserContext userContext)
+        public ProductService(
+            IProductRepository productRepository, 
+            IUserContext userContext,
+            IValidatorFactory validatorFactory)
         {
             _productRepository = productRepository;
             _userContext = userContext;
+            _validatorFactory = validatorFactory;
         }
-        public async Task<Product> Get(int id)
+        public async Task<models.Product> Get(int id)
         {
             var entity =  await _productRepository.GetAsync(id, true);
-            return Mapper.Map<ProductEntity, Product>(entity);
+            return Mapper.Map<ProductEntity, models.Product>(entity);
         }
 
-        public async Task<IList<Product>> GetProductInCategoryAsync(int categoryId, PagedQuery query)
+        public async Task<IList<models.Product>> GetProductInCategoryAsync(int categoryId, PagedQuery query)
         {
             query.NormalizePageNumber();
             var result = await _productRepository.GetProductInCategory(categoryId, query);
             return ToProduct(result);
         }
 
-        public async Task<IList<Product>> GetProductInDepartmentAsync(int departmentId, PagedQuery query)
+        public async Task<IList<models.Product>> GetProductInDepartmentAsync(int departmentId, PagedQuery query)
         {
             query.NormalizePageNumber();
             var result = await _productRepository.GetProductInDepartment(departmentId, query);
@@ -68,7 +75,7 @@ namespace IShopify.DomainServices.Products
             await _productRepository.ReviewProduct(reviewEntity);
         }
 
-        public async Task<IList<Product>> SearchAsync(ProductQueryModel query)
+        public async Task<IList<models.Product>> SearchAsync(ProductQueryModel query)
         {
             query.NormalizePageNumber();
             var result =  await _productRepository.Search(query);
@@ -76,9 +83,9 @@ namespace IShopify.DomainServices.Products
             return ToProduct(result);
         }
 
-        private IList<Product> ToProduct(IList<ProductEntity> products)
+        private IList<models.Product> ToProduct(IList<ProductEntity> products)
         {
-            return Mapper.Map<IList<ProductEntity>, IList<Product>>(products);
+            return Mapper.Map<IList<ProductEntity>, IList<models.Product>>(products);
         }
     }
 }
