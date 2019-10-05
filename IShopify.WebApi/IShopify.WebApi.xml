@@ -80,7 +80,7 @@
             
             </summary>
         </member>
-        <member name="M:IShopify.WebApi.Controllers.ProductController.#ctor(IShopify.Core.Products.IProductService,IShopify.WebApiServices.IProductComposerService,IShopify.DomainServices.Validation.IValidatorFactory)">
+        <member name="M:IShopify.WebApi.Controllers.ProductController.#ctor(IShopify.Core.Products.IProductService,IShopify.WebApiServices.IProductComposerService)">
             <summary>
             
             </summary>
@@ -99,6 +99,45 @@
             
             </summary>
             <param name="query"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IShopify.WebApi.Controllers.ProductController.GetProductsInCategory(System.Int32,IShopify.Core.Common.Models.PagedQuery)">
+            <summary>
+            
+            </summary>
+            <param name="categoryId"></param>
+            <param name="query"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IShopify.WebApi.Controllers.ProductController.GetProductsInDepartment(System.Int32,IShopify.Core.Common.Models.PagedQuery)">
+            <summary>
+            
+            </summary>
+            <param name="departmentId"></param>
+            <param name="query"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IShopify.WebApi.Controllers.ProductController.GetProductLocations(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IShopify.WebApi.Controllers.ProductController.GetProductReviews(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IShopify.WebApi.Controllers.ProductController.ReviewProduct(System.Int32,System.String,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="id"></param>
+            <param name="review"></param>
+            <param name="rating"></param>
             <returns></returns>
         </member>
     </members>

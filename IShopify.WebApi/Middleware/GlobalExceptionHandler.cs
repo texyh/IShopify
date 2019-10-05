@@ -26,7 +26,6 @@ namespace IShopify.WebApi.Middleware
             _logger = logger;
             _sendErrorDetails = appSettings.SendErrorDetails;
             builder.Run(HandleServerError);
-
         }
 
         private static async Task HandleServerError(HttpContext context)
@@ -84,6 +83,7 @@ namespace IShopify.WebApi.Middleware
 
                 case ArgumentException aExcption:
                 case Core.Exceptions.ValidationException vException:
+                case InvalidProgramException iException:
                     statusCode = HttpStatusCode.BadRequest;
                     defaultMsg = "Invalid request";
                     break;

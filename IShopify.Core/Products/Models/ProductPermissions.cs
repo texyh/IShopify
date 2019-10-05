@@ -8,16 +8,36 @@ namespace IShopify.Core.Products.Models
     {
         private readonly Lazy<bool> _canCreate;
 
+        private readonly Lazy<bool> _canEdit;
+
+        private readonly Lazy<bool> _canView;
+
         public ProductPermissions()
         {
-            _canCreate = new Lazy<bool>(IsCanCreate());
+            _canCreate = new Lazy<bool>(IsCanCreate);
+            _canEdit = new Lazy<bool>(IsCanEdit);
+            _canView = new Lazy<bool>(IsCanView);
         }
 
-        private bool canCreate => _canCreate.Value;
+        public bool CanEdit => _canEdit.Value;
+
+        public bool CanCreate => _canCreate.Value;
+
+        public bool CanView => _canView.Value;
 
         private bool IsCanCreate()
         {
-            return true;
+            return true; // TODO change implementation
+        }
+
+        private bool IsCanEdit()
+        {
+            return true; // TODO change implementation
+        }
+
+        private bool IsCanView()
+        {
+            return true; // TODO change implementation
         }
     }
 }

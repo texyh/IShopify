@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using IShopify.Core;
+using IShopify.Core.Common;
 using IShopify.Core.Common.Models;
 using IShopify.Core.Data;
+using IShopify.Core.Exceptions;
 using IShopify.Core.Products;
 using IShopify.Core.Products.Models;
 using IShopify.Core.Security;
@@ -17,28 +19,46 @@ namespace IShopify.DomainServices.Products
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
+
         private readonly IUserContext _userContext;
+
         private readonly IValidatorFactory _validatorFactory;
+
+        private readonly IPermissionFactory _permissionFactory;
 
         public ProductService(
             IProductRepository productRepository, 
             IUserContext userContext,
-            IValidatorFactory validatorFactory)
+            IValidatorFactory validatorFactory,
+            IPermissionFactory permissionFactory)
         {
             _productRepository = productRepository;
             _userContext = userContext;
             _validatorFactory = validatorFactory;
+            _permissionFactory = permissionFactory;
         }
         public async Task<models.Product> Get(int id)
         {
             var entity =  await _productRepository.GetAsync(id, true);
-            return Mapper.Map<ProductEntity, models.Product>(entity);
+
+            var product =  Mapper.Map<ProductEntity, models.Product>(entity);
+
+            product.SetPermissions(_permissionFactory.CreateProductPermissions());
+
+            if(!product.Permissions.CanView)
+            {
+                throw new InvalidPermissionException("You do not have access to view this product");
+            }
+
+            return product;
+
         }
 
         public async Task<IList<models.Product>> GetProductInCategoryAsync(int categoryId, PagedQuery query)
         {
             query.NormalizePageNumber();
             var result = await _productRepository.GetProductInCategory(categoryId, query);
+
             return ToProduct(result);
         }
 

@@ -5,6 +5,7 @@ using System.Text;
 
 namespace IShopify.Core.Exceptions
 {
+    [Serializable]
     public class ValidationException : AppException
     {
         public ValidationException(ModelValidationResult validationResult, string message = null)
