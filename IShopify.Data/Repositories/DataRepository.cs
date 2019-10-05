@@ -21,55 +21,66 @@ namespace IShopify.Data.Repositories
         }
         public async Task AddAllAsync(IEnumerable<TEntity> entities)
         {
-             await _dbContext.Set<TEntity>().AddRangeAsync(entities);
-             await _dbContext.SaveChangesAsync();
-        }
+            ArgumentGuard.NotNullOrEmpty(entities, nameof(entities));
 
+            await _dbContext.Set<TEntity>().AddRangeAsync(entities);
+            await _dbContext.SaveChangesAsync();
+        }
         public async Task<int> AddAsync(TEntity entity)
         {
+            ArgumentGuard.NotNull(entity, nameof(entity));
+
             _dbContext.Set<TEntity>().Add(entity);
             await _dbContext.SaveChangesAsync();
 
             return entity.Id;
         }
 
-        public Task<long> CountAsync(Expression<Func<TEntity, bool>> filter)
+        public async Task<long> CountAsync(Expression<Func<TEntity, bool>> filter)
         {
-            throw new NotImplementedException();
+            ArgumentGuard.NotNull(filter, nameof(filter));
+
+            return  await _dbContext.Set<TEntity>().CountAsync(filter);
         }
 
         public Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> filter)
         {
-            return _dbContext.Set<TEntity>().AnyAsync(filter);
-        }
+            ArgumentGuard.NotNull(filter, nameof(filter));
 
-        public Task<IList<TEntity>> FindAllAsync(IEnumerable<Guid> Ids)
-        {
-            throw new NotImplementedException();
+            return _dbContext.Set<TEntity>().AnyAsync(filter);
         }
 
         public Task<IList<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> filter)
         {
+            ArgumentGuard.NotNull(filter, nameof(filter));
+
             throw new NotImplementedException();
         }
 
 
         public Task<IList<TEntity>> FindAllAsync(IEnumerable<int> Ids)
         {
+            ArgumentGuard.NotNullOrEmpty(Ids, nameof(Ids));
+
             throw new NotImplementedException();
         }
 
-        public Task<IList<Guid>> FindAllIdsAsync(Expression<Func<TEntity, bool>> filter)
+        public Task<IList<int>> FindAllIdsAsync(Expression<Func<TEntity, bool>> filter)
         {
+            ArgumentGuard.NotNull(filter, nameof(filter));
+
             throw new NotImplementedException();
         }
 
         public async Task<TEntity> GetAsync(int id, bool allowNull = false)
         {
+            ArgumentGuard.NotDefault(id, nameof(id));
+
             var entity = await _dbContext.Set<TEntity>().FindAsync(id);
+
             if(entity == null && !allowNull)
             {
-                throw new ObjectNotFoundException($"{typeof(TEntity).Name} with id {id} is not found");
+                throw new ObjectNotFoundException($"{typeof(TEntity).Name} with id {id} was not found");
             }
 
             return entity;
@@ -77,6 +88,8 @@ namespace IShopify.Data.Repositories
 
         public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> expression, bool allowNull = false)
         {
+            ArgumentGuard.NotNull(expression, nameof(expression));
+
             var entity = await _dbContext.Set<TEntity>().FirstOrDefaultAsync(expression);
             
             if(entity.IsNull() &&  !allowNull)
@@ -89,22 +102,27 @@ namespace IShopify.Data.Repositories
 
         public Task UpdateAsync(TEntity entity)
         {
+            ArgumentGuard.NotNull(entity, nameof(entity));
+
             _dbContext.Set<TEntity>().Update(entity);
+
             return _dbContext.SaveChangesAsync();
         }
 
         public Task UpdateSingleField(TEntity entity, Expression<Func<TEntity, object>> expression)
         {
+            ArgumentGuard.NotNull(entity, nameof(entity));
             ArgumentGuard.NotDefault(entity.Id, nameof(entity.Id));
+            ArgumentGuard.NotNull(expression, nameof(expression));
 
-            var dbEntity = _dbContext.Set<TEntity>().Local.FirstOrDefault(x => x.Id == entity.Id);
+            var dbLocalEntity = _dbContext.Set<TEntity>().Local.FirstOrDefault(x => x.Id == entity.Id);
 
-            if(dbEntity.IsNull())
+            if(dbLocalEntity.IsNull())
             {
-                _dbContext.Set<TEntity>().Attach(dbEntity);
+                _dbContext.Set<TEntity>().Attach(dbLocalEntity);
             }
 
-            _dbContext.Entry(dbEntity).Property(expression).IsModified = true;
+            _dbContext.Entry(dbLocalEntity).Property(expression).IsModified = true;
             return _dbContext.SaveChangesAsync();
         }
     }

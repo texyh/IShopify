@@ -4,101 +4,249 @@
         <name>IShopify.WebApi</name>
     </assembly>
     <members>
+        <member name="T:IShopify.WebApi.Bootstrap.AuthConfig">
+            <summary>
+            This is the class for Registering and configuration authentication for the application.
+            </summary>
+        </member>
+        <member name="M:IShopify.WebApi.Bootstrap.AuthConfig.AddApplicationAuthentication(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This adds authentication to the service collection
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="T:IShopify.WebApi.Bootstrap.AutoMapperConfig">
+            <summary>
+            This class is used Initiaze Automapper
+            </summary>
+        </member>
+        <member name="M:IShopify.WebApi.Bootstrap.AutoMapperConfig.RegisterAutoMapper(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Adds Automapper to IServiceCollection
+            </summary>
+        </member>
+        <member name="T:IShopify.WebApi.Bootstrap.GlobalLogger">
+            <summary>
+            Configures the global logger
+            </summary>
+        </member>
+        <member name="M:IShopify.WebApi.Bootstrap.GlobalLogger.AddGlobalLogger(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.IServiceProvider)">
+            <summary>
+            Configures the global logger handler
+            </summary>
+            <param name="app"></param>
+            <param name="serviceProvider"></param>
+        </member>
         <member name="T:IShopify.WebApi.Bootstrap.IocConfig">
             <summary>
-            
+            Registers The inversion of control
             </summary>
         </member>
         <member name="M:IShopify.WebApi.Bootstrap.IocConfig.AddDependencies(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
+            Adds Dependencies to Iservicecollection
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IShopify.WebApi.Bootstrap.MvcConfig">
+            <summary>
+            Configures MVC
+            </summary>
+        </member>
+        <member name="M:IShopify.WebApi.Bootstrap.MvcConfig.ConfigureMvc(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+             Registers MVC
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="T:IShopify.WebApi.Bootstrap.SwaggerConfig">
+            <summary>
+            Configures Swagger
+            </summary>
+        </member>
+        <member name="M:IShopify.WebApi.Bootstrap.SwaggerConfig.ConfigureSwagger(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Registers Swagger.
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:IShopify.WebApi.Bootstrap.SwaggerConfig.UseSwaggerConfiguration(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Configures swagger ui
+            </summary>
+            <param name="app"></param>
+        </member>
+        <member name="T:IShopify.WebApi.Bootstrap.WebUserContext">
+            <summary>
+            User context of the web project
+            </summary>
+        </member>
+        <member name="M:IShopify.WebApi.Bootstrap.WebUserContext.#ctor(Microsoft.AspNetCore.Http.IHttpContextAccessor)">
+            <summary>
+            Constructor for the webusercontext
+            </summary>
+            <param name="httpContextAccessor"></param>
+        </member>
+        <member name="P:IShopify.WebApi.Bootstrap.WebUserContext.UserId">
+            <summary>
+            LoggedIn user Id
+            </summary>
+        </member>
+        <member name="M:IShopify.WebApi.Bootstrap.WebUserContext.GetCustomer(System.Int32)">
+            <summary>
+            LoggedIn User
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IShopify.WebApi.Startup">
+            <summary>
             
+            </summary>
+        </member>
+        <member name="P:IShopify.WebApi.Startup.Configuration">
+            <summary>
+            Configuration
+            </summary>
+        </member>
+        <member name="M:IShopify.WebApi.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration,Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
+            <summary>
+            Constructor for the startup class
+            </summary>
+            <param name="configuration"></param>
+            <param name="environment"></param>
+        </member>
+        <member name="M:IShopify.WebApi.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Configures the services
             </summary>
             <param name="services"></param>
             <returns></returns>
         </member>
+        <member name="M:IShopify.WebApi.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment,System.IServiceProvider)">
+            <summary>
+            Configures HTTP pipeline
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+            <param name="serviceProvider"></param>
+        </member>
         <member name="T:IShopify.WebApi.Controllers.CustomerController">
             <summary>
-            
+            Controller for managing customers
             </summary>
         </member>
         <member name="M:IShopify.WebApi.Controllers.CustomerController.#ctor(IShopify.Core.Customer.ICustomerService,IShopify.Framework.Auth.IAccountService)">
             <summary>
-            
+             constructor for customer controller
             </summary>
             <param name="customerService"></param>
+            <param name="accountService"></param>
         </member>
         <member name="M:IShopify.WebApi.Controllers.CustomerController.UpdateCustomer(IShopify.Core.Customer.Models.SaveCustomerViewModel)">
             <summary>
-            
+            Endpoint for updating customer details
             </summary>
             <param name="model"></param>
             <returns></returns>
         </member>
         <member name="M:IShopify.WebApi.Controllers.CustomerController.Get">
             <summary>
-            
+            Endpoint for getting logged customer details
             </summary>
             <returns></returns>
         </member>
         <member name="M:IShopify.WebApi.Controllers.CustomerController.UpdateCustomerAddress(IShopify.Core.Customer.Models.SaveCustomerAddressViewModel)">
             <summary>
-            
+            Endpoint for updated customer address
             </summary>
             <param name="model"></param>
             <returns></returns>
         </member>
         <member name="M:IShopify.WebApi.Controllers.CustomerController.UpdateCustomerCreditCard(System.String)">
             <summary>
-            
+            Endpoint for updated customer credit card
             </summary>
             <param name="creditCard"></param>
             <returns></returns>
         </member>
         <member name="M:IShopify.WebApi.Controllers.CustomerController.RegisterCustomerAsync(IShopify.Core.Customer.Models.CustomerRegistrationViewModel)">
             <summary>
-            
+            Endpoint for registering a customer
             </summary>
             <param name="model"></param>
             <returns></returns>
         </member>
         <member name="M:IShopify.WebApi.Controllers.CustomerController.Login(IShopify.Core.Customer.Models.CustomerLoginViewModel)">
             <summary>
-            
+            Endpoint for logging In
             </summary>
             <param name="model"></param>
             <returns></returns>
         </member>
         <member name="M:IShopify.WebApi.Controllers.CustomerController.LoginByFaceBook(System.String)">
             <summary>
-            
+            Endpoint for logging in with facebook
             </summary>
             <param name="token"></param>
             <returns></returns>
         </member>
         <member name="T:IShopify.WebApi.Controllers.ProductController">
             <summary>
-            
+            Controller for managing Product
             </summary>
         </member>
         <member name="M:IShopify.WebApi.Controllers.ProductController.#ctor(IShopify.Core.Products.IProductService,IShopify.WebApiServices.IProductComposerService)">
             <summary>
-            
+            Constructor for ProductController
             </summary>
             <param name="productService"></param>
             <param name="productComposerService"></param>
         </member>
         <member name="M:IShopify.WebApi.Controllers.ProductController.Get(System.Int32)">
             <summary>
-            
+            Endpoint for get product by ID
             </summary>
             <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:IShopify.WebApi.Controllers.ProductController.Search(IShopify.Core.Products.Models.ProductQueryModel)">
             <summary>
-            
+            Endpoint for searching products
             </summary>
             <param name="query"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IShopify.WebApi.Controllers.ProductController.GetProductsInCategory(System.Int32,IShopify.Core.Common.Models.PagedQuery)">
+            <summary>
+            Endpoint for get products of a certain category
+            </summary>
+            <param name="categoryId"></param>
+            <param name="query"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IShopify.WebApi.Controllers.ProductController.GetProductsInDepartment(System.Int32,IShopify.Core.Common.Models.PagedQuery)">
+            <summary>
+            Endpoint for getting Products in a department
+            </summary>
+            <param name="departmentId"></param>
+            <param name="query"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IShopify.WebApi.Controllers.ProductController.GetProductLocations(System.Int32)">
+            <summary>
+            Endpoint for getting product locations
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IShopify.WebApi.Controllers.ProductController.GetProductReviews(System.Int32)">
+            <summary>
+            Endpoint for Product reviews
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:IShopify.WebApi.Controllers.ProductController.GetProductsInCategory(System.Int32,IShopify.Core.Common.Models.PagedQuery)">

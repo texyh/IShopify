@@ -18,14 +18,17 @@ namespace IShopify.Framework.Auth
         private readonly ICustomerRepository _customerReposiotry;
         private readonly ICryptoService _cryptoService;
         private readonly IJwtHandler _jwtHandler;
+        private readonly IMapper _mapper;
 
         public AccountService(ICustomerRepository customerRepository, 
                               ICryptoService cryptoService,
-                              IJwtHandler jwtHandler)
+                              IJwtHandler jwtHandler,
+                              IMapper mapper)
         {
             _customerReposiotry = customerRepository;
             _cryptoService = cryptoService;
             _jwtHandler = jwtHandler;
+            _mapper = mapper;
         }
 
         public async Task<AuthenticationResponse> LoginCustomerAsync(CustomerLoginViewModel model)
@@ -48,11 +51,11 @@ namespace IShopify.Framework.Auth
                 throw new InvalidCredentialException($"Incorrect password");
             }
 
-            var user = Mapper.Map<CustomerEntity, Customer>(userEntity);
+            var user = _mapper.Map<CustomerEntity, Customer>(userEntity);
 
             var token = _jwtHandler.CreateAccessToken(user);
 
-            return new AuthenticationResponse { AuthToken = token };
+            return new AuthenticationResponse { AccessToken = token };
 
 
         }
@@ -88,16 +91,13 @@ namespace IShopify.Framework.Auth
             if(isFaceBookRegistration)
             {
                 await _customerReposiotry.AddAsync(customer);
-
             }
 
-            var user = Mapper.Map<CustomerEntity, Customer>(customer);
+            var user = _mapper.Map<CustomerEntity, Customer>(customer);
 
             var token = _jwtHandler.CreateAccessToken(user);
 
-            return new AuthenticationResponse { AuthToken = token };
-
-
+            return new AuthenticationResponse { AccessToken = token };
         }
     }
 

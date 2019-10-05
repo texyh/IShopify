@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace IShopify.WebApi.Controllers
 {
     /// <summary>
-    /// 
+    /// Controller for managing Product
     /// </summary>
     [Route("products")]
     [ApiController]
@@ -27,7 +27,7 @@ namespace IShopify.WebApi.Controllers
         private readonly IProductComposerService _productComposerService;
 
         /// <summary>
-        /// 
+        /// Constructor for ProductController
         /// </summary>
         /// <param name="productService"></param>
         /// <param name="productComposerService"></param>
@@ -40,7 +40,7 @@ namespace IShopify.WebApi.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Endpoint for get product by ID
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -52,7 +52,7 @@ namespace IShopify.WebApi.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Endpoint for searching products
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>
@@ -64,7 +64,7 @@ namespace IShopify.WebApi.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Endpoint for get products of a certain category
         /// </summary>
         /// <param name="categoryId"></param>
         /// <param name="query"></param>
@@ -77,7 +77,7 @@ namespace IShopify.WebApi.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Endpoint for getting Products in a department
         /// </summary>
         /// <param name="departmentId"></param>
         /// <param name="query"></param>
@@ -90,7 +90,7 @@ namespace IShopify.WebApi.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Endpoint for getting product locations
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -102,7 +102,7 @@ namespace IShopify.WebApi.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Endpoint for Product reviews
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -114,7 +114,7 @@ namespace IShopify.WebApi.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Endpoint for adding a review ot a product
         /// </summary>
         /// <param name="id"></param>
         /// <param name="review"></param>

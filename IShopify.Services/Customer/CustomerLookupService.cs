@@ -19,14 +19,16 @@ namespace IShopify.DomainServices.Customer
 
         private readonly IRedisCacheService _redisCacheService;
         private readonly ICustomerRepository _customerRepository;
+        private readonly IMapper _mapper;
 
         public CustomerLookupService(
             IRedisCacheService redisCache,
-            ICustomerRepository customerRepository
-            )
+            ICustomerRepository customerRepository,
+            IMapper mapper)
         {
             _customerRepository = customerRepository;
             _redisCacheService = redisCache;
+            _mapper = mapper;
         }
 
         public void Add(Models.Customer customer)
@@ -43,7 +45,7 @@ namespace IShopify.DomainServices.Customer
             {
                 var customerEntity = await _customerRepository.GetAsync(id);
 
-                customer = Mapper.Map<Models.Customer>(customerEntity);
+                customer = _mapper.Map<Models.Customer>(customerEntity);
 
                 Add(customer);
             }
@@ -63,7 +65,7 @@ namespace IShopify.DomainServices.Customer
 
             var userIdsNotCached = Ids.Where(id => !cachedUsers.Any(user => user.Id == id));
             var customerEntities = await _customerRepository.FindAllAsync(userIdsNotCached);
-            var customers = Mapper.Map<IList<Models.Customer>>(customerEntities);
+            var customers = _mapper.Map<IList<Models.Customer>>(customerEntities);
 
             foreach (var user in customers)
             {

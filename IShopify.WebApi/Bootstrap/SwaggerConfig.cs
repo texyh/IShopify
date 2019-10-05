@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
+using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Collections.Generic;
@@ -11,26 +12,33 @@ using System.Threading.Tasks;
 
 namespace IShopify.WebApi.Bootstrap
 {
+    /// <summary>
+    /// Configures Swagger
+    /// </summary>
     public static class SwaggerConfig
     {
         private const string SwaggerOpenAPISpecification = "/swagger/v1/swagger.json";
         private const string SwaggerOpenAPISpecificationDisplayName = "IShopify Api";
 
+        /// <summary>
+        /// Registers Swagger.
+        /// </summary>
+        /// <param name="services"></param>
         public static void ConfigureSwagger(this IServiceCollection services)
         {
             services.AddSwaggerGen(opt =>
             {
-                opt.SwaggerDoc("v1", new Info
+                opt.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "IShopify",
-                    Version = "v1",
+                    Version = "2.0",
                     Description = "A system for buying and sellings goods",
-                    TermsOfService = "None",
-                    Contact = new Contact
+                    TermsOfService = new Uri("http://example.com"),
+                    Contact = new OpenApiContact
                     {
                         Name = "Emeka LLC",
                         Email = string.Empty,
-                        Url = string.Empty
+                        Url = new Uri("http://example.com")
                     }
                 });
 
@@ -41,23 +49,41 @@ namespace IShopify.WebApi.Bootstrap
 
             services.ConfigureSwaggerGen(opt =>
             {
-                opt.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+                opt.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
-                    { "Bearer", new string[] { } }
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference =  new OpenApiReference {Type = ReferenceType.SecurityScheme, Id = "Bearer"}
+                        },
+                        new string[] {}
+                    }
                 });
 
-                opt.AddSecurityDefinition("Bearer", new ApiKeyScheme()
+                opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
-                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
                     Name = "Authorization",
-                    In = "header",
-                    Type = "apiKey"
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Flows =  new OpenApiOAuthFlows
+                    {
+                        Password = new OpenApiOAuthFlow
+                        {
+                            TokenUrl = new Uri("/login", UriKind.Relative)
+                        }
+                    }
                 });
+
             });
 
 
         }
 
+        /// <summary>
+        /// Configures swagger ui
+        /// </summary>
+        /// <param name="app"></param>
         public static void UseSwaggerConfiguration (this IApplicationBuilder app)
         {
             app.UseSwagger();

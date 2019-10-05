@@ -10,7 +10,7 @@ namespace IShopify.Common
     {
         public static ILogger Create()
         {
-            var systemId = 1000000001;
+            var systemId = int.MaxValue;
             var systemName = "IShopify";
             var systemEmail = "Ishopify@email.com";
 

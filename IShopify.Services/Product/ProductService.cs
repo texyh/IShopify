@@ -21,6 +21,7 @@ namespace IShopify.DomainServices.Products
         private readonly IProductRepository _productRepository;
 
         private readonly IUserContext _userContext;
+        private readonly IMapper _mapper;
 
         private readonly IValidatorFactory _validatorFactory;
 
@@ -30,12 +31,14 @@ namespace IShopify.DomainServices.Products
             IProductRepository productRepository, 
             IUserContext userContext,
             IValidatorFactory validatorFactory,
-            IPermissionFactory permissionFactory)
+            IPermissionFactory permissionFactory,
+            IMapper mapper)
         {
             _productRepository = productRepository;
             _userContext = userContext;
             _validatorFactory = validatorFactory;
             _permissionFactory = permissionFactory;
+            _mapper = mapper;
         }
         public async Task<models.Product> Get(int id)
         {
@@ -72,13 +75,13 @@ namespace IShopify.DomainServices.Products
         public async Task<Category> GetProductLocationAsync(int id)
         {
             var result = await _productRepository.GetProductLocation(id);
-            return Mapper.Map<CategoryEntity, Category>(result);
+            return _mapper.Map<CategoryEntity, Category>(result);
         }
 
         public async Task<IList<Review>> GetProductReviewsAsync(int id)
         {
             var result = await _productRepository.GetProductReviews(id);
-            return Mapper.Map<IList<ReviewEntity>, IList<Review>>(result);
+            return _mapper.Map<IList<ReviewEntity>, IList<Review>>(result);
         }
 
         public async Task ReviewProduct(int id, string review, int rating)

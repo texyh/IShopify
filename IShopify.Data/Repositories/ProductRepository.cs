@@ -36,6 +36,7 @@ namespace IShopify.Data.Repositories
         public async Task<IList<ProductEntity>> GetProductInDepartment(int departmentId, PagedQuery query)
         {
             ArgumentGuard.NotNull(query, nameof(query));
+            ArgumentGuard.NotDefault(departmentId, nameof(departmentId));
 
             var categoryIds = _dbContext.Categories
                 .Where(x => x.DepartmentId == departmentId)
@@ -54,6 +55,8 @@ namespace IShopify.Data.Repositories
 
         public async Task<CategoryEntity> GetProductLocation(int id)
         {
+            ArgumentGuard.NotDefault(id, nameof(id));
+
             return await _dbContext.ProductCategories
                 .Where(x => x.ProductId == id)
                 .Include(x => x.Category)
@@ -64,7 +67,9 @@ namespace IShopify.Data.Repositories
 
         public async Task<IList<ReviewEntity>> GetProductReviews(int id)
         {
-            var reviews = default(IList<ReviewEntity>);
+            ArgumentGuard.NotDefault(id, nameof(id));
+
+            var reviews = default(IList<ReviewEntity>); // TODO fix, this returns empty reviews
             try
             {
                 reviews = await _dbContext.Reviews
@@ -81,7 +86,10 @@ namespace IShopify.Data.Repositories
 
         public Task ReviewProduct(ReviewEntity review)
         {
+            ArgumentGuard.NotNull(review, nameof(review)); // TODO move into dataRepository
+
             _dbContext.Add(review);
+
             return _dbContext.SaveChangesAsync();
         }
 
