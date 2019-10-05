@@ -21,6 +21,7 @@ namespace IShopify.DomainServices.Products
         private readonly IProductRepository _productRepository;
 
         private readonly IUserContext _userContext;
+
         private readonly IMapper _mapper;
 
         private readonly IValidatorFactory _validatorFactory;
@@ -44,7 +45,7 @@ namespace IShopify.DomainServices.Products
         {
             var entity =  await _productRepository.GetAsync(id, true);
 
-            var product =  Mapper.Map<ProductEntity, models.Product>(entity);
+            var product =  _mapper.Map<ProductEntity, models.Product>(entity);
 
             product.SetPermissions(_permissionFactory.CreateProductPermissions());
 
@@ -54,9 +55,7 @@ namespace IShopify.DomainServices.Products
             }
 
             return product;
-
         }
-
         public async Task<IList<models.Product>> GetProductInCategoryAsync(int categoryId, PagedQuery query)
         {
             query.NormalizePageNumber();
@@ -69,21 +68,22 @@ namespace IShopify.DomainServices.Products
         {
             query.NormalizePageNumber();
             var result = await _productRepository.GetProductInDepartment(departmentId, query);
+
             return ToProduct(result);
         }
 
         public async Task<Category> GetProductLocationAsync(int id)
         {
             var result = await _productRepository.GetProductLocation(id);
+
             return _mapper.Map<CategoryEntity, Category>(result);
         }
-
         public async Task<IList<Review>> GetProductReviewsAsync(int id)
         {
             var result = await _productRepository.GetProductReviews(id);
+
             return _mapper.Map<IList<ReviewEntity>, IList<Review>>(result);
         }
-
         public async Task ReviewProduct(int id, string review, int rating)
         {
             var reviewEntity = new ReviewEntity
@@ -97,7 +97,6 @@ namespace IShopify.DomainServices.Products
 
             await _productRepository.ReviewProduct(reviewEntity);
         }
-
         public async Task<IList<models.Product>> SearchAsync(ProductQueryModel query)
         {
             query.NormalizePageNumber();
@@ -105,10 +104,9 @@ namespace IShopify.DomainServices.Products
 
             return ToProduct(result);
         }
-
         private IList<models.Product> ToProduct(IList<ProductEntity> products)
         {
-            return Mapper.Map<IList<ProductEntity>, IList<models.Product>>(products);
+            return _mapper.Map<IList<ProductEntity>, IList<models.Product>>(products);
         }
     }
 }
