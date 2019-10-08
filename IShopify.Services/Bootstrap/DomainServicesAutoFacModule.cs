@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using FluentValidation;
 using IShopify.Core.Common;
+using IShopify.DomainServices.Common;
 using IShopify.DomainServices.Validation;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,10 @@ namespace IShopify.DomainServices.Bootstrap
             builder.RegisterType<PermissionFactory>()
                 .As<IPermissionFactory>()
                 .InstancePerLifetimeScope();
+
+            builder.RegisterType<TemplateLoader>()
+                .As<ITemplateLoader>()
+                .SingleInstance();
         }
     }
 }

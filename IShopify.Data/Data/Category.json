@@ -1,0 +1,44 @@
+[
+    {
+      "id": "1",
+      "departmentId": 1,
+      "name": "French",
+      "description": "{{12}}''{{13}}''{{14}}''{{15}}"
+    },
+    {
+      "id": "2",
+      "departmentId": 1,
+      "name": "Italian",
+      "description": "{{17}}''{{18}}"
+    },
+    {
+      "id": "3",
+      "departmentId": 1,
+      "name": "Irish",
+      "description": "{{20}}''{{21}}''{{22}}''{{23}}"
+    },
+    {
+      "id": "4",
+      "departmentId": 2,
+      "name": "Animal",
+      "description": "{{25}}''{{26}}''{{27}}''{{28}}"
+    },
+    {
+      "id": "5",
+      "departmentId": 2,
+      "name": "Flower",
+      "description": "These unique and beautiful flower T-shirts are just the item for the gardener, flower arranger, florist, or general lover of things beautiful. Surprise the flower in your life with one of the beautiful botanical T-shirts or just get a few for yourself!"
+    },
+    {
+      "id": "6",
+      "departmentId": 3,
+      "name": "Christmas",
+      "description": "{{32}}''{{33}}''{{34}}''{{35}}''{{36}}''{{37}}"
+    },
+    {
+      "id": "7",
+      "departmentId": 3,
+      "name": "{{38}}''{{39}}",
+      "description": "For the more timid, all you have to do is wear your heartfelt message to get it across. Buy one for you and your sweetie(s) today!"
+    }
+  ]
