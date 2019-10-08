@@ -19,21 +19,16 @@ namespace IShopify.Data
 
         public DbSet<CategoryEntity> Categories { get; set; }
 
-        public DbSet<DepartmentEntity> DepartMents { get; set; }
+        public DbSet<DepartmentEntity> Departments { get; set; }
 
         public DbSet<ReviewEntity> Reviews { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            var productBuilder = builder.Entity<ProductEntity>().ToTable("product");
-            productBuilder.Property(x => x.Id).HasColumnName("product_id");
-            productBuilder.Property(x => x.DisCountedPrice).HasColumnName("discounted_price");
-            productBuilder.Property(x => x.Image2).HasColumnName("image_2");
+            builder.Entity<ProductEntity>().ToTable("Products").Property(x => x.Id).ValueGeneratedOnAdd();
 
-            var productCategoryBuilder = builder.Entity<ProductCategoryEntity>().ToTable("product_category");
-            productCategoryBuilder.Property(x => x.CategoryId).HasColumnName("category_id");
-            productCategoryBuilder.Property(x => x.ProductId).HasColumnName("product_id");
+            var productCategoryBuilder = builder.Entity<ProductCategoryEntity>().ToTable("ProductCategories");
             productCategoryBuilder.HasKey(x => new { x.CategoryId, x.ProductId });
 
             productCategoryBuilder.HasOne(x => x.Category)
@@ -44,32 +39,20 @@ namespace IShopify.Data
                 .WithMany(x => x.ProductCategories)
                 .HasForeignKey(x => x.ProductId);
 
-            var categoryBuilder = builder.Entity<CategoryEntity>().ToTable("category");
-            categoryBuilder.Property(x => x.Id).HasColumnName("category_id");
-            categoryBuilder.Property(x => x.DepartmentId).HasColumnName("department_id");
+            var categoryBuilder = builder.Entity<CategoryEntity>().ToTable("Categories");
+            categoryBuilder.Property(x => x.Id).ValueGeneratedOnAdd();
             categoryBuilder.HasOne(x => x.Department).WithMany(x => x.Categories).HasForeignKey(x => x.DepartmentId);
 
-            var departmentBuilder = builder.Entity<DepartmentEntity>().ToTable("department");
-            departmentBuilder.Property(x => x.Id).HasColumnName("department_id");
+            var departmentBuilder = builder.Entity<DepartmentEntity>()
+                .ToTable("Departments").Property(x => x.Id).ValueGeneratedOnAdd();
 
-            var reviewBuilder = builder.Entity<ReviewEntity>().ToTable("review");
-            reviewBuilder.Property(x => x.Id).HasColumnName("review_id").ValueGeneratedOnAdd();
-            reviewBuilder.Property(x => x.CustomerId).HasColumnName("customer_id");
-            reviewBuilder.Property(x => x.ProductId).HasColumnName("product_id");
-            reviewBuilder.Property(x => x.CreatedOn).HasColumnName("created_on");
+            var reviewBuilder = builder.Entity<ReviewEntity>().ToTable("Reviews");
+            reviewBuilder.Property(x => x.Id).ValueGeneratedOnAdd();
             reviewBuilder.HasOne(x => x.Customer).WithMany(x => x.Reviews).HasForeignKey(x => x.CustomerId);
             reviewBuilder.HasOne(x => x.Product).WithMany(x => x.Reviews).HasForeignKey(x => x.ProductId);
 
-            var customerBuilder = builder.Entity<CustomerEntity>().ToTable("customer");
-            customerBuilder.Property(x => x.Id).HasColumnName("customer_id");
-            customerBuilder.Property(x => x.Address1).HasColumnName("address_1");
-            customerBuilder.Property(x => x.Address2).HasColumnName("address_2");
-            customerBuilder.Property(x => x.CreditCard).HasColumnName("credit_card");
-            customerBuilder.Property(x => x.DayPhone).HasColumnName("day_phone");
-            customerBuilder.Property(x => x.EveningPhone).HasColumnName("eve_phone");
-            customerBuilder.Property(x => x.MobilePhone).HasColumnName("mob_phone");
-            customerBuilder.Property(x => x.PostalCode).HasColumnName("postal_code");
-            customerBuilder.Property(x => x.ShippingRegionId).HasColumnName("shipping_region_id");
+            var customerBuilder = builder.Entity<CustomerEntity>().ToTable("Customers");
+            customerBuilder.Property(x => x.Id).ValueGeneratedOnAdd();
             customerBuilder.HasMany(x => x.Reviews).WithOne(x => x.Customer).HasForeignKey(x => x.CustomerId);
 
         }

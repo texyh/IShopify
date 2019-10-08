@@ -16,6 +16,10 @@ namespace IShopify.Data.Bootstrap
                 .Where(t => t.GetInterfaces().Any(i => i.Name.EndsWith("Repository")))
                 .As(t => t.GetInterfaces().Where(i => i.Name.EndsWith("Repository")))
                 .InstancePerLifetimeScope();
+
+            builder.RegisterType<DatabaseInitializer>()
+                .AsSelf()
+                .SingleInstance();
         }
     }
 }

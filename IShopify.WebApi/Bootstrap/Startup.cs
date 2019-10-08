@@ -71,7 +71,7 @@ namespace IShopify.WebApi
 
             services.AddDbContextPool<IShopifyDbContext>(options =>
             {
-                options.UseMySql(AppSettingsProvider.Current.IshopifyDB);
+                options.UseNpgsql(AppSettingsProvider.Current.IshopifyDB, b => b.MigrationsAssembly("IShopify.WebApi"));
             });
             _logger.Info("Configured DbContext");
 
@@ -123,6 +123,13 @@ namespace IShopify.WebApi
                 endpoints.MapControllers().RequireAuthorization();
             });
             _logger.Info("Configured Endpoints");
+
+
+            var dbInitizer = serviceProvider.GetRequiredService<DatabaseInitializer>();
+            dbInitizer
+                .initialize()
+                .SeedAsync().ConfigureAwait(false);
+            _logger.Info("Seeded Database");
 
         }
 
