@@ -1,6 +1,8 @@
-﻿using IShopify.Core.Data;
+﻿using AutoMapper;
+using IShopify.Core.Data;
 using IShopify.Core.Exceptions;
 using IShopify.Core.Helpers;
+using IShopify.Core.Products.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,9 +17,14 @@ namespace IShopify.Data.Repositories
     {
         private readonly IShopifyDbContext _dbContext;
 
-        public DataRepository(IShopifyDbContext dbcontext)
+        private readonly IMapper _mapper;
+
+        public DataRepository(
+            IShopifyDbContext dbcontext,
+            IMapper mapper)
         {
             _dbContext = dbcontext;
+            _mapper = mapper;
         }
         public async Task AddAllAsync(IEnumerable<TEntity> entities)
         {
@@ -76,8 +83,13 @@ namespace IShopify.Data.Repositories
         {
             ArgumentGuard.NotDefault(id, nameof(id));
 
-            var entity = await _dbContext.Set<TEntity>().FindAsync(id);
+            var entity = _dbContext.Set<TEntity>().Local.FirstOrDefault(x => x.Id == id);
 
+            if(entity.IsNull())
+            {
+                entity = await _dbContext.Set<TEntity>().FirstOrDefaultAsync(x => x.Id == id);
+            }
+ 
             if(entity == null && !allowNull)
             {
                 throw new ObjectNotFoundException($"{typeof(TEntity).Name} with id {id} was not found");
@@ -90,9 +102,14 @@ namespace IShopify.Data.Repositories
         {
             ArgumentGuard.NotNull(expression, nameof(expression));
 
-            var entity = await _dbContext.Set<TEntity>().FirstOrDefaultAsync(expression);
-            
-            if(entity.IsNull() &&  !allowNull)
+            var entity = _dbContext.Set<TEntity>().Local.FirstOrDefault(expression.Compile());
+
+            if(entity.IsNull())
+            {
+                entity = await _dbContext.Set<TEntity>().FirstOrDefaultAsync(expression);
+            }
+
+            if (entity.IsNull() &&  !allowNull)
             {
                 throw new ObjectNotFoundException($"{typeof(TEntity).Name} not found");
             }
@@ -109,20 +126,29 @@ namespace IShopify.Data.Repositories
             return _dbContext.SaveChangesAsync();
         }
 
-        public Task UpdateSingleField(TEntity entity, Expression<Func<TEntity, object>> expression)
+        public Task UpdateFieldsAsync(TEntity entity, params string[] fields)
         {
             ArgumentGuard.NotNull(entity, nameof(entity));
-            ArgumentGuard.NotDefault(entity.Id, nameof(entity.Id));
-            ArgumentGuard.NotNull(expression, nameof(expression));
+            ArgumentGuard.NotNullOrEmpty(fields, nameof(fields));
 
-            var dbLocalEntity = _dbContext.Set<TEntity>().Local.FirstOrDefault(x => x.Id == entity.Id);
+            var dbEntity = _dbContext.Set<TEntity>().Local.FirstOrDefault(x => x.Id == entity.Id);
 
-            if(dbLocalEntity.IsNull())
+            if(dbEntity.IsNull())
             {
-                _dbContext.Set<TEntity>().Attach(dbLocalEntity);
+                dbEntity = entity;
+
+                _dbContext.Set<TEntity>().Attach(dbEntity);
+            } 
+            else 
+            {
+                _mapper.Map(entity, dbEntity);
             }
 
-            _dbContext.Entry(dbLocalEntity).Property(expression).IsModified = true;
+            foreach (var field in fields)
+            {
+                _dbContext.Entry(dbEntity).Property(field).IsModified = true;
+            }
+
             return _dbContext.SaveChangesAsync();
         }
     }

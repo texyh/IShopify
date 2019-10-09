@@ -48,7 +48,7 @@ namespace IShopify.WebApi.Controllers
         [AllowAnonymous]
         public async Task<Product> Get(int id)
         {
-            return await _productService.Get(id);
+            return await _productService.GetAsync(id);
         }
 
         /// <summary>
@@ -114,6 +114,29 @@ namespace IShopify.WebApi.Controllers
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<int> AddProduct([FromBody] SaveProductModel product)
+        {
+            return await _productService.AddProductAsync(product);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="product"></param>
+        /// <returns></returns>
+        [HttpPut]
+        public async Task UpdateProduct(int id, [FromBody]SaveProductModel product)
+        {
+            await _productService.UpdateProductAsync(id, product);
+        }
+
+        /// <summary>
         /// Endpoint for adding a review ot a product
         /// </summary>
         /// <param name="id"></param>
@@ -123,8 +146,7 @@ namespace IShopify.WebApi.Controllers
         [HttpPost("{id}/reviews")]
         public async Task ReviewProduct(int id, string review, int rating)
         {
-            await _productService.ReviewProduct(id, review, rating);
+            await _productService.ReviewProductAsync(id, review, rating);
         }
-
     }
 }

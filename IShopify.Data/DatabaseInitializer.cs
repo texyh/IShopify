@@ -24,6 +24,7 @@ namespace IShopify.Data
         private readonly Assembly excutionAssembly = Assembly.GetExecutingAssembly();
 
         private readonly ITemplateLoader _templateLoader;
+
         public DatabaseInitializer(
             IShopifyDbContext dbContext,
             ITemplateLoader templateLoader)
@@ -58,7 +59,6 @@ namespace IShopify.Data
 
                 await _dbContext.SaveChangesAsync();
             }
-
         }
 
         private async Task AddCategoryAsync()

@@ -7,7 +7,7 @@ namespace IShopify.Core.Exceptions
     [Serializable]
     public class InvalidPermissionException : AppException
     {
-        public InvalidPermissionException(string message) : base(message, message)
+        public InvalidPermissionException(string message) : base(message)
         {
 
         }

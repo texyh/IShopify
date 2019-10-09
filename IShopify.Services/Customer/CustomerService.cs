@@ -63,7 +63,7 @@ namespace IShopify.DomainServices
             var customerId = _userContext.UserId;
             var entity = new CustomerEntity { Id = customerId, CreditCard = creditCard };
 
-            await _customerRepository.UpdateSingleField(entity, x => x.CreditCard);
+            await _customerRepository.UpdateFieldsAsync(entity, nameof(entity.CreditCard));
         }
     }
 }

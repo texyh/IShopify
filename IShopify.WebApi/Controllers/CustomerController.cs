@@ -26,7 +26,6 @@ namespace IShopify.WebApi.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService _customerService;
-        private readonly IAccountService _accountService;
 
         /// <summary>
         ///  constructor for customer controller
@@ -37,7 +36,6 @@ namespace IShopify.WebApi.Controllers
             IAccountService accountService)
         {
             _customerService = customerService;
-            _accountService = accountService;
         }
 
         /// <summary>
@@ -81,42 +79,6 @@ namespace IShopify.WebApi.Controllers
         public async Task UpdateCustomerCreditCard(string creditCard)
         {
             await _customerService.UpdateCustomerCreditCardAsync(creditCard);
-        }
-
-        /// <summary>
-        /// Endpoint for registering a customer
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        [HttpPost("register")]
-        [AllowAnonymous]
-        public async Task<AuthenticationResponse> RegisterCustomerAsync([FromBody]CustomerRegistrationViewModel model)
-        {
-            return  await _accountService.RegisterCustomerAsync(model);
-        }
-
-        /// <summary>
-        /// Endpoint for logging In
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        [HttpPost("login")]
-        [AllowAnonymous]
-        public async Task<AuthenticationResponse> Login([FromBody] CustomerLoginViewModel model)
-        {
-            return await _accountService.LoginCustomerAsync(model);
-        }
-
-        /// <summary>
-        /// Endpoint for logging in with facebook
-        /// </summary>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        [HttpPost("facebook")]
-        [AllowAnonymous]
-        public Task<AuthenticationResponse> LoginByFaceBook(string token)
-        {
-            throw new NotImplementedException(); // TODO implement
         }
     }
 }

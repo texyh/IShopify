@@ -14,6 +14,6 @@ namespace IShopify.Core.Data
         
         Task UpdateAsync(TEntity entity);
 
-        Task UpdateSingleField(TEntity entity, Expression<Func<TEntity, object>> expression);
+        Task UpdateFieldsAsync(TEntity entity, params string[] fields);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using IShopify.Data.Bootstrap;
 using IShopify.DomainServices.Bootstrap;
 using IShopify.Framework.Bootstrap;
 using IShopify.WebApiServices.Bootstrap;
@@ -23,7 +24,8 @@ namespace IShopify.WebApi.Bootstrap
             services.AddAutoMapper(
                 typeof(DomainServicesMapperProfile), 
                 typeof(ApiServiceMapperProfile),
-                typeof(FrameworkMapperProfile));
+                typeof(FrameworkMapperProfile), 
+                typeof(DataMapperProfile));
         }
     }
 }

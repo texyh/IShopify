@@ -1,4 +1,5 @@
-﻿using IShopify.Core;
+﻿using AutoMapper;
+using IShopify.Core;
 using IShopify.Core.Common.Models;
 using IShopify.Core.Data;
 using IShopify.Core.Helpers;
@@ -15,12 +16,16 @@ namespace IShopify.Data.Repositories
     internal class ProductRepository : DataRepository<ProductEntity>, IProductRepository
     {
         private readonly IShopifyDbContext _dbContext;
-        public ProductRepository(IShopifyDbContext dbContext) : base(dbContext)
+        private readonly IMapper _mapper;
+        public ProductRepository(
+            IShopifyDbContext dbContext,
+            IMapper mapper) : base(dbContext, mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
-        public async Task<IList<ProductEntity>> GetProductInCategory(int categoryId, PagedQuery query)
+        public async Task<IList<ProductEntity>> GetProductInCategoryAsync(int categoryId, PagedQuery query)
         {
             ArgumentGuard.NotNull(query, nameof(query));
 
@@ -33,7 +38,7 @@ namespace IShopify.Data.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IList<ProductEntity>> GetProductInDepartment(int departmentId, PagedQuery query)
+        public async Task<IList<ProductEntity>> GetProductInDepartmentAsync(int departmentId, PagedQuery query)
         {
             ArgumentGuard.NotNull(query, nameof(query));
             ArgumentGuard.NotDefault(departmentId, nameof(departmentId));
@@ -53,7 +58,7 @@ namespace IShopify.Data.Repositories
                 
         }
 
-        public async Task<CategoryEntity> GetProductLocation(int id)
+        public async Task<CategoryEntity> GetProductLocationAsync(int id)
         {
             ArgumentGuard.NotDefault(id, nameof(id));
 
@@ -65,7 +70,7 @@ namespace IShopify.Data.Repositories
                 .FirstAsync();
         }
 
-        public async Task<IList<ReviewEntity>> GetProductReviews(int id)
+        public async Task<IList<ReviewEntity>> GetProductReviewsAsync(int id)
         {
             ArgumentGuard.NotDefault(id, nameof(id));
 
@@ -84,7 +89,7 @@ namespace IShopify.Data.Repositories
             return reviews;
         }
 
-        public Task ReviewProduct(ReviewEntity review)
+        public Task ReviewProductAsync(ReviewEntity review)
         {
             ArgumentGuard.NotNull(review, nameof(review)); // TODO move into dataRepository
 
@@ -93,7 +98,7 @@ namespace IShopify.Data.Repositories
             return _dbContext.SaveChangesAsync();
         }
 
-        public async Task<IList<ProductEntity>> Search(ProductQueryModel searchQuery)
+        public async Task<IList<ProductEntity>> SearchAsync(ProductQueryModel searchQuery)
         {
             ArgumentGuard.NotNull(searchQuery, nameof(searchQuery));
 
@@ -110,6 +115,17 @@ namespace IShopify.Data.Repositories
             }
 
             return await query.ToListAsync();
+        }
+
+        public void Dispose()
+        {
+            if(_dbContext.IsNull())
+            {
+                return;
+            }
+
+            _dbContext.Dispose();
+            GC.SuppressFinalize(this);
         }
     }
 }
