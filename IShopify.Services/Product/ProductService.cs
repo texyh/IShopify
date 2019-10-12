@@ -150,10 +150,7 @@ namespace IShopify.DomainServices.Products
             await _validatorFactory.ValidateAsync(product);
 
             var entity = _mapper.Map<models.Product, ProductEntity>(product);
-
-            var b = new ProductEntity();
-            _mapper.Map(entity, b);
-
+            
             await _productRepository.UpdateFieldsAsync(entity, updatedFields);
         }
 

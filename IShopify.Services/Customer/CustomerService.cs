@@ -17,15 +17,19 @@ namespace IShopify.DomainServices
         private readonly ICustomerRepository _customerRepository;
         private readonly IUserContext _userContext;
         private readonly IMapper _mapper;
+        private readonly ICustomerLookupService _customerLookUpService;
+
 
         public CustomerService(
-            ICustomerRepository customerRepository, 
+            ICustomerRepository customerRepository,
             IUserContext userContext,
-            IMapper mapper)
+            IMapper mapper,
+            ICustomerLookupService customerLookupService)
         {
             _customerRepository = customerRepository;
             _userContext = userContext;
             _mapper = mapper;
+            _customerLookUpService = customerLookupService;
         }
 
         public async Task<Models.Customer> GetAsync()

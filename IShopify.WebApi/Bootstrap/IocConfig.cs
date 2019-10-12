@@ -38,8 +38,9 @@ namespace IShopify.WebApi.Bootstrap
 
             services.AddStackExchangeRedisCache(options =>
             {
-                options.Configuration = AppSettingsProvider.Current.RedisUrl;
-                options.InstanceName = "IShopifyInstance";
+                options.Configuration = AppSettingsProvider.Current.RedisSettings.Host;
+                options.InstanceName = AppSettingsProvider.Current.RedisSettings.Instance;
+                options.ConfigurationOptions = AppSettingsProvider.Current.RedisSettings.Options;
             });
 
             services.AddScoped<IUserContext, WebUserContext>();

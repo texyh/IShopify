@@ -54,6 +54,7 @@ namespace IShopify.Data
             {
                 var productString = await GetFileContentAsync(ProductFile);
                 var products = productString.FromJson<IList<ProductEntity>>();
+                products.ForEach(x => x.Id = 0);
 
                 await _dbContext.Products.AddRangeAsync(products);
 
@@ -67,6 +68,7 @@ namespace IShopify.Data
             {
                 var categoryString = await GetFileContentAsync(CategoryFile);
                 var categories = categoryString.FromJson<IList<CategoryEntity>>();
+                categories.ForEach(x => x.Id =0);
 
                 await _dbContext.Categories.AddRangeAsync(categories);
 
@@ -80,6 +82,7 @@ namespace IShopify.Data
             {
                 var departmentString = await GetFileContentAsync(DepartmenttFile);
                 var departments = departmentString.FromJson<IList<DepartmentEntity>>();
+                departments.ForEach(x => x.Id = 0);
 
                 await _dbContext.Departments.AddRangeAsync(departments);
 

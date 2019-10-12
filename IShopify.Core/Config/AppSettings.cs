@@ -26,11 +26,11 @@ namespace IShopify.Core.Config
 
         public bool SendErrorDetails  => GetValue("SendErrorDetails", "false").ToBool();
 
-        public string LoggingDB => GetDbUrl("LoggingDB");
+        public string LoggingDB => IshopifyDB;
 
         public string IshopifyDB => GetDbUrl("IshopifyDB");
 
-        public string RedisUrl => GetValue("RedisUrl");
+        public RedisSettings RedisSettings => GetRedisSettings("RedisUrl");
 
         public LogTarget LogTarget => (LogTarget)Convert.ToInt32(GetValue("LogTarget"));
 
@@ -42,7 +42,6 @@ namespace IShopify.Core.Config
         private string GetDbUrl(string dbkey)
         {
             var url = GetValue(dbkey);
-            var isProduction = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production";
 
             if(isProduction)
             {
@@ -72,7 +71,41 @@ namespace IShopify.Core.Config
                 return builder.ToString();
             }
 
-            throw new InvalidOperationException("This is not a valid postgres url");
+            throw new InvalidOperationException("This is not a valid production postgres url");
         }
+
+        private RedisSettings GetRedisSettings(string key) 
+        {
+            var url = GetValue(key);
+
+            if(isProduction) 
+            {
+                var isUrl = Uri.TryCreate(url, UriKind.Absolute, out var parsedUrl);
+
+                if(isUrl) 
+                {
+                    var userInfo = parsedUrl.UserInfo.Split(':');
+                    var configOptions = new StackExchange.Redis.ConfigurationOptions
+                    {
+                        ClientName = userInfo[0],
+                        Password = userInfo[1],
+                    };
+
+                    configOptions.EndPoints.Add($"{parsedUrl.Host}:{parsedUrl.Port}");
+
+                    return new RedisSettings 
+                    {
+                        Options = configOptions
+                    };
+                }
+            }
+
+            return new RedisSettings 
+            {
+                Host = url
+            };
+        }
+
+        private bool isProduction => Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production";
     }
 }

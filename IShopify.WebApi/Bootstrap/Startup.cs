@@ -126,8 +126,8 @@ namespace IShopify.WebApi
 
 
             var dbInitizer = serviceProvider.GetRequiredService<DatabaseInitializer>();
-            dbInitizer
-                .initialize();
+            dbInitizer.initialize();
+            dbInitizer.SeedAsync().ConfigureAwait(false);
                 //.SeedAsync().ConfigureAwait(false);
             _logger.Info("Seeded Database");
 
