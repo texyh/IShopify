@@ -1,4 +1,5 @@
 ﻿using IShopify.Core.Common;
+using IShopify.Core.Customer.Models;
 using IShopify.Core.Helpers;
 using IShopify.Core.Products.Models;
 using Microsoft.EntityFrameworkCore;
@@ -46,6 +47,24 @@ namespace IShopify.Data
             await AddProductAsync();
             await AddDeparmentAsync();
             await AddCategoryAsync();
+            await AddCustomersAsync();
+        }
+    
+        private async Task AddCustomersAsync() 
+        {
+            if(!await _dbContext.Customers.AnyAsync()) 
+            {
+                var customer = new CustomerEntity 
+                {
+                    Name = "Emeka",
+                    Email = "emeka@example.com",
+                    Password = "86e814aaba9f81d764c63e2e02233b55234dacc862637bafd6c549928770c448"
+                };
+
+                 _dbContext.Customers.Add(customer);
+
+                await _dbContext.SaveChangesAsync();
+            }
         }
 
         private async Task AddProductAsync()
@@ -56,7 +75,7 @@ namespace IShopify.Data
                 var products = productString.FromJson<IList<ProductEntity>>();
                 products.ForEach(x => x.Id = 0);
 
-                await _dbContext.Products.AddRangeAsync(products);
+                _dbContext.Products.AddRange(products);
 
                 await _dbContext.SaveChangesAsync();
             }
@@ -70,7 +89,7 @@ namespace IShopify.Data
                 var categories = categoryString.FromJson<IList<CategoryEntity>>();
                 categories.ForEach(x => x.Id =0);
 
-                await _dbContext.Categories.AddRangeAsync(categories);
+                 _dbContext.Categories.AddRange(categories);
 
                 await _dbContext.SaveChangesAsync();
             }
@@ -84,7 +103,7 @@ namespace IShopify.Data
                 var departments = departmentString.FromJson<IList<DepartmentEntity>>();
                 departments.ForEach(x => x.Id = 0);
 
-                await _dbContext.Departments.AddRangeAsync(departments);
+                _dbContext.Departments.AddRange(departments);
 
                 await _dbContext.SaveChangesAsync();
             }
