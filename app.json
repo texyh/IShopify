@@ -1,0 +1,43 @@
+{
+  "addons": [
+    "heroku-postgresql",
+    "heroku-redis"
+  ],
+  "buildpacks": [
+    {
+      "url": "https://github.com/jincod/dotnetcore-buildpack#v3.0.100"
+    }
+  ],
+  "env": {
+    "AppName": {
+      "required": true
+    },
+    "ASPNETCORE_ENVIRONMENT": {
+      "required": true
+    },
+    "BaseUrl": {
+      "required": true
+    },
+    "LogTarget": {
+      "required": true
+    },
+    "Salt": {
+      "required": true
+    },
+    "SendErrorDetails": {
+      "required": true
+    },
+    "TokenKey": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "name": "IShopify",
+  "scripts": {
+  },
+  "stack": "heroku-18"
+}
