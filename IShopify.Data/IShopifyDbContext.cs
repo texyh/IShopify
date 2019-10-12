@@ -23,6 +23,8 @@ namespace IShopify.Data
 
         public DbSet<ReviewEntity> Reviews { get; set; }
 
+        public DbSet<CustomerEntity> Customers {get; set;}
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -54,7 +56,6 @@ namespace IShopify.Data
             var customerBuilder = builder.Entity<CustomerEntity>().ToTable("Customers");
             customerBuilder.Property(x => x.Id).ValueGeneratedOnAdd();
             customerBuilder.HasMany(x => x.Reviews).WithOne(x => x.Customer).HasForeignKey(x => x.CustomerId);
-
         }
     }
 }
