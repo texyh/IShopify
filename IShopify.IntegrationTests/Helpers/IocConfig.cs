@@ -57,7 +57,6 @@ namespace IShopify.IntegrationTests.Helpers
 
         private static DbContextOptions<IShopifyDbContext> GetDbOptions()
         {
-            Console.Write("================================================ " + AppSettingsProvider.Current.IshopifyDB);
             var builder = new DbContextOptionsBuilder<IShopifyDbContext>();
             builder.UseNpgsql(AppSettingsProvider.Current.IshopifyDB);
 
