@@ -34,11 +34,11 @@ namespace IShopify.Data
         }
 
 
-        public DatabaseInitializer initialize()
+        public void initialize()
         {
             _dbContext.Database.Migrate();
 
-            return this;
+            //return this;
         }
 
         public async Task SeedAsync()
