@@ -19,6 +19,8 @@ namespace IShopify.IntegrationTests
         public ProductRepositoryTests()
         {
             _container = IocConfig.Register();
+            var db = _container.Resolve<IShopifyDbContext>();
+            db.Database.Migrate();
         }
 
         [Fact]

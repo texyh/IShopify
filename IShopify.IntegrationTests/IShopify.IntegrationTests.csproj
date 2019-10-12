@@ -21,6 +21,7 @@
     <ProjectReference Include="..\IShopify.Common\IShopify.Common.csproj" />
     <ProjectReference Include="..\IShopify.Data\IShopify.Data.csproj" />
     <ProjectReference Include="..\IShopify.Services\IShopify.DomainServices.csproj" />
+    <ProjectReference Include="..\IShopify.WebApi\IShopify.WebApi.csproj" />
   </ItemGroup>
 
 </Project>

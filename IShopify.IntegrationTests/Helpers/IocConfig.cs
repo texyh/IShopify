@@ -11,6 +11,8 @@ using IShopify.Core.Helpers;
 using IShopify.Common;
 using IShopify.DomainServices.Bootstrap;
 using AutoMapper;
+using IShopify.WebApi;
+using System.Reflection;
 
 namespace IShopify.IntegrationTests.Helpers
 {
@@ -57,8 +59,10 @@ namespace IShopify.IntegrationTests.Helpers
 
         private static DbContextOptions<IShopifyDbContext> GetDbOptions()
         {
+            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
             var builder = new DbContextOptionsBuilder<IShopifyDbContext>();
-            builder.UseNpgsql(AppSettingsProvider.Current.IshopifyDB);
+
+            builder.UseNpgsql(AppSettingsProvider.Current.IshopifyDB, x => x.MigrationsAssembly(migrationsAssembly));
 
             return builder.Options;
         }
