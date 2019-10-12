@@ -15,9 +15,12 @@ namespace IShopify.DomainServices.Bootstrap
     {
         public DomainServicesMapperProfile()
         {
-            CreateMap<ProductEntity, productModels.Product>();
+            CreateMap<ProductEntity, productModels.Product>().ReverseMap();
+
             CreateMap<CategoryEntity, Category>();
+
             CreateMap<DepartmentEntity, Department>();
+
             CreateMap<ReviewEntity, Review>()
                 .ForMember(x => x.Name, y => y.MapFrom(x => x.Customer.Name));
 
@@ -28,6 +31,8 @@ namespace IShopify.DomainServices.Bootstrap
                 .ForAllMembers(x => x.Condition(y => !y.IsNull()));
 
             CreateMap<CustomerEntity, models.Customer>();
+
+            CreateMap<productModels.Product, SaveProductModel>().ReverseMap();
         }
     }
 }

@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 
 namespace IShopify.Core.Data
 {
-    public interface IProductRepository : IDataRepository<ProductEntity>
+    public interface IProductRepository : IDataRepository<ProductEntity>, IDisposable
     {
-        Task<IList<ProductEntity>> Search(ProductQueryModel searchQuery);
+        Task<IList<ProductEntity>> SearchAsync(ProductQueryModel searchQuery);
 
-        Task<IList<ProductEntity>> GetProductInCategory(int categoryId, PagedQuery query);
+        Task<IList<ProductEntity>> GetProductInCategoryAsync(int categoryId, PagedQuery query);
 
-        Task<IList<ProductEntity>> GetProductInDepartment(int departmentId, PagedQuery query);
+        Task<IList<ProductEntity>> GetProductInDepartmentAsync(int departmentId, PagedQuery query);
 
-        Task<CategoryEntity> GetProductLocation(int id);
+        Task<CategoryEntity> GetProductLocationAsync(int id);
 
-        Task<IList<ReviewEntity>> GetProductReviews(int id);
+        Task<IList<ReviewEntity>> GetProductReviewsAsync(int id);
 
-        Task ReviewProduct(ReviewEntity review);
+        Task ReviewProductAsync(ReviewEntity review);
 
     }
 }

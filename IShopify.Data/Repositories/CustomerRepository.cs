@@ -1,4 +1,5 @@
-﻿using IShopify.Core.Customer;
+﻿using AutoMapper;
+using IShopify.Core.Customer;
 using IShopify.Core.Customer.Models;
 using IShopify.Core.Data;
 using System;
@@ -10,8 +11,7 @@ namespace IShopify.Data.Repositories
     internal class CustomerRepository : DataRepository<CustomerEntity>, ICustomerRepository
     {
         private readonly IShopifyDbContext _dbContext;
-        
-        public CustomerRepository(IShopifyDbContext dbContext) : base(dbContext)
+        public CustomerRepository(IShopifyDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
             _dbContext = dbContext;
         }

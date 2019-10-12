@@ -9,7 +9,7 @@ namespace IShopify.Core.Products
 {
     public interface IProductService
     {
-        Task<Product> Get(int id);
+        Task<Product> GetAsync(int id);
 
         Task<IList<Product>> SearchAsync(ProductQueryModel query);
 
@@ -21,7 +21,11 @@ namespace IShopify.Core.Products
 
         Task<IList<Review>> GetProductReviewsAsync(int id);
 
-        Task ReviewProduct(int id, string review, int rating);
+        Task ReviewProductAsync(int id, string review, int rating);
+
+        Task<int> AddProductAsync(SaveProductModel model);
+
+        Task UpdateProductAsync(int id, SaveProductModel model);
 
     }
 }

@@ -1,0 +1,29 @@
+version: 2.0
+
+jobs:
+  build:
+    docker:
+      - image: jetcipher/circleci-dotnet-core:3.0
+    steps:
+      - checkout
+      - run:
+          name: Restore
+          command: dotnet restore
+          working_directory: IShopify.WebApi
+      - run:
+          name: Build
+          command: dotnet build -c Release
+          working_directory: IShopify.WebApi
+      - run:
+          name: Running Tests
+          command: dotnet test
+          working_directory: IShopify.IntegrationTests
+      # - setup_remote_docker:
+      #     docker_layer_caching: true
+      # - run:
+      #     name: Build and push Docker image
+      #     command: |
+      #       docker build -t MyProject .
+      #       echo $DOCKER_PWD | docker login -u $DOCKER_LOGIN --password-stdin
+      #       docker tag boku herocod3r/MyProject
+      #       docker push herocod3r/MyProject
