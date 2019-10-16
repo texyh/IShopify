@@ -30,6 +30,9 @@
     },
     "TokenKey": {
       "required": true
+    },
+    "PROJECT_NAME": {
+      "required": true
     }
   },
   "formation": {
