@@ -7,6 +7,7 @@ using IShopify.Core.Security;
 using IShopify.Data.Bootstrap;
 using IShopify.DomainServices.Bootstrap;
 using IShopify.Framework.Bootstrap;
+using IShopify.ServiceBus.Bootstrap;
 using IShopify.WebApiServices.Bootstrap;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -34,6 +35,7 @@ namespace IShopify.WebApi.Bootstrap
             containerBuilder.RegisterModule<DataAutofacModule>();
             containerBuilder.RegisterModule<ApiServicesAutofacModule>();
             containerBuilder.RegisterModule<FrameworkAutoFacModule>();
+            containerBuilder.RegisterModule<ApiServiceBusAutofacModule>();
             containerBuilder.RegisterInstance(new AppSettings(configuration)).AsSelf().SingleInstance();
 
             services.AddStackExchangeRedisCache(options =>

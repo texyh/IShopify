@@ -4,8 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using IShopify.Core;
 using IShopify.Core.Common.Models;
+using IShopify.Core.MessageBus;
 using IShopify.Core.Products;
+using IShopify.Core.Products.Messages;
 using IShopify.Core.Products.Models;
+using IShopify.Core.Security;
 using IShopify.DomainServices.Validation;
 using IShopify.WebApiServices;
 using IShopify.WebApiServices.ViewModels;
@@ -25,18 +28,26 @@ namespace IShopify.WebApi.Controllers
     {
         private readonly IProductService _productService;
         private readonly IProductComposerService _productComposerService;
+        private readonly IMessageBus _bus;
+        private readonly IUserContext _userContext;
 
         /// <summary>
         /// Constructor for ProductController
         /// </summary>
         /// <param name="productService"></param>
         /// <param name="productComposerService"></param>
+        /// <param name="messageBus"></param>
+        /// <param name="userContext"></param>
         public ProductController(
             IProductService productService,
-            IProductComposerService productComposerService)
+            IProductComposerService productComposerService,
+            IMessageBus messageBus,
+            IUserContext userContext)
         {
             _productService = productService;
             _productComposerService = productComposerService;
+            _bus = messageBus;
+            _userContext = userContext;
         }
 
         /// <summary>
@@ -121,7 +132,10 @@ namespace IShopify.WebApi.Controllers
         [HttpPost]
         public async Task<int> AddProduct([FromBody] SaveProductModel product)
         {
-            return await _productService.AddProductAsync(product);
+            var id =  await _productService.AddProductAsync(product);
+            await _bus.PublishAsync(new ProductCreateCommand(_userContext.UserId, id));
+
+            return id;
         }
 
         /// <summary>

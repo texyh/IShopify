@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.4" />
+    <PackageReference Include="MassTransit.Autofac" Version="5.5.5" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="5.5.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IShopify.Core\IShopify.Core.csproj" />
+  </ItemGroup>
+
+</Project>
