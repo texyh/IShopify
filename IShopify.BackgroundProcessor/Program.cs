@@ -31,7 +31,7 @@ namespace IShopify.BackgroundProcessor
             containerBuilder.RegisterModule<DataAutofacModule>();
             containerBuilder.RegisterModule<DomainServicesAutoFacModule>();
 
-            DotEnv.Config();
+            DotEnv.Config(throwOnError: false);
 
             var appSettings = new AppSettings(configuration);
 
