@@ -30,6 +30,12 @@
     },
     "TokenKey": {
       "required": true
+    },
+    "PROJECT_NAME": {
+      "required": true
+    },
+    "PROJECT_FILE" : {
+      "required":true
     }
   },
   "formation": {
