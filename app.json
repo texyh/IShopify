@@ -1,7 +1,8 @@
 {
   "addons": [
     "heroku-postgresql",
-    "heroku-redis"
+    "heroku-redis",
+    "cloudamqp"
   ],
   "buildpacks": [
     {
@@ -29,6 +30,12 @@
     },
     "TokenKey": {
       "required": true
+    },
+    "PROJECT_NAME": {
+      "required": true
+    },
+    "PROJECT_FILE" : {
+      "required":true
     }
   },
   "formation": {

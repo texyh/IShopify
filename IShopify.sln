@@ -27,7 +27,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IShopify.Framework", "IShop
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IShopify.Common", "IShopify.Common\IShopify.Common.csproj", "{D9A15079-823D-4D55-8B8C-8BDF6655691F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IShopify.IntegrationTests", "IShopify.IntegrationTests\IShopify.IntegrationTests.csproj", "{CAEC5A85-43AE-478B-A9C3-958876B5DF6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IShopify.IntegrationTests", "IShopify.IntegrationTests\IShopify.IntegrationTests.csproj", "{CAEC5A85-43AE-478B-A9C3-958876B5DF6A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IShopify.ServiceBus", "IShopify.ServiceBus\IShopify.ServiceBus.csproj", "{E047FE20-F46F-426D-B529-1BF3821A4DD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IShopify.BackgroundProcessor", "IShopify.BackgroundProcessor\IShopify.BackgroundProcessor.csproj", "{D4D842D4-104D-44A3-940D-70FB8E8C21C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +71,14 @@ Global
 		{CAEC5A85-43AE-478B-A9C3-958876B5DF6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAEC5A85-43AE-478B-A9C3-958876B5DF6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAEC5A85-43AE-478B-A9C3-958876B5DF6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E047FE20-F46F-426D-B529-1BF3821A4DD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E047FE20-F46F-426D-B529-1BF3821A4DD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E047FE20-F46F-426D-B529-1BF3821A4DD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E047FE20-F46F-426D-B529-1BF3821A4DD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4D842D4-104D-44A3-940D-70FB8E8C21C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4D842D4-104D-44A3-940D-70FB8E8C21C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4D842D4-104D-44A3-940D-70FB8E8C21C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4D842D4-104D-44A3-940D-70FB8E8C21C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,6 +92,8 @@ Global
 		{D4A0B1B0-6EFC-4F75-94C7-BBE2F16BBF0B} = {9BBDE4C9-7781-4191-926E-73A27E5744DD}
 		{D9A15079-823D-4D55-8B8C-8BDF6655691F} = {53B3A6C9-CA11-4E5A-8A70-3C333FF698FC}
 		{CAEC5A85-43AE-478B-A9C3-958876B5DF6A} = {3D7E935D-6A5C-45D8-AA8C-3E118C8F2559}
+		{E047FE20-F46F-426D-B529-1BF3821A4DD2} = {53B3A6C9-CA11-4E5A-8A70-3C333FF698FC}
+		{D4D842D4-104D-44A3-940D-70FB8E8C21C6} = {DB15EF6A-6F59-4D85-84C3-7AACC3C74174}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E853DF51-11E9-492D-8E3C-EE667F9E6452}

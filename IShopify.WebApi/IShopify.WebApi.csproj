@@ -49,9 +49,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IShopify.BackgroundProcessor\IShopify.BackgroundProcessor.csproj" />
     <ProjectReference Include="..\IShopify.Common\IShopify.Common.csproj" />
     <ProjectReference Include="..\IShopify.Data\IShopify.Data.csproj" />
     <ProjectReference Include="..\IShopify.Framework\IShopify.Framework.csproj" />
+    <ProjectReference Include="..\IShopify.ServiceBus\IShopify.ServiceBus.csproj" />
     <ProjectReference Include="..\IShopify.Services\IShopify.DomainServices.csproj" />
     <ProjectReference Include="..\IShopify.WebApiServices\IShopify.WebApiServices.csproj" />
   </ItemGroup>

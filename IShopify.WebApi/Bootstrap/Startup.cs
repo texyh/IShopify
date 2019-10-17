@@ -131,25 +131,32 @@ namespace IShopify.WebApi
                 //.SeedAsync().ConfigureAwait(false);
             _logger.Info("Seeded Database");
 
+
+            serviceProvider
+                .StartServiceBusAsync(_logger)
+                .ConfigureAwait(false);
+            _logger.Info("Configured ServiceBus");
+
         }
 
         private void SetupAppConfiguration(IWebHostEnvironment env, IConfiguration configuration, IServiceCollection services)
         {
-                var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-                configuration = builder.Build();
+            var builder = new ConfigurationBuilder()
+            .SetBasePath(env.ContentRootPath)
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+            configuration = builder.Build();
                 
-                var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
-                var envFile = Environment.EnvironmentName == "Development" ? ".env" : "test.env";
-                services.AddEnv(x =>
-                {
-                    x.AddEncoding(Encoding.Default)
-                    .AddEnvFile(Path.GetFullPath(envFile))
-                    .AddThrowOnError(false);
-                });
+            var envFile = Environment.EnvironmentName == "Development" ? ".env" : "test.env";
+            var path = Path.GetFullPath(envFile);
+            services.AddEnv(x =>
+            {
+                x.AddEncoding(Encoding.Default)
+                .AddEnvFile(Path.GetFullPath(envFile))
+                .AddThrowOnError(false);
+            });
         }
     }
 }

@@ -32,6 +32,8 @@ namespace IShopify.Core.Config
 
         public RedisSettings RedisSettings => GetRedisSettings("REDIS_URL");
 
+        public QueueSettings QueueSettings => GetQueueSettings("CLOUDAMQP_URL");
+
         public LogTarget LogTarget => (LogTarget)Convert.ToInt32(GetValue("LogTarget"));
 
         public string GetValue(string key, string defaultValue = null)
@@ -106,6 +108,40 @@ namespace IShopify.Core.Config
             };
         }
 
-        private bool isProduction => Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production";
+        private QueueSettings GetQueueSettings(string key)
+        {
+            if(isProduction)
+            {
+                var value = GetValue(key);
+                var isValidUrl = Uri.TryCreate(value, UriKind.Absolute, out var url);
+
+                if(isValidUrl)
+                {
+                    var userInfo = url.UserInfo.Split(':');
+                    var queueSettings = new QueueSettings
+                    {
+                        Url = $"rabbitmq://{url.Host}/{userInfo[0]}",
+                        QueueNamePrefix = "prod_ishopify_",
+                        PrefetchCount = 100,
+                        Password = userInfo[1],
+                        UserName = userInfo[0]
+                    };
+
+                    return queueSettings;
+                }
+                
+            }
+
+            return new QueueSettings
+            {
+                Url = "rabbitmq://localhost",
+                UserName = "guest",
+                Password = "guest",
+                QueueNamePrefix = "prod_ishopify_",
+                PrefetchCount = 100
+            };
+        }
+
+        public static bool isProduction => Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production";
     }
 }
