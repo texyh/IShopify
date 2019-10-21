@@ -39,7 +39,6 @@ namespace IShopify.Framework.Logging
 
         private IDictionary<string, ColumnWriterBase> ColumnWriters => new Dictionary<string, ColumnWriterBase>
         {
-            { "Message", new RenderedMessageColumnWriter(NpgsqlDbType.Text) },
             { "MessageTemplate", new MessageTemplateColumnWriter(NpgsqlDbType.Text) },
             { "Level", new LevelColumnWriter(true, NpgsqlDbType.Varchar) },
             { "TimeStamp", new TimestampColumnWriter(NpgsqlDbType.TimestampTz) },
