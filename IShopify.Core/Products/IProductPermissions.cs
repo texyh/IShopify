@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace IShopify.Core.Products.Models
+namespace IShopify.Core.Products
 {
     public interface IProductPermissions
     {

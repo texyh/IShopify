@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using IShopify.Core;
+using IShopify.Core.Categories.Models;
 using IShopify.Core.Common;
 using IShopify.Core.Common.Models;
 using IShopify.Core.Data;

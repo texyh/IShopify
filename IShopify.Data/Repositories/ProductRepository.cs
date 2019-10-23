@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using IShopify.Core;
+using IShopify.Core.Categories.Models;
 using IShopify.Core.Common.Models;
 using IShopify.Core.Data;
 using IShopify.Core.Helpers;
@@ -16,6 +17,7 @@ namespace IShopify.Data.Repositories
     internal class ProductRepository : DataRepository<ProductEntity>, IProductRepository
     {
         private readonly IShopifyDbContext _dbContext;
+
         private readonly IMapper _mapper;
         public ProductRepository(
             IShopifyDbContext dbContext,
@@ -55,7 +57,6 @@ namespace IShopify.Data.Repositories
                 .Include(x => x.Product)
                 .Select(x => x.Product)
                 .ToListAsync();
-                
         }
 
         public async Task<CategoryEntity> GetProductLocationAsync(int id)
@@ -93,7 +94,7 @@ namespace IShopify.Data.Repositories
         {
             ArgumentGuard.NotNull(review, nameof(review)); // TODO move into dataRepository
 
-            _dbContext.Add(review);
+            _dbContext.Reviews.Add(review); // TODO add this to the right dbset "Reveiws"
 
             return _dbContext.SaveChangesAsync();
         }

@@ -2,7 +2,10 @@
 using IShopify.Core.Customer;
 using IShopify.Core.Customer.Models;
 using IShopify.Core.Products.Models;
+using IShopify.Core.Categories.Models;
 using Microsoft.EntityFrameworkCore;
+using IShopify.Core.Departments;
+using IShopify.Core.Attributes.Models;
 
 namespace IShopify.Data
 {
@@ -23,6 +26,9 @@ namespace IShopify.Data
 
         public DbSet<ReviewEntity> Reviews { get; set; }
 
+        public DbSet<AttributeEntity> Attributes { get; set; }
+
+        public DbSet<AttributeValueEntity> AttributeValues { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -54,6 +60,15 @@ namespace IShopify.Data
             var customerBuilder = builder.Entity<CustomerEntity>().ToTable("Customers");
             customerBuilder.Property(x => x.Id).ValueGeneratedOnAdd();
             customerBuilder.HasMany(x => x.Reviews).WithOne(x => x.Customer).HasForeignKey(x => x.CustomerId);
+
+            var attributeBuilder = builder.Entity<AttributeEntity>().ToTable("Attributes");
+            attributeBuilder.Property(x => x.Id).ValueGeneratedOnAdd();
+            attributeBuilder.HasMany(x => x.Values).WithOne(x => x.AttributeEntity).HasForeignKey(x => x.AttributeId);
+
+
+            var attrivaluesBuilder = builder.Entity<AttributeValueEntity>().ToTable("AttributeValues");
+            attrivaluesBuilder.Property(x => x.Id).ValueGeneratedOnAdd();
+            attrivaluesBuilder.HasOne(x => x.AttributeEntity).WithMany(x => x.Values).HasForeignKey(x => x.AttributeId);
 
         }
     }

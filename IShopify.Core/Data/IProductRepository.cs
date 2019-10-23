@@ -1,4 +1,5 @@
-﻿using IShopify.Core.Common.Models;
+﻿using IShopify.Core.Categories.Models;
+using IShopify.Core.Common.Models;
 using IShopify.Core.Products.Models;
 using System;
 using System.Collections.Generic;

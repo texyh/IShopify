@@ -64,7 +64,7 @@ namespace IShopify.DomainServices.Customer
             }
 
             var userIdsNotCached = Ids.Where(id => !cachedUsers.Any(user => user.Id == id));
-            var customerEntities = await _customerRepository.FindAllAsync(userIdsNotCached);
+            var customerEntities = await _customerRepository.FindAllInIdsAsync(userIdsNotCached);
             var customers = _mapper.Map<IList<Models.Customer>>(customerEntities);
 
             foreach (var user in customers)

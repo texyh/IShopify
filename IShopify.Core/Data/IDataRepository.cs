@@ -15,5 +15,7 @@ namespace IShopify.Core.Data
         Task UpdateAsync(TEntity entity);
 
         Task UpdateFieldsAsync(TEntity entity, params string[] fields);
+
+        Task DeleteAsync(TEntity entity);
     }
 }

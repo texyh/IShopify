@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace IShopify.Core.Products.Models
+namespace IShopify.Core.Attributes.Models
 {
     public class AttributeValueEntity
     {
@@ -11,5 +11,7 @@ namespace IShopify.Core.Products.Models
         public int AttributeId { get; set; }
 
         public string Value { get; set; }
+
+        public virtual AttributeEntity AttributeEntity { get; set; }
     }
 }

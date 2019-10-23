@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace IShopify.Core.Products.Models
+namespace IShopify.Core.Departments.Models
 {
-    public class Department
+    public class SaveDepartmentModel
     {
-        public int Id { get; set; }
-
         public string Name { get; set; }
 
         public string Description { get; set; }

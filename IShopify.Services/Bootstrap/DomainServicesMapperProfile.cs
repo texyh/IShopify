@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using IShopify.Core;
+using IShopify.Core.Categories.Models;
 using IShopify.Core.Customer.Models;
+using IShopify.Core.Departments;
+using IShopify.Core.Departments.Models;
 using IShopify.Core.Helpers;
 using IShopify.Core.Products.Models;
 using System;
@@ -33,6 +36,10 @@ namespace IShopify.DomainServices.Bootstrap
             CreateMap<CustomerEntity, models.Customer>();
 
             CreateMap<productModels.Product, SaveProductModel>().ReverseMap();
+
+            CreateMap<DepartmentEntity, Department>().ReverseMap();
+
+            CreateMap<SaveDepartmentModel, Department>();
         }
     }
 }
