@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace IShopify.Data.Repositories
 {
-    internal class ProductRepository : DataRepository<ProductEntity>, IProductRepository
+    internal class ProductRepository : DataRepository<ProductEntity, int>, IProductRepository
     {
         private readonly IShopifyDbContext _dbContext;
 

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace IShopify.Data.Repositories
 {
-    internal class CategoryRepository : DataRepository<CategoryEntity>, ICategoryRepository
+    internal class CategoryRepository : DataRepository<CategoryEntity, int>, ICategoryRepository
     {
         public CategoryRepository(
             IShopifyDbContext dbContext,

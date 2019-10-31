@@ -61,13 +61,5 @@ namespace IShopify.DomainServices
 
             return _mapper.Map<CustomerEntity, Models.Customer>(updatedEntity);
         }
-
-        public async Task UpdateCustomerCreditCardAsync(string creditCard)
-        {
-            var customerId = _userContext.UserId;
-            var entity = new CustomerEntity { Id = customerId, CreditCard = creditCard };
-
-            await _customerRepository.UpdateFieldsAsync(entity, nameof(entity.CreditCard));
-        }
     }
 }

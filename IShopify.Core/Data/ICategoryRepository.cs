@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IShopify.Core.Data
 {
-    public interface ICategoryRepository : IDataRepository<CategoryEntity>
+    public interface ICategoryRepository : IDataRepository<CategoryEntity, int>
     {
         
     }

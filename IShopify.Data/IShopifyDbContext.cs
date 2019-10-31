@@ -6,6 +6,8 @@ using IShopify.Core.Categories.Models;
 using Microsoft.EntityFrameworkCore;
 using IShopify.Core.Departments;
 using IShopify.Core.Attributes.Models;
+using IShopify.Core.Orders.Models.Entity;
+using IShopify.Core.Orders.Models.Entities;
 
 namespace IShopify.Data
 {
@@ -30,6 +32,14 @@ namespace IShopify.Data
 
         public DbSet<AttributeValueEntity> AttributeValues { get; set; }
 
+        public DbSet<ProductAttributeValueEntity> ProductAttributes { get; set; }
+
+        public DbSet<OrderEntity> Orders { get; set; }
+
+        public DbSet<OrderItemEntity> OrderItems { get; set; }
+
+        public DbSet<ShippingAddressEntity> ShippingAddresses { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<ProductEntity>().ToTable("Products").Property(x => x.Id).ValueGeneratedOnAdd();
@@ -45,30 +55,86 @@ namespace IShopify.Data
                 .WithMany(x => x.ProductCategories)
                 .HasForeignKey(x => x.ProductId);
 
+            builder.Entity<ProductAttributeValueEntity>()
+                .HasKey(x => new { x.AttributeValueId, x.ProductId });
+
+            builder.Entity<ProductAttributeValueEntity>()
+                .HasOne(x => x.Product)
+                .WithMany(x => x.ProductAttributeValues)
+                .HasForeignKey(x => x.ProductId);
+
+            builder.Entity<ProductAttributeValueEntity>()
+                .HasOne(x => x.AttributeValue)
+                .WithMany(x => x.ProductAttributeValues)
+                .HasForeignKey(x => x.AttributeValueId);
+
             var categoryBuilder = builder.Entity<CategoryEntity>().ToTable("Categories");
             categoryBuilder.Property(x => x.Id).ValueGeneratedOnAdd();
-            categoryBuilder.HasOne(x => x.Department).WithMany(x => x.Categories).HasForeignKey(x => x.DepartmentId);
+            categoryBuilder.HasOne(x => x.Department)
+                .WithMany(x => x.Categories)
+                .HasForeignKey(x => x.DepartmentId);
 
             var departmentBuilder = builder.Entity<DepartmentEntity>()
                 .ToTable("Departments").Property(x => x.Id).ValueGeneratedOnAdd();
 
             var reviewBuilder = builder.Entity<ReviewEntity>().ToTable("Reviews");
             reviewBuilder.Property(x => x.Id).ValueGeneratedOnAdd();
-            reviewBuilder.HasOne(x => x.Customer).WithMany(x => x.Reviews).HasForeignKey(x => x.CustomerId);
-            reviewBuilder.HasOne(x => x.Product).WithMany(x => x.Reviews).HasForeignKey(x => x.ProductId);
+            reviewBuilder.HasOne(x => x.Customer)
+                .WithMany(x => x.Reviews)
+                .HasForeignKey(x => x.CustomerId);
+            reviewBuilder.HasOne(x => x.Product)
+                .WithMany(x => x.Reviews)
+                .HasForeignKey(x => x.ProductId);
 
             var customerBuilder = builder.Entity<CustomerEntity>().ToTable("Customers");
             customerBuilder.Property(x => x.Id).ValueGeneratedOnAdd();
-            customerBuilder.HasMany(x => x.Reviews).WithOne(x => x.Customer).HasForeignKey(x => x.CustomerId);
+            customerBuilder.HasMany(x => x.Reviews)
+                .WithOne(x => x.Customer)
+                .HasForeignKey(x => x.CustomerId);
+            customerBuilder.HasMany(x => x.Orders)
+                .WithOne(x => x.Customer)
+                .HasForeignKey(x => x.CustomerId);
+            customerBuilder.HasMany(x => x.ShippingAddresses)
+                .WithOne(x => x.Customer)
+                .HasForeignKey(x => x.CustomerId);
 
             var attributeBuilder = builder.Entity<AttributeEntity>().ToTable("Attributes");
             attributeBuilder.Property(x => x.Id).ValueGeneratedOnAdd();
-            attributeBuilder.HasMany(x => x.Values).WithOne(x => x.AttributeEntity).HasForeignKey(x => x.AttributeId);
-
+            attributeBuilder.HasMany(x => x.Values)
+                .WithOne(x => x.Attribute)
+                .HasForeignKey(x => x.AttributeId);
 
             var attrivaluesBuilder = builder.Entity<AttributeValueEntity>().ToTable("AttributeValues");
             attrivaluesBuilder.Property(x => x.Id).ValueGeneratedOnAdd();
-            attrivaluesBuilder.HasOne(x => x.AttributeEntity).WithMany(x => x.Values).HasForeignKey(x => x.AttributeId);
+            attrivaluesBuilder.HasOne(x => x.Attribute)
+                .WithMany(x => x.Values)
+                .HasForeignKey(x => x.AttributeId);
+
+            var orderBuilder = builder.Entity<OrderEntity>();
+            orderBuilder.Property(x => x.Id).ValueGeneratedOnAdd();
+            orderBuilder.HasOne(x => x.ShippigAddress).WithOne(x => x.Order)
+                .HasForeignKey<OrderEntity>(x => x.ShippingAddressId);
+            orderBuilder.HasMany(x => x.OrderItems).WithOne(x => x.Order)
+                .HasForeignKey(x => x.OrderId);
+            orderBuilder.HasOne(x => x.Customer).WithMany(x => x.Orders)
+                .HasForeignKey(x => x.CustomerId);
+
+            var orderItemBuilder = builder.Entity<OrderItemEntity>();
+            orderItemBuilder.HasOne(x => x.Product)
+                .WithMany()
+                .HasForeignKey(x => x.ProductId);
+            orderItemBuilder.HasOne(x => x.Order)
+                .WithMany(x => x.OrderItems)
+                .HasForeignKey(x => x.OrderId);
+
+            var shoppingAddress = builder.Entity<ShippingAddressEntity>();
+            shoppingAddress.Property(x => x.Id).ValueGeneratedOnAdd();
+            shoppingAddress.HasOne(x => x.Customer)
+                .WithMany(x => x.ShippingAddresses)
+                .HasForeignKey(x => x.CustomerId);
+            shoppingAddress.HasOne(x => x.Order)
+                .WithOne(x => x.ShippigAddress)
+                .HasForeignKey<OrderEntity>(x => x.ShippingAddressId);
 
         }
     }

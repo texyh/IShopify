@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IShopify.Core.Data
 {
-    public interface IAttributeRepository : IDataRepository<AttributeEntity>
+    public interface IAttributeRepository : IDataRepository<AttributeEntity, int>
     {
         Task<int> AddValueAsync(AttributeValueEntity value);
     }

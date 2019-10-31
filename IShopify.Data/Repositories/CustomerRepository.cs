@@ -8,7 +8,7 @@ using System.Text;
 
 namespace IShopify.Data.Repositories
 {
-    internal class CustomerRepository : DataRepository<CustomerEntity>, ICustomerRepository
+    internal class CustomerRepository : DataRepository<CustomerEntity, int>, ICustomerRepository
     {
         private readonly IShopifyDbContext _dbContext;
         public CustomerRepository(IShopifyDbContext dbContext, IMapper mapper) : base(dbContext, mapper)

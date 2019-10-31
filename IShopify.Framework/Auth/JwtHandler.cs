@@ -30,7 +30,7 @@ namespace IShopify.Framework.Auth
             {
                 new Claim(JwtRegisteredClaimNames.Sub, customer.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.UniqueName, customer.Id.ToString()),
-                new Claim(ClaimTypes.GivenName, customer.Name),
+                new Claim(ClaimTypes.GivenName, customer.FirstName),
                 new Claim(ClaimTypes.Email, customer.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };

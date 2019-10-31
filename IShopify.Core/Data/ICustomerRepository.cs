@@ -5,7 +5,7 @@ using System.Text;
 
 namespace IShopify.Core.Data
 {
-    public interface ICustomerRepository : IDataRepository<CustomerEntity>
+    public interface ICustomerRepository : IDataRepository<CustomerEntity, int>
     {
     }
 }

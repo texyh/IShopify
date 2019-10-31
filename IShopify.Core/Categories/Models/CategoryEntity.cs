@@ -7,7 +7,7 @@ using System.Text;
 
 namespace IShopify.Core.Categories.Models
 {
-    public class CategoryEntity : IEntity
+    public class CategoryEntity : IEntity<int>
     {
         public CategoryEntity()
         {

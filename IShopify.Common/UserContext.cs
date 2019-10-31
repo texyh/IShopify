@@ -30,7 +30,7 @@ namespace IShopify.Common
 
         public virtual string Email => GetCustomer().Email;
 
-        public virtual string DisplayName => GetCustomer().Name;
+        public virtual string DisplayName => $"{GetCustomer().LastName} {GetCustomer().FirstName}";
 
         public bool IsAnonymous => UserId.IsDefault();
 
@@ -55,7 +55,8 @@ namespace IShopify.Common
                 return _user = new Customer
                 {
                     Id = default,
-                    Name = string.Empty,
+                    FirstName = string.Empty,
+                    LastName = string.Empty,
                     Email = string.Empty,
                 };
             }
@@ -63,13 +64,13 @@ namespace IShopify.Common
             return _user = GetCustomer(UserId);
         }
 
-        public static IUserContext Create(int userId, string email, string displayName)
+        public static IUserContext Create(int userId, string email, string firstName)
         {
             var user = new Customer
             {
                 Id = userId,
                 Email = email,
-                Name = displayName
+                FirstName = firstName
             };
 
             return new UserContext(user);

@@ -25,7 +25,7 @@ namespace IShopify.DomainServices.Bootstrap
             CreateMap<DepartmentEntity, Department>();
 
             CreateMap<ReviewEntity, Review>()
-                .ForMember(x => x.Name, y => y.MapFrom(x => x.Customer.Name));
+                .ForMember(x => x.Name, y => y.MapFrom(x => x.Customer.FirstName)); // TODO get correct name
 
             CreateMap<SaveCustomerViewModel, CustomerEntity>()
                 .ForAllMembers(x => x.Condition(y => !y.IsNull()));

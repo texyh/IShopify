@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace IShopify.Core.Departments
 {
-    public class DepartmentEntity : IEntity
+    public class DepartmentEntity : IEntity<int>
     {
         public DepartmentEntity()
         {

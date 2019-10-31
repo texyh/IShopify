@@ -14,7 +14,5 @@ namespace IShopify.Core.Customer
 
         Task<Core.Customer.Models.Customer> UpdateCustomerAddressAsync(SaveCustomerAddressViewModel model);
 
-        Task UpdateCustomerCreditCardAsync(string creditCard);
-
     }
 }

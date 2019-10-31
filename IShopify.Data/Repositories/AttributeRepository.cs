@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace IShopify.Data.Repositories
 {
-    internal class AttributeRepository : DataRepository<AttributeEntity>, IAttributeRepository
+    internal class AttributeRepository : DataRepository<AttributeEntity, int>, IAttributeRepository
     {
         private readonly IShopifyDbContext _dbContext;
 

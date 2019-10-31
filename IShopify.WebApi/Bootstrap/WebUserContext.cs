@@ -60,7 +60,7 @@ namespace IShopify.WebApi.Bootstrap
             return new Customer
             {
                 Id = id,
-                Name = claimsPrincipal?.FindFirstValue(ClaimTypes.GivenName),
+                FirstName = claimsPrincipal?.FindFirstValue(ClaimTypes.GivenName), // TODO add family name to claims
                 Email = claimsPrincipal?.FindFirstValue(ClaimTypes.Email)
             };
         }
