@@ -22,5 +22,7 @@ namespace IShopify.Core.Data
 
         Task ReviewProductAsync(ReviewEntity review);
 
+        Task<IList<ProductEntity>> GetProductSummaries(IList<int> ids = null);
+
     }
 }

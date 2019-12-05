@@ -1,17 +1,14 @@
-﻿using IShopify.Core.Customer.Models;
-using IShopify.Core.Data;
-using IShopify.Core.Orders.Models.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace IShopify.Core.Orders.Models.Entity
+namespace IShopify.Core.Orders.Models
 {
-    public class OrderEntity : IEntity<Guid>
+    public class Order
     {
-        public OrderEntity()
+        public Order()
         {
-            OrderItems = new List<OrderItemEntity>();
+            OrderItems = new List<OrderItem>();
             OrderStatus = OrderStatus.Pending;
         }
 
@@ -22,8 +19,6 @@ namespace IShopify.Core.Orders.Models.Entity
         public DateTime CreatedOn { get; set; }
 
         public int ShippingAddressId { get; set; }
-
-        public int BillingAddressId {get; set;}
 
         public int CustomerId { get; set; }
 
@@ -37,12 +32,6 @@ namespace IShopify.Core.Orders.Models.Entity
 
         public DateTime? ShippedOn { get; set; }
 
-        public virtual AddressEntity ShippigAddress { get; set; }
-
-        public virtual AddressEntity BillingAddress {get; set;}
-
-        public virtual CustomerEntity Customer { get; set; }
-
-        public virtual ICollection<OrderItemEntity> OrderItems { get; set; }
+        public  IList<OrderItem> OrderItems { get; set; }
     }
 }

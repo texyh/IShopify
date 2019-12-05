@@ -2,5 +2,8 @@
 {
     public class SaveOrderItemViewModel
     {
+        public int ProductId { get; set; }
+
+        public int Quantity { get; set; }
     }
 }

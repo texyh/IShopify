@@ -128,5 +128,22 @@ namespace IShopify.Data.Repositories
             _dbContext.Dispose();
             GC.SuppressFinalize(this);
         }
+
+        public async Task<IList<ProductEntity>> GetProductSummaries(IList<int> ids = null)
+        {
+            var query = _dbContext.Products.AsQueryable();
+
+            if(!ids.IsNull())
+            {
+                query =  query.Where(x => ids.ToList().Contains(x.Id));
+            }
+
+            return await query.Select(x => new ProductEntity
+            {
+                Id = x.Id,
+                Price = x.Price,
+                Name = x.Name
+            }).ToListAsync();
+        }
     }
 }

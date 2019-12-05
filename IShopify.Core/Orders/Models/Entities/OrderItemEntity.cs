@@ -16,8 +16,6 @@ namespace IShopify.Core.Orders.Models.Entity
 
         public decimal UnitCost { get; set; }
 
-        public decimal SubTotal { get; set; }
-
         public int Quantity { get; set; }
 
         public virtual ProductEntity Product { get; set; }

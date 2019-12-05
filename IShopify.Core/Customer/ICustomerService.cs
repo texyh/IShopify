@@ -1,4 +1,5 @@
 ﻿using IShopify.Core.Customer.Models;
+using IShopify.Core.Orders;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,6 +14,5 @@ namespace IShopify.Core.Customer
         Task<Core.Customer.Models.Customer> GetAsync();
 
         Task<Core.Customer.Models.Customer> UpdateCustomerAddressAsync(SaveCustomerAddressViewModel model);
-
     }
 }

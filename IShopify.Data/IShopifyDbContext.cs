@@ -38,7 +38,9 @@ namespace IShopify.Data
 
         public DbSet<OrderItemEntity> OrderItems { get; set; }
 
-        public DbSet<ShippingAddressEntity> ShippingAddresses { get; set; }
+        public DbSet<AddressEntity> Addresses { get; set; }
+
+        public DbSet<CustomerEntity> Customers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -94,7 +96,7 @@ namespace IShopify.Data
             customerBuilder.HasMany(x => x.Orders)
                 .WithOne(x => x.Customer)
                 .HasForeignKey(x => x.CustomerId);
-            customerBuilder.HasMany(x => x.ShippingAddresses)
+            customerBuilder.HasMany(x => x.Addresses)
                 .WithOne(x => x.Customer)
                 .HasForeignKey(x => x.CustomerId);
 
@@ -112,12 +114,14 @@ namespace IShopify.Data
 
             var orderBuilder = builder.Entity<OrderEntity>();
             orderBuilder.Property(x => x.Id).ValueGeneratedOnAdd();
-            orderBuilder.HasOne(x => x.ShippigAddress).WithOne(x => x.Order)
-                .HasForeignKey<OrderEntity>(x => x.ShippingAddressId);
+            orderBuilder.HasOne(x => x.ShippigAddress).WithMany(x => x.Orders)
+                .HasForeignKey(x => x.ShippingAddressId).IsRequired(false);
             orderBuilder.HasMany(x => x.OrderItems).WithOne(x => x.Order)
                 .HasForeignKey(x => x.OrderId);
             orderBuilder.HasOne(x => x.Customer).WithMany(x => x.Orders)
                 .HasForeignKey(x => x.CustomerId);
+            orderBuilder.HasOne(x => x.BillingAddress).WithMany()
+                .HasForeignKey(x => x.BillingAddressId).IsRequired(false);
 
             var orderItemBuilder = builder.Entity<OrderItemEntity>();
             orderItemBuilder.HasOne(x => x.Product)
@@ -127,15 +131,14 @@ namespace IShopify.Data
                 .WithMany(x => x.OrderItems)
                 .HasForeignKey(x => x.OrderId);
 
-            var shoppingAddress = builder.Entity<ShippingAddressEntity>();
+            var shoppingAddress = builder.Entity<AddressEntity>();
             shoppingAddress.Property(x => x.Id).ValueGeneratedOnAdd();
             shoppingAddress.HasOne(x => x.Customer)
-                .WithMany(x => x.ShippingAddresses)
+                .WithMany(x => x.Addresses)
                 .HasForeignKey(x => x.CustomerId);
-            shoppingAddress.HasOne(x => x.Order)
+            shoppingAddress.HasMany(x => x.Orders)
                 .WithOne(x => x.ShippigAddress)
-                .HasForeignKey<OrderEntity>(x => x.ShippingAddressId);
-
+                .HasForeignKey(x => x.ShippingAddressId);
         }
     }
 }

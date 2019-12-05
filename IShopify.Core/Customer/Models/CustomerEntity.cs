@@ -7,13 +7,13 @@ using System.Text;
 
 namespace IShopify.Core.Customer.Models
 {
-    public class CustomerEntity : Address, IEntity<int>
+    public class CustomerEntity : IEntity<int>
     {
         public CustomerEntity()
         {
             Reviews = new List<ReviewEntity>();
             Orders = new List<OrderEntity>();
-            ShippingAddresses = new List<ShippingAddressEntity>();
+            Addresses = new List<AddressEntity>();
         }
 
         public int Id { get; set; }
@@ -32,6 +32,6 @@ namespace IShopify.Core.Customer.Models
 
         public virtual ICollection<ReviewEntity> Reviews { get; set; }
 
-        public virtual ICollection<ShippingAddressEntity> ShippingAddresses { get; set; }
+        public virtual ICollection<AddressEntity> Addresses { get; set; }
     }
 }

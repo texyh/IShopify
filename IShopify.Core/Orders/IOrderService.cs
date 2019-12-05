@@ -8,20 +8,8 @@ namespace IShopify.Core.Orders
 {
     public interface IOrderService
     {
-        Task<int> CreateAsync(IList<SaveOrderItemViewModel> orderItems);
-
-        Task<OrderAddressViewModel> GetBillingAddressAsync();
-
-        Task SaveOrderAddressAsync(int id, SaveOrderAddressViewModel model);
-
-        Task SaveOrderAddressAsync(int id, int shippingAddressId);
-
-        Task<IList<OrderAddressViewModel>> GetAllShippingAddressAsync();
-
-        Task SaveShippingMethodAddress(ShippingMethod shippingMethod);
-
-        Task ConfirmOrder(int Id);
-
-        Task<OrderSummary> GetSummary(int id);
+        Task<Guid> CreateAsync(IList<SaveOrderItemViewModel> orderItems);
+        
+        Task ConfirmOrder(Guid Id);
     }
 }
