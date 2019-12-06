@@ -60,6 +60,7 @@ namespace IShopify.ServiceBus.BusProviders
                 ec.PrefetchCount = (ushort)queueConfig.PrefetchCount;
 
                 ec.Consumer<ProductCreatedCommandConsumer>(_context);
+                ec.Consumer<OrderEmailCommandConsumer>(_context);
             });
         }
     }

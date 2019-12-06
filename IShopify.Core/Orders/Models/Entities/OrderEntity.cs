@@ -21,9 +21,9 @@ namespace IShopify.Core.Orders.Models.Entity
 
         public DateTime CreatedOn { get; set; }
 
-        public int ShippingAddressId { get; set; }
+        public int? ShippingAddressId { get; set; }
 
-        public int BillingAddressId {get; set;}
+        public int? BillingAddressId {get; set;}
 
         public int CustomerId { get; set; }
 

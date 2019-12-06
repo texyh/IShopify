@@ -1,12 +1,17 @@
-using IShopify.Core.MessageBus;
+﻿using IShopify.Core.MessageBus;
 using System;
+using System.Collections.Generic;
+using System.Text;
 
-public class OrderConfirmedCommand : Command {
-    public OrderConfirmedCommand (int userId, Guid orderId) 
-        : base (userId) 
+namespace IShopify.Core.Orders.Messages
+{
+    public class OrderConfirmedCommand : Command
     {
-        OrderId = orderId;
-    }
+        public OrderConfirmedCommand(int userId, Guid orderId) : base(userId)
+        {
+            OrderId = orderId;
+        }
 
-    public Guid OrderId { get; set; }
+        public Guid OrderId { get; set; }
+    }
 }

@@ -4,6 +4,7 @@ using IShopify.Core.Data;
 using IShopify.Core.Helpers;
 using IShopify.Core.MessageBus;
 using IShopify.Core.Orders;
+using IShopify.Core.Orders.Messages;
 using IShopify.Core.Orders.Models;
 using IShopify.Core.Orders.Models.Entity;
 using IShopify.Core.Security;
@@ -42,7 +43,9 @@ namespace IShopify.DomainServices.Order
 
         public async Task ConfirmOrder(Guid id)
         {
-            var order = await _orderRepository.GetAsync(id);
+            var order = await _orderRepository.GetAsync(id, isSummary: true);
+
+            //TODO add permissions to confirm order
 
             order.OrderStatus = OrderStatus.Confirmed;
 

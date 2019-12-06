@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using IShopify.Core;
 using IShopify.Core.Common.Models;
 using IShopify.Core.MessageBus;
+using IShopify.Core.Orders.Messages;
 using IShopify.Core.Products;
 using IShopify.Core.Products.Messages;
 using IShopify.Core.Products.Models;

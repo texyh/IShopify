@@ -59,7 +59,7 @@ namespace IShopify.Data.Repositories
 
             if(!allowNull && order.IsNull()) 
             {
-                throw new ObjectNotFoundException($"No customer with id {id} does not exist");
+                throw new ObjectNotFoundException($"No order with id {id} does not exist");
             }
 
             return order;

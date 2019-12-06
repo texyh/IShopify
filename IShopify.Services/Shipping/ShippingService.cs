@@ -49,6 +49,7 @@ namespace IShopify.DomainServices.Shipping
             // TODO check for permissions;
             var addressEntity = _mapper.Map<SaveOrderAddressViewModel, AddressEntity>(address);
             addressEntity.IsBillingAddress = true;
+            addressEntity.CustomerId = _userContext.UserId;
 
             await _orderRepository.SaveOrderAddressAsync(addressEntity);
 
@@ -64,7 +65,8 @@ namespace IShopify.DomainServices.Shipping
             ArgumentGuard.NotNull(model, nameof(model));
 
             var addressEntity = _mapper.Map<SaveOrderAddressViewModel, AddressEntity>(model);
-            
+            addressEntity.CustomerId = _userContext.UserId;
+
             // TODO Add permissions
 
             await _orderRepository.SaveOrderAddressAsync(addressEntity);

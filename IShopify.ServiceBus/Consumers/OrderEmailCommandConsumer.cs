@@ -1,16 +1,18 @@
-
-
 using System;
 using System.Threading.Tasks;
+using IShopify.Core.Orders.Messages;
 using MassTransit;
 
-public class OrderEmailCommandConsumer : IConsumer<OrderConfirmedCommand>
+namespace IShopify.ServiceBus.Consumers
 {
-    public Task Consume(ConsumeContext<OrderConfirmedCommand> context)
+    public class OrderEmailCommandConsumer : IConsumer<OrderConfirmedCommand>
     {
-        var message = context.Message;
-        Console.WriteLine(message.OrderId);
+        public Task Consume(ConsumeContext<OrderConfirmedCommand> context)
+        {
+            var message = context.Message;
+            Console.WriteLine(message.OrderId);
 
-        return Task.CompletedTask;
+            return Task.CompletedTask;
+        }
     }
 }
