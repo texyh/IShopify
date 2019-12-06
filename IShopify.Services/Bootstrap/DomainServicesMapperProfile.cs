@@ -6,7 +6,9 @@ using IShopify.Core.Departments;
 using IShopify.Core.Departments.Models;
 using IShopify.Core.Helpers;
 using IShopify.Core.Orders;
+using IShopify.Core.Orders.Models;
 using IShopify.Core.Orders.Models.Entities;
+using IShopify.Core.Orders.Models.Entity;
 using IShopify.Core.Products.Models;
 using System;
 using System.Collections.Generic;
@@ -45,7 +47,9 @@ namespace IShopify.DomainServices.Bootstrap
 
             CreateMap<CustomerEntity, OrderAddressViewModel>();
 
-            CreateMap<AddressEntity, SaveOrderAddressViewModel>().ReverseMap();
+            CreateMap<AddressEntity, OrderAddressViewModel>().ReverseMap();
+
+            CreateMap<OrderItemEntity, OrderItem>().ReverseMap();
         }
     }
 }

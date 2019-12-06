@@ -102,5 +102,19 @@ namespace IShopify.DomainServices.Shipping
 
             await _orderRepository.UpdateFieldsAsync(order, nameof(order.ShippingMethod));
         }
+
+        public async Task<OrderAddressViewModel> GetOrderBillingAddressAsync(Guid orderId)
+        {
+            var address = await _orderRepository.GetOrderAddress(orderId, isBilling: true);
+
+            return _mapper.Map<OrderAddressViewModel>(address);
+        }
+
+        public async Task<OrderAddressViewModel> GetOrderShippingAddressAsync(Guid orderId)
+        {
+            var address = await _orderRepository.GetOrderAddress(orderId);
+
+            return _mapper.Map<OrderAddressViewModel>(address);
+        }
     }
 }

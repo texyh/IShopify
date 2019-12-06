@@ -65,6 +65,38 @@ namespace IShopify.Data.Repositories
             return order;
         }
 
+        public Task<AddressEntity> GetOrderAddress(Guid id, bool isBilling = false)
+        {
+            var query = _dbContext.Orders.AsQueryable();
+
+            if(isBilling) 
+            {
+                query = query.Include(x => x.BillingAddress);
+            } 
+            else 
+            {
+                query = query.Include(x => x.ShippigAddress);
+            }
+
+            return query.FirstOrDefaultAsync(x => x.Id == id)
+                        .ContinueWith(x => isBilling ? x.Result.BillingAddress : x.Result.ShippigAddress);
+        }
+
+        public async Task<IList<OrderItemEntity>> GetOrderItemsAsync(Guid id, bool includeProduct)
+        {
+            ArgumentGuard.NotEmpty(id, nameof(id));
+
+            var query = _dbContext.OrderItems.Where(x => x.OrderId == id).AsQueryable();
+
+            if(includeProduct) 
+            {
+                query = query.Include(x => x.Product);
+            }
+            
+            return await query
+                    .ToListAsync();
+        }
+
         public async Task SaveOrderAddressAsync(AddressEntity model)
         {
             ArgumentGuard.NotNull(model, nameof(model));

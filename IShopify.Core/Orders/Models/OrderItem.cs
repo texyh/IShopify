@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using IShopify.Core.Products.Models;
 
 namespace IShopify.Core.Orders.Models
 {
@@ -21,5 +22,7 @@ namespace IShopify.Core.Orders.Models
         }
 
         public int Quantity { get; set; }
+
+        public Product Product {get; set;}
     }
 }

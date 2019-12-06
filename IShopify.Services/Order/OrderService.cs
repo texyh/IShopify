@@ -7,6 +7,7 @@ using IShopify.Core.Orders;
 using IShopify.Core.Orders.Messages;
 using IShopify.Core.Orders.Models;
 using IShopify.Core.Orders.Models.Entity;
+using IShopify.Core.Products.Models;
 using IShopify.Core.Security;
 using System;
 using System.Collections.Generic;
@@ -62,13 +63,7 @@ namespace IShopify.DomainServices.Order
                 .GetProductSummaries(orderItems.Select(x => x.ProductId).ToList())
                 .ContinueWith(task => task.Result.ToDictionary(x => x.Id));
 
-            var items = orderItems.Select(x =>
-                new OrderItem
-                { 
-                    ProductId = x.ProductId,
-                    Quantity = x.Quantity,
-                    UnitCost = products[x.ProductId].Price,
-                });
+            var items = orderItems.Select(x => ToOrderItem(x, products));
 
             // TODO validate orderitems
             // TODO validate order
@@ -92,6 +87,13 @@ namespace IShopify.DomainServices.Order
 
         }
 
+        public async Task<IList<OrderItem>> GetOrderPurchasedItems(Guid orderId)
+        {
+            var items = await _orderRepository.GetOrderItemsAsync(orderId, includeProduct: true);
+
+            return _mapper.Map<IList<OrderItem>>(items);
+        }
+
         private OrderItemEntity ToOrderItemEntity(OrderItem order, Guid orderId)
         {
             return new OrderItemEntity
@@ -99,6 +101,16 @@ namespace IShopify.DomainServices.Order
                 OrderId = orderId,
                 ProductId = order.ProductId,
                 Quantity = order.Quantity
+            };
+        }
+
+        private OrderItem ToOrderItem(SaveOrderItemViewModel item, IDictionary<int, ProductEntity> products) 
+        {
+            return new OrderItem
+            { 
+                ProductId = item.ProductId,
+                Quantity = item.Quantity,
+                UnitCost = products[item.ProductId].Price,
             };
         }
     }

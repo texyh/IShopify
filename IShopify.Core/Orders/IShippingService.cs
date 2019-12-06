@@ -19,5 +19,10 @@ namespace IShopify.Core.Orders
         Task SaveOrderAddressAsync(Guid orderId, int addressId);
 
         Task SaveShippingAddressAsync(Guid orderId, SaveOrderAddressViewModel model);
+
+        Task<OrderAddressViewModel> GetOrderBillingAddressAsync(Guid orderId);
+
+        Task<OrderAddressViewModel> GetOrderShippingAddressAsync(Guid orderId);
+
     }
 }

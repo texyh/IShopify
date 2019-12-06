@@ -11,5 +11,7 @@ namespace IShopify.Core.Orders
         Task<Guid> CreateAsync(IList<SaveOrderItemViewModel> orderItems);
         
         Task ConfirmOrder(Guid Id);
+
+        Task<IList<OrderItem>> GetOrderPurchasedItems(Guid orderId);
     }
 }

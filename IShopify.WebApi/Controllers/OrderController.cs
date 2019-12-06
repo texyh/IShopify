@@ -8,6 +8,7 @@ using IShopify.Core.Orders;
 using IShopify.Core.Orders.Messages;
 using IShopify.Core.Products.Messages;
 using IShopify.Core.Security;
+using IShopify.WebApiServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IShopify.WebApi.Controllers {
@@ -22,6 +23,9 @@ namespace IShopify.WebApi.Controllers {
         private readonly IOrderService _orderService;
 
         private readonly IShippingService _shippingService;
+
+        private readonly IOrderComposerService _orderComposerService;
+
         /// <summary>
         /// 
         /// </summary>
@@ -33,11 +37,13 @@ namespace IShopify.WebApi.Controllers {
             IOrderService orderService,
             IShippingService shippingService,
             IUserContext userContext,
-            IMessageBus messageBus
+            IMessageBus messageBus,
+            IOrderComposerService orderComposerService
         ) 
         {
             _orderService = orderService;
             _shippingService = shippingService;
+            _orderComposerService = orderComposerService;
         }
 
         /// <summary>
@@ -131,11 +137,11 @@ namespace IShopify.WebApi.Controllers {
         }
 
 
-        // [HttpGet("{id:Guid}/summary")]
-        // public async Task GetOrderSummary(Guid id) 
-        // {
-
-        // }
+        [HttpGet("{id:Guid}/summary")]
+        public async Task<OrderSummaryViewModel> GetOrderSummary(Guid id) 
+        {
+            return await _orderComposerService.GetOrderSummary(id);
+        }
     }
 
 }
