@@ -19,61 +19,42 @@ namespace IShopify.WebApi.Migrations
                 .HasAnnotation("ProductVersion", "3.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("IShopify.Core.Customer.Models.CustomerEntity", b =>
+            modelBuilder.Entity("IShopify.Core.Attributes.Models.AttributeEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<string>("Address1")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Address2")
-                        .HasColumnType("text");
-
-                    b.Property<string>("City")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Country")
-                        .HasColumnType("text");
-
-                    b.Property<string>("CreditCard")
-                        .HasColumnType("text");
-
-                    b.Property<string>("DayPhone")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("text");
-
-                    b.Property<string>("EveningPhone")
-                        .HasColumnType("text");
-
-                    b.Property<string>("MobilePhone")
-                        .HasColumnType("text");
-
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<string>("Password")
-                        .HasColumnType("text");
+                    b.HasKey("Id");
 
-                    b.Property<string>("PostalCode")
-                        .HasColumnType("text");
+                    b.ToTable("Attributes");
+                });
 
-                    b.Property<string>("Region")
-                        .HasColumnType("text");
+            modelBuilder.Entity("IShopify.Core.Attributes.Models.AttributeValueEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("ShippingRegionId")
+                    b.Property<int>("AttributeId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers");
+                    b.HasIndex("AttributeId");
+
+                    b.ToTable("AttributeValues");
                 });
 
-            modelBuilder.Entity("IShopify.Core.Products.Models.CategoryEntity", b =>
+            modelBuilder.Entity("IShopify.Core.Categories.Models.CategoryEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -96,7 +77,34 @@ namespace IShopify.WebApi.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("IShopify.Core.Products.Models.DepartmentEntity", b =>
+            modelBuilder.Entity("IShopify.Core.Customer.Models.CustomerEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime>("DateofBirth")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("IShopify.Core.Departments.DepartmentEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -112,6 +120,146 @@ namespace IShopify.WebApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Departments");
+                });
+
+            modelBuilder.Entity("IShopify.Core.Orders.Models.Entities.AddressEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Address1")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Address2")
+                        .HasColumnType("text");
+
+                    b.Property<string>("City")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("text");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsBillingAddress")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PostalCode")
+                        .HasColumnType("text");
+
+                    b.Property<string>("State")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Addresses");
+                });
+
+            modelBuilder.Entity("IShopify.Core.Orders.Models.Entity.OrderEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int?>("BillingAddressId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("OrderStatus")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PaymentStatus")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("ShippedOn")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int?>("ShippingAddressId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ShippingMethod")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BillingAddressId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("ShippingAddressId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("IShopify.Core.Orders.Models.Entity.OrderItemEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("UnitCost")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderItems");
+                });
+
+            modelBuilder.Entity("IShopify.Core.Products.Models.ProductAttributeValueEntity", b =>
+                {
+                    b.Property<int>("AttributeValueId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("AttributeValueId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductAttributes");
                 });
 
             modelBuilder.Entity("IShopify.Core.Products.Models.ProductCategoryEntity", b =>
@@ -164,9 +312,9 @@ namespace IShopify.WebApi.Migrations
 
             modelBuilder.Entity("IShopify.Core.ReviewEntity", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<DateTime>("CreatedOn")
@@ -193,18 +341,83 @@ namespace IShopify.WebApi.Migrations
                     b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("IShopify.Core.Products.Models.CategoryEntity", b =>
+            modelBuilder.Entity("IShopify.Core.Attributes.Models.AttributeValueEntity", b =>
                 {
-                    b.HasOne("IShopify.Core.Products.Models.DepartmentEntity", "Department")
+                    b.HasOne("IShopify.Core.Attributes.Models.AttributeEntity", "Attribute")
+                        .WithMany("Values")
+                        .HasForeignKey("AttributeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("IShopify.Core.Categories.Models.CategoryEntity", b =>
+                {
+                    b.HasOne("IShopify.Core.Departments.DepartmentEntity", "Department")
                         .WithMany("Categories")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("IShopify.Core.Orders.Models.Entities.AddressEntity", b =>
+                {
+                    b.HasOne("IShopify.Core.Customer.Models.CustomerEntity", "Customer")
+                        .WithMany("Addresses")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("IShopify.Core.Orders.Models.Entity.OrderEntity", b =>
+                {
+                    b.HasOne("IShopify.Core.Orders.Models.Entities.AddressEntity", "BillingAddress")
+                        .WithMany()
+                        .HasForeignKey("BillingAddressId");
+
+                    b.HasOne("IShopify.Core.Customer.Models.CustomerEntity", "Customer")
+                        .WithMany("Orders")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IShopify.Core.Orders.Models.Entities.AddressEntity", "ShippigAddress")
+                        .WithMany("Orders")
+                        .HasForeignKey("ShippingAddressId");
+                });
+
+            modelBuilder.Entity("IShopify.Core.Orders.Models.Entity.OrderItemEntity", b =>
+                {
+                    b.HasOne("IShopify.Core.Orders.Models.Entity.OrderEntity", "Order")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IShopify.Core.Products.Models.ProductEntity", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("IShopify.Core.Products.Models.ProductAttributeValueEntity", b =>
+                {
+                    b.HasOne("IShopify.Core.Attributes.Models.AttributeValueEntity", "AttributeValue")
+                        .WithMany("ProductAttributeValues")
+                        .HasForeignKey("AttributeValueId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IShopify.Core.Products.Models.ProductEntity", "Product")
+                        .WithMany("ProductAttributeValues")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("IShopify.Core.Products.Models.ProductCategoryEntity", b =>
                 {
-                    b.HasOne("IShopify.Core.Products.Models.CategoryEntity", "Category")
+                    b.HasOne("IShopify.Core.Categories.Models.CategoryEntity", "Category")
                         .WithMany("ProductCategories")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)

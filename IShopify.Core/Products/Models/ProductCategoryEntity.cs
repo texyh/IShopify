@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IShopify.Core.Categories.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 

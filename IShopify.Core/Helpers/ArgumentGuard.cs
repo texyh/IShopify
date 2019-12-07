@@ -48,6 +48,7 @@ namespace IShopify.Core.Helpers
             }
         }
 
+
         /// <summary>
         /// Checks that the collection does not contain null or empty elements, provided that the collection is not null or empty
         /// </summary>

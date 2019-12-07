@@ -1,11 +1,10 @@
-﻿using IShopify.Core.Data;
-using System;
+﻿using IShopify.Core.Categories.Models;
+using IShopify.Core.Data;
 using System.Collections.Generic;
-using System.Text;
 
-namespace IShopify.Core.Products.Models
+namespace IShopify.Core.Departments
 {
-    public class DepartmentEntity : IEntity
+    public class DepartmentEntity : IEntity<int>
     {
         public DepartmentEntity()
         {

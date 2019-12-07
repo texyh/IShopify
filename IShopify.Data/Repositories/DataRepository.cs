@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace IShopify.Data.Repositories
 {
-    internal abstract class DataRepository<TEntity> : IDataRepository<TEntity> where TEntity : class, IEntity
+    internal abstract class DataRepository<TEntity, T> : IDataRepository<TEntity, T> where TEntity : class, IEntity<T> where T : struct
     {
         private readonly IShopifyDbContext _dbContext;
 
@@ -33,7 +33,7 @@ namespace IShopify.Data.Repositories
             await _dbContext.Set<TEntity>().AddRangeAsync(entities);
             await _dbContext.SaveChangesAsync();
         }
-        public async Task<int> AddAsync(TEntity entity)
+        public async Task<T> AddAsync(TEntity entity)
         {
             ArgumentGuard.NotNull(entity, nameof(entity));
 
@@ -50,6 +50,15 @@ namespace IShopify.Data.Repositories
             return  await _dbContext.Set<TEntity>().CountAsync(filter);
         }
 
+        public Task DeleteAsync(TEntity entity)
+        {
+            ArgumentGuard.NotNull(entity, nameof(entity));
+
+            _dbContext.Set<TEntity>().Remove(entity);
+
+            return _dbContext.SaveChangesAsync();
+        }
+
         public Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> filter)
         {
             ArgumentGuard.NotNull(filter, nameof(filter));
@@ -64,30 +73,29 @@ namespace IShopify.Data.Repositories
             throw new NotImplementedException();
         }
 
-
-        public Task<IList<TEntity>> FindAllAsync(IEnumerable<int> Ids)
+        public async Task<IList<TEntity>> FindAllAsync()
         {
-            ArgumentGuard.NotNullOrEmpty(Ids, nameof(Ids));
-
-            throw new NotImplementedException();
+            return await _dbContext.Set<TEntity>().ToListAsync();
         }
 
-        public Task<IList<int>> FindAllIdsAsync(Expression<Func<TEntity, bool>> filter)
+        public async Task<IList<TEntity>> FindAllInIdsAsync(IEnumerable<T> ids)
         {
-            ArgumentGuard.NotNull(filter, nameof(filter));
+            ArgumentGuard.NotNullOrEmpty(ids, nameof(ids));
 
-            throw new NotImplementedException();
+            return await _dbContext.Set<TEntity>()
+                .Where(x => ids.Contains(x.Id))
+                .ToListAsync();
         }
 
-        public async Task<TEntity> GetAsync(int id, bool allowNull = false)
+        public async Task<TEntity> GetAsync(T id, bool allowNull = false)
         {
             ArgumentGuard.NotDefault(id, nameof(id));
 
-            var entity = _dbContext.Set<TEntity>().Local.FirstOrDefault(x => x.Id == id);
+            var entity = _dbContext.Set<TEntity>().Local.FirstOrDefault(x => x.Id.Equals(id));
 
             if(entity.IsNull())
             {
-                entity = await _dbContext.Set<TEntity>().FirstOrDefaultAsync(x => x.Id == id);
+                entity = await _dbContext.Set<TEntity>().FirstOrDefaultAsync(x => x.Id.Equals(id));
             }
  
             if(entity == null && !allowNull)
@@ -131,7 +139,7 @@ namespace IShopify.Data.Repositories
             ArgumentGuard.NotNull(entity, nameof(entity));
             ArgumentGuard.NotNullOrEmpty(fields, nameof(fields));
 
-            var dbEntity = _dbContext.Set<TEntity>().Local.FirstOrDefault(x => x.Id == entity.Id);
+            var dbEntity = _dbContext.Set<TEntity>().Local.FirstOrDefault(x => x.Id.Equals(entity.Id));
 
             if(dbEntity.IsNull())
             {

@@ -10,7 +10,7 @@ namespace IShopify.DomainServices.Customer
     {
         public CustomerValidator()
         {
-            RuleFor(x => x.Name).NotNull();
+            RuleFor(x => x.FirstName).NotNull();
 
             RuleFor(x => x.Email).NotNull();
         }

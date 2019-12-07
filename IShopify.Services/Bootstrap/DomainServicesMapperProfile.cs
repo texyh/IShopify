@@ -1,7 +1,14 @@
 ﻿using AutoMapper;
 using IShopify.Core;
+using IShopify.Core.Categories.Models;
 using IShopify.Core.Customer.Models;
+using IShopify.Core.Departments;
+using IShopify.Core.Departments.Models;
 using IShopify.Core.Helpers;
+using IShopify.Core.Orders;
+using IShopify.Core.Orders.Models;
+using IShopify.Core.Orders.Models.Entities;
+using IShopify.Core.Orders.Models.Entity;
 using IShopify.Core.Products.Models;
 using System;
 using System.Collections.Generic;
@@ -22,7 +29,7 @@ namespace IShopify.DomainServices.Bootstrap
             CreateMap<DepartmentEntity, Department>();
 
             CreateMap<ReviewEntity, Review>()
-                .ForMember(x => x.Name, y => y.MapFrom(x => x.Customer.Name));
+                .ForMember(x => x.Name, y => y.MapFrom(x => x.Customer.FirstName)); // TODO get correct name
 
             CreateMap<SaveCustomerViewModel, CustomerEntity>()
                 .ForAllMembers(x => x.Condition(y => !y.IsNull()));
@@ -33,6 +40,16 @@ namespace IShopify.DomainServices.Bootstrap
             CreateMap<CustomerEntity, models.Customer>();
 
             CreateMap<productModels.Product, SaveProductModel>().ReverseMap();
+
+            CreateMap<DepartmentEntity, Department>().ReverseMap();
+
+            CreateMap<SaveDepartmentModel, Department>();
+
+            CreateMap<CustomerEntity, OrderAddressViewModel>();
+
+            CreateMap<AddressEntity, OrderAddressViewModel>().ReverseMap();
+
+            CreateMap<OrderItemEntity, OrderItem>().ReverseMap();
         }
     }
 }

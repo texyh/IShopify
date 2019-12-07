@@ -5,7 +5,7 @@ using System.Text;
 
 namespace IShopify.Core.Products.Models
 {
-    public class ProductEntity : IEntity
+    public class ProductEntity : IEntity<int>
     {
         public ProductEntity()
         {
@@ -30,6 +30,8 @@ namespace IShopify.Core.Products.Models
         public int Display { get; set; }
 
         public virtual ICollection<ProductCategoryEntity> ProductCategories { get; set; }
+
+        public virtual ICollection<ProductAttributeValueEntity> ProductAttributeValues { get; set; }
 
         public virtual ICollection<ReviewEntity> Reviews { get; set; }
     } 

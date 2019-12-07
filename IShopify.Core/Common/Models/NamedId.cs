@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace IShopify.Core.Products.Models
+namespace IShopify.Core.Common.Models
 {
-    public class AttributeEntity
+    public class NamedId<T>
     {
-        public int Id { get; set; }
+        public T Id { get; set; }
 
         public string Name { get; set; }
     }

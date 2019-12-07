@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IShopify.IntegrationTests",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IShopify.ServiceBus", "IShopify.ServiceBus\IShopify.ServiceBus.csproj", "{E047FE20-F46F-426D-B529-1BF3821A4DD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IShopify.BackgroundProcessor", "IShopify.BackgroundProcessor\IShopify.BackgroundProcessor.csproj", "{D4D842D4-104D-44A3-940D-70FB8E8C21C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IShopify.BackgroundProcessor", "IShopify.BackgroundProcessor\IShopify.BackgroundProcessor.csproj", "{D4D842D4-104D-44A3-940D-70FB8E8C21C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

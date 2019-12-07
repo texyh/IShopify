@@ -8,9 +8,9 @@ using System.Text;
 
 namespace IShopify.Core
 {
-    public class ReviewEntity : IEntity
+    public class ReviewEntity : IEntity<long>
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         public int CustomerId { get; set; }
 

@@ -1,47 +1,37 @@
 ﻿using IShopify.Core.Data;
+using IShopify.Core.Orders.Models.Entities;
+using IShopify.Core.Orders.Models.Entity;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace IShopify.Core.Customer.Models
 {
-    public class CustomerEntity : IEntity
+    public class CustomerEntity : IEntity<int>
     {
         public CustomerEntity()
         {
             Reviews = new List<ReviewEntity>();
+            Orders = new List<OrderEntity>();
+            Addresses = new List<AddressEntity>();
         }
 
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+
+        public string LastName {get;set;}
 
         public string Email { get; set; }
 
+        public DateTime DateofBirth { get; set; }
+
         public string Password { get; set; }
 
-        public string CreditCard { get; set; }
-
-        public string Address1 { get; set; }
-
-        public string Address2 { get; set; }
-
-        public string City { get; set; }
-
-        public string Region { get; set; }
-
-        public string PostalCode { get; set; }
-
-        public string Country { get; set; }
-
-        public int ShippingRegionId { get; set; }
-
-        public string DayPhone { get; set; }
-
-        public string EveningPhone { get; set; }
-
-        public string MobilePhone { get; set; }
+        public virtual ICollection<OrderEntity> Orders { get; set; }
 
         public virtual ICollection<ReviewEntity> Reviews { get; set; }
+
+        public virtual ICollection<AddressEntity> Addresses { get; set; }
     }
 }

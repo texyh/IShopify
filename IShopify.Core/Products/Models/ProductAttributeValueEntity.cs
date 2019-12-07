@@ -1,10 +1,11 @@
-﻿using System;
+﻿using IShopify.Core.Attributes.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace IShopify.Core.Products.Models
 {
-    public class ProductAttributeEntity
+    public class ProductAttributeValueEntity
     {
         public int ProductId { get; set; }
 
@@ -12,6 +13,6 @@ namespace IShopify.Core.Products.Models
 
         public int AttributeValueId { get; set; }
 
-        public AttributeEntity AttributeEntity { get; set; }
+        public AttributeValueEntity AttributeValue { get; set; }
     }
 }

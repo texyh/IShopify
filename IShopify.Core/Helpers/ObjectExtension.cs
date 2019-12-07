@@ -161,5 +161,44 @@ namespace IShopify.Core.Helpers
                 source[indexToSwap] = currentItem;
             }
         }
+
+        public static IList<string> GetUpdateFields<T, S>(this T source, S update, params string[] ignoreProperties)
+        {
+            var updatedFields = new List<string>();
+
+            if (source == null || update == null)
+            {
+                return new List<string>();
+            }
+
+            var sourceProperties = typeof(T).GetProperties().ToList();
+            var updateProperties = typeof(S).GetProperties().ToList();
+
+            foreach (var property in updateProperties)
+            {
+                var currenSourceProperty = sourceProperties.Find(x => x.Name == property.Name);
+                var propertyValue = property.GetValue(update);
+                var propertyType = property.PropertyType;
+
+                if (currenSourceProperty == null
+                    || propertyValue == null // checks if the updated property is null.
+                    || (propertyValue == currenSourceProperty.GetValue(source))
+                    || !property.CanWrite
+                    || property.PropertyType.IsArray
+                    || (property.PropertyType.IsValueType && propertyValue.Equals(Activator.CreateInstance(propertyType))) // checks if its a default value for structs
+                    || property.PropertyType.IsInterface
+                    || (ignoreProperties != null && ignoreProperties.Contains(property.Name))
+                    || (property.PropertyType.IsClass && property.PropertyType.Name != "String"))
+                {
+                    continue;
+                }
+
+                updatedFields.Add(property.Name);
+                currenSourceProperty.SetValue(source, property.GetValue(update));
+            }
+
+            return updatedFields;
+        }
+
     }
 }

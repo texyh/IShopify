@@ -4,8 +4,8 @@ using System.Text;
 
 namespace IShopify.Core.Data
 {
-    public interface IEntity
+    public interface IEntity<T> where T : struct
     {
-        int Id { get; }
+        T Id { get; }
     }
 }

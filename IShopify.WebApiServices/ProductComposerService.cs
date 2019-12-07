@@ -46,6 +46,7 @@ namespace IShopify.WebApiServices
             };
         }
 
+        // TODO revisit
         //public Task<IList<ReviewViewModel>> GetProductReviews(int id)
         //{
         //    throw new NotImplementedException();

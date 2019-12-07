@@ -70,15 +70,5 @@ namespace IShopify.WebApi.Controllers
             return await _customerService.UpdateCustomerAddressAsync(model);
         }
 
-        /// <summary>
-        /// Endpoint for updated customer credit card
-        /// </summary>
-        /// <param name="creditCard"></param>
-        /// <returns></returns>
-        [HttpPut("creditcard")]
-        public async Task UpdateCustomerCreditCard(string creditCard)
-        {
-            await _customerService.UpdateCustomerCreditCardAsync(creditCard);
-        }
     }
 }

@@ -119,7 +119,8 @@ namespace IShopify.WebApi.Middleware
 
         private static string GetErrorMessage(Exception exception, string defaultMessage)
         {
-            if (exception is Core.Exceptions.ValidationException)
+            if (exception is Core.Exceptions.ValidationException || 
+                exception is InvalidPermissionException)
             {
                 return exception.Message;
             }

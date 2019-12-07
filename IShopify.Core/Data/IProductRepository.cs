@@ -1,4 +1,5 @@
-﻿using IShopify.Core.Common.Models;
+﻿using IShopify.Core.Categories.Models;
+using IShopify.Core.Common.Models;
 using IShopify.Core.Products.Models;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace IShopify.Core.Data
 {
-    public interface IProductRepository : IDataRepository<ProductEntity>, IDisposable
+    public interface IProductRepository : IDataRepository<ProductEntity, int>, IDisposable
     {
         Task<IList<ProductEntity>> SearchAsync(ProductQueryModel searchQuery);
 
@@ -20,6 +21,8 @@ namespace IShopify.Core.Data
         Task<IList<ReviewEntity>> GetProductReviewsAsync(int id);
 
         Task ReviewProductAsync(ReviewEntity review);
+
+        Task<IList<ProductEntity>> GetProductSummaries(IList<int> ids = null);
 
     }
 }

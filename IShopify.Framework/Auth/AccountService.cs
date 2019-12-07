@@ -75,9 +75,9 @@ namespace IShopify.Framework.Auth
 
             var customer = new CustomerEntity
             {
-                Name = model.Name,
+                FirstName = model.Name,
+                LastName = model.LastName,
                 Email = model.Email,
-                ShippingRegionId = 1,
             };
 
             if(!isFaceBookRegistration && !model.Password.IsNullOrEmpty())

@@ -1,4 +1,6 @@
-﻿using IShopify.Core.Common;
+﻿using IShopify.Core.Categories.Models;
+using IShopify.Core.Common;
+using IShopify.Core.Departments;
 using IShopify.Core.Helpers;
 using IShopify.Core.Products.Models;
 using Microsoft.EntityFrameworkCore;
