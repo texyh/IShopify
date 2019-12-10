@@ -93,8 +93,7 @@ namespace IShopify.Data.Repositories
                 query = query.Include(x => x.Product);
             }
             
-            return await query
-                    .ToListAsync();
+            return await query.ToListAsync();
         }
 
         public async Task SaveOrderAddressAsync(AddressEntity model)

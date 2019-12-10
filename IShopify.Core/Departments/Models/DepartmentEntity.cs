@@ -1,5 +1,6 @@
 ﻿using IShopify.Core.Categories.Models;
 using IShopify.Core.Data;
+using System;
 using System.Collections.Generic;
 
 namespace IShopify.Core.Departments
@@ -18,5 +19,7 @@ namespace IShopify.Core.Departments
         public string Description { get; set; }
 
         public virtual ICollection<CategoryEntity> Categories { get; set; }
+
+        public DateTime? DeleteDateUtc {get; set;}
     }
 }

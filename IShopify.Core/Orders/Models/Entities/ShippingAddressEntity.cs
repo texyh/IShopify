@@ -21,6 +21,8 @@ namespace IShopify.Core.Orders.Models.Entities
 
         public int CustomerId { get; set; }
 
+        public DateTime? DeleteDateUtc {get; set;}
+
         public virtual ICollection<OrderEntity> Orders { get; set; }
 
         public virtual CustomerEntity Customer { get; set; }

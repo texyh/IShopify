@@ -36,6 +36,12 @@ namespace IShopify.Core.Config
 
         public LogTarget LogTarget => (LogTarget)Convert.ToInt32(GetValue("LogTarget"));
 
+        public string MailServer =>  GetValue("MailServer");
+
+        public string SenderAddress =>  GetValue("SenderAddress");
+
+        public string SenderName =>  GetValue("SenderName");
+
         public string GetValue(string key, string defaultValue = null)
         {
             return Environment.GetEnvironmentVariable(key)?.Trim() ?? _configuration[key]?.Trim() ?? defaultValue;

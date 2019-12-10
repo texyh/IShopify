@@ -50,6 +50,40 @@ namespace IShopify.Data.Repositories
             return  await _dbContext.Set<TEntity>().CountAsync(filter);
         }
 
+        public Task DeleteAllAsync(IEnumerable<T> ids)
+        {
+            ArgumentGuard.NotNullOrEmpty(ids, nameof(ids));
+
+            _dbContext.Set<TEntity>()
+                .RemoveRange(ids.Select(x => GetDefaultObjectWithId(x)));
+
+            return _dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteAllAsync(DateTime lastDeletedDate)
+        {
+            ArgumentGuard.NotDefault(lastDeletedDate, nameof(lastDeletedDate));
+
+            var oldEntities = await _dbContext.Set<TEntity>()
+                .Where(x => x.DeleteDateUtc != null && x.DeleteDateUtc <= lastDeletedDate)
+                .ToListAsync();
+            
+            _dbContext.Set<TEntity>().RemoveRange(oldEntities);
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteAllAsync(Expression<Func<TEntity, bool>> expression)
+        {
+            var oldEntities = await _dbContext.Set<TEntity>()
+                .Where(expression)
+                .ToListAsync();
+
+            _dbContext.Set<TEntity>().RemoveRange(oldEntities);
+
+            await _dbContext.SaveChangesAsync();
+        }
+
         public Task DeleteAsync(TEntity entity)
         {
             ArgumentGuard.NotNull(entity, nameof(entity));
@@ -57,6 +91,28 @@ namespace IShopify.Data.Repositories
             _dbContext.Set<TEntity>().Remove(entity);
 
             return _dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(T id, bool throwIfNotFound = true)
+        {
+            ArgumentGuard.NotDefault(id, nameof(id));
+
+            var entity = _dbContext.Set<TEntity>().Local.FirstOrDefault(x => x.Id.Equals(id));
+
+            if(entity.IsNull()) 
+            {
+                _dbContext.Set<TEntity>().Remove(GetDefaultObjectWithId(id));
+
+            } else {
+                _dbContext.Set<TEntity>().Remove(entity);
+            }
+            
+            var rows = await _dbContext.SaveChangesAsync();
+
+            if(rows == 0 && throwIfNotFound) 
+            {
+                throw new ObjectNotFoundException($"{typeof(TEntity).Name} with id {id} was not found");
+            }
         }
 
         public Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> filter)
@@ -125,6 +181,46 @@ namespace IShopify.Data.Repositories
             return entity;
         }
 
+        public Task MarkEntityDeletedAsync(T id)
+        {
+            ArgumentGuard.NotDefault(id, nameof(id));
+
+            var entity = GetDefaultObjectWithId(id);
+            MarkDeleted(entity);
+
+            return UpdateFieldsAsync(entity, nameof(entity.DeleteDateUtc));
+        }
+
+        public async Task MarkEntitiesDeletedAsync(Expression<Func<TEntity, bool>> filter)
+        {
+            ArgumentGuard.NotNull(filter, nameof(filter));
+
+            var entities = await _dbContext.Set<TEntity>()
+                                     .Where(filter)
+                                     .ToListAsync();
+            
+            if(!entities.IsNull()) 
+            {
+                MarkDeleted(entities);
+                await _dbContext.SaveChangesAsync();
+            }
+        }
+
+        public async Task MarkEntitiesDeletedAsync(IEnumerable<T> ids)
+        {
+            ArgumentGuard.NotNull(ids, nameof(ids));
+
+            var entities = await _dbContext.Set<TEntity>()
+                    .Where(x => ids.Contains(x.Id))
+                    .ToListAsync();
+
+            if(entities.IsNotNull()) 
+            {
+                MarkDeleted(entities);
+                await _dbContext.SaveChangesAsync();
+            }
+        }
+
         public Task UpdateAsync(TEntity entity)
         {
             ArgumentGuard.NotNull(entity, nameof(entity));
@@ -158,6 +254,30 @@ namespace IShopify.Data.Repositories
             }
 
             return _dbContext.SaveChangesAsync();
+        }
+
+        private TEntity GetDefaultObjectWithId(T id) 
+        {
+            var type = typeof(TEntity);
+            var instance = Activator.CreateInstance(type);
+            var property = type.GetProperty("Id");
+            property.SetValue(instance, id);
+
+            return (TEntity)instance;
+        }
+
+        private void MarkDeleted(TEntity entity) 
+        {
+            (typeof(TEntity).GetProperty(nameof(entity.DeleteDateUtc))).SetValue(entity, DateTime.UtcNow);
+        }
+
+        private void MarkDeleted(IEnumerable<TEntity> entities) 
+        {
+            foreach (var entity in entities)
+            {
+                MarkDeleted(entity);
+                _dbContext.Entry(entity).Property(x => x.DeleteDateUtc);
+            }
         }
     }
 }

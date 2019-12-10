@@ -8,6 +8,7 @@ using IShopify.Core.Departments;
 using IShopify.Core.Attributes.Models;
 using IShopify.Core.Orders.Models.Entity;
 using IShopify.Core.Orders.Models.Entities;
+using IShopify.Core.Security;
 
 namespace IShopify.Data
 {
@@ -41,6 +42,8 @@ namespace IShopify.Data
         public DbSet<AddressEntity> Addresses { get; set; }
 
         public DbSet<CustomerEntity> Customers { get; set; }
+
+        public DbSet<AccessKeyEntity> AccessKeys {get; set;}
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -99,6 +102,10 @@ namespace IShopify.Data
             customerBuilder.HasMany(x => x.Addresses)
                 .WithOne(x => x.Customer)
                 .HasForeignKey(x => x.CustomerId);
+            customerBuilder.Ignore(x => x.AuthProfile);
+            customerBuilder.Property(x => x.AuthProfileJson).HasColumnName("AuthProfile");
+
+        
 
             var attributeBuilder = builder.Entity<AttributeEntity>().ToTable("Attributes");
             attributeBuilder.Property(x => x.Id).ValueGeneratedOnAdd();
@@ -139,6 +146,12 @@ namespace IShopify.Data
             shoppingAddress.HasMany(x => x.Orders)
                 .WithOne(x => x.ShippigAddress)
                 .HasForeignKey(x => x.ShippingAddressId);
+
+            var accessBuilder = builder.Entity<AccessKeyEntity>();
+            accessBuilder.Ignore(x => x.Scopes);
+            accessBuilder.Property(x => x.ScopesJson).HasColumnName("Scopes");
+            accessBuilder.HasOne(x => x.Customer).WithMany(x => x.AccessKeys)
+                .HasForeignKey(x => x.UserId);
         }
     }
 }

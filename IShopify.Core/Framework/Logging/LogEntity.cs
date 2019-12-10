@@ -1,12 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace IShopify.Core.Framework.Logging
-{
-    public class LogEntity
-    {
-        public string Id => Properties?.LogEntry?.LogId.ToString();
+namespace IShopify.Core.Framework.Logging {
+    public class LogEntity {
+        public string Id => Properties?.LogEntry?.LogId.ToString ();
         public string Message { get; set; }
 
         public string Exception { get; set; }
@@ -19,13 +17,11 @@ namespace IShopify.Core.Framework.Logging
 
     }
 
-    public class LogProperties
-    {
+    public class LogProperties {
         public LogEntryValues LogEntry { get; set; }
     }
 
-    public class LogEntryValues
-    {
+    public class LogEntryValues {
         public Guid LogId { get; set; }
 
         public string Message { get; set; }
@@ -40,6 +36,5 @@ namespace IShopify.Core.Framework.Logging
 
         public string Exception { get; set; }
     }
-
 
 }

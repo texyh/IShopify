@@ -56,6 +56,31 @@ namespace IShopify.IntegrationTests
             }
         }
 
+        [Fact]
+        public void CanDeleteEntities()
+        {
+            using (var scope = _container.BeginLifetimeScope())
+            using (var context = scope.Resolve<IShopifyDbContext>())
+            using (var repo = scope.Resolve<IProductRepository>())
+            using (var txn  = context.Database.BeginTransaction())
+            {
+                var product = Products[0];
+
+                var id = repo.AddAsync(product).GetAwaiter().GetResult();
+
+                context.Entry(product).State =  EntityState.Detached;
+
+                repo.DeleteAsync(id)
+                    .GetAwaiter().GetResult();
+
+                var dbProduct = context.Set<ProductEntity>().Find(id);
+
+                txn.Rollback();
+
+                Assert.Null(dbProduct);
+            }
+        }
+
 
         public IList<ProductEntity> Products
         {
