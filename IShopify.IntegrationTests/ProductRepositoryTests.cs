@@ -15,22 +15,22 @@ namespace IShopify.IntegrationTests
     public class ProductRepositoryTests
     {
         private IContainer _container;
+        private IShopifyDbContext _dbcontext;
 
         public ProductRepositoryTests()
         {
             _container = IocConfig.Register();
-            var db = _container.Resolve<IShopifyDbContext>();
-            db.Database.Migrate();
+            _dbcontext = _container.Resolve<IShopifyDbContext>();
+            _dbcontext.Database.Migrate();
         }
 
         [Fact]
         public void CanUpdateFields()
         {
             using (var scope = _container.BeginLifetimeScope())
-            using (var context = scope.Resolve<IShopifyDbContext>())
-            using (var repo = scope.Resolve<IProductRepository>())
-            using (var txn  = context.Database.BeginTransaction())
+            using (var txn  = _dbcontext.Database.BeginTransaction())
             {
+                var repo = scope.Resolve<IProductRepository>();
                 var product = Products[0];
 
                 var id = repo.AddAsync(product).GetAwaiter().GetResult();
@@ -46,7 +46,7 @@ namespace IShopify.IntegrationTests
                 repo.UpdateFieldsAsync(updatedProduct, nameof(updatedProduct.Name), nameof(updatedProduct.Price))
                     .GetAwaiter().GetResult();
 
-                var dbProduct = context.Set<ProductEntity>().Find(id);
+                var dbProduct = _dbcontext.Set<ProductEntity>().Find(id);
 
                 txn.Rollback();
 
@@ -60,20 +60,19 @@ namespace IShopify.IntegrationTests
         public void CanDeleteEntities()
         {
             using (var scope = _container.BeginLifetimeScope())
-            using (var context = scope.Resolve<IShopifyDbContext>())
-            using (var repo = scope.Resolve<IProductRepository>())
-            using (var txn  = context.Database.BeginTransaction())
+            using (var txn  = _dbcontext.Database.BeginTransaction())
             {
+                var repo = scope.Resolve<IProductRepository>();
                 var product = Products[0];
 
                 var id = repo.AddAsync(product).GetAwaiter().GetResult();
 
-                context.Entry(product).State =  EntityState.Detached;
+                _dbcontext.Entry(product).State =  EntityState.Detached;
 
                 repo.DeleteAsync(id)
                     .GetAwaiter().GetResult();
 
-                var dbProduct = context.Set<ProductEntity>().Find(id);
+                var dbProduct = _dbcontext.Set<ProductEntity>().Find(id);
 
                 txn.Rollback();
 
