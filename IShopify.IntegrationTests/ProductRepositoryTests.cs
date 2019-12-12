@@ -21,7 +21,11 @@ namespace IShopify.IntegrationTests
         {
             _container = IocConfig.Register();
             _dbcontext = _container.Resolve<IShopifyDbContext>();
+
+            Console.Write("============================ init migration");
             _dbcontext.Database.Migrate();
+            Console.Write("============================ finish migration");
+
         }
 
         // [Fact]
