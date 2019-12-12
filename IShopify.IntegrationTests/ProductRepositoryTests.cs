@@ -21,44 +21,40 @@ namespace IShopify.IntegrationTests
         {
             _container = IocConfig.Register();
             _dbcontext = _container.Resolve<IShopifyDbContext>();
-
-            Console.Write("============================ init migration");
             _dbcontext.Database.Migrate();
-            Console.Write("============================ finish migration");
-
         }
 
-        // [Fact]
-        // public void CanUpdateFields()
-        // {
-        //     using (var scope = _container.BeginLifetimeScope())
-        //     using (var txn  = _dbcontext.Database.BeginTransaction())
-        //     {
-        //         var repo = scope.Resolve<IProductRepository>();
-        //         var product = Products[0];
+        [Fact]
+        public void CanUpdateFields()
+        {
+            using (var scope = _container.BeginLifetimeScope())
+            using (var txn  = _dbcontext.Database.BeginTransaction())
+            {
+                var repo = scope.Resolve<IProductRepository>();
+                var product = Products[0];
 
-        //         var id = repo.AddAsync(product).GetAwaiter().GetResult();
+                var id = repo.AddAsync(product).GetAwaiter().GetResult();
 
-        //         var updatedProduct = new ProductEntity
-        //         {
-        //             Id = id,
-        //             Name = "TestingUpdated",
-        //             Description = product.Description,
-        //             Price = 30
-        //         };
+                var updatedProduct = new ProductEntity
+                {
+                    Id = id,
+                    Name = "TestingUpdated",
+                    Description = product.Description,
+                    Price = 30
+                };
 
-        //         repo.UpdateFieldsAsync(updatedProduct, nameof(updatedProduct.Name), nameof(updatedProduct.Price))
-        //             .GetAwaiter().GetResult();
+                repo.UpdateFieldsAsync(updatedProduct, nameof(updatedProduct.Name), nameof(updatedProduct.Price))
+                    .GetAwaiter().GetResult();
 
-        //         var dbProduct = _dbcontext.Set<ProductEntity>().Find(id);
+                var dbProduct = _dbcontext.Set<ProductEntity>().Find(id);
 
-        //         txn.Rollback();
+                txn.Rollback();
 
-        //         Assert.NotNull(dbProduct);
-        //         Assert.Equal(updatedProduct.Name, dbProduct.Name);
-        //         Assert.Equal(updatedProduct.Price, dbProduct.Price);
-        //     }
-        // }
+                Assert.NotNull(dbProduct);
+                Assert.Equal(updatedProduct.Name, dbProduct.Name);
+                Assert.Equal(updatedProduct.Price, dbProduct.Price);
+            }
+        }
 
         [Fact]
         public void CanDeleteEntities()
