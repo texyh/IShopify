@@ -14,5 +14,9 @@ namespace IShopify.Core.Customer
         Task<Core.Customer.Models.Customer> GetAsync();
 
         Task<Core.Customer.Models.Customer> UpdateCustomerAddressAsync(SaveCustomerAddressViewModel model);
+
+        Task PasswordResetRequestAsync(string email);
+
+        Task<string> GetResetPasswordAccesskey(int customerId);
     }
 }

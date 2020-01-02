@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using IShopify.Core.Config;
@@ -8,25 +9,24 @@ using IShopify.Core.Helpers;
 
 namespace IShopify.Framework
 {
-    public class DevEmailService
+    public class DevEmailService : IEmailService
     {
         private const int SmtpPort = 25;
 
         private readonly SmtpClient _smtpClient;
 
         private readonly ILogger _logger;
-        
+
         private readonly AppSettings _appSettings;
 
         public DevEmailService(
-             SmtpClient smtpClient,
-            ILogger logger,
-            AppSettings appSettings
+              SmtpClient smtpClient,
+              ILogger logger,
+              AppSettings appSettings
         )
         {
             smtpClient.Port = SmtpPort;
             smtpClient.Host = appSettings.MailServer;
-
             _smtpClient = smtpClient;
             _logger = logger;
             _appSettings = appSettings;
@@ -68,6 +68,11 @@ namespace IShopify.Framework
             if (!emailMessage.Cc.IsNullOrEmpty())
             {
                 emailMessage.Cc.ForEach(recipient => message.CC.Add(new MailAddress(recipient.EmailAddress, recipient.Name)));
+            }
+
+            if(!emailMessage.Attachments.IsNullOrEmpty()) 
+            {
+                emailMessage.Attachments.ForEach(attactment => message.Attachments.Add(new Attachment(new MemoryStream(attactment.Content), attactment.FileName)));
             }
 
             return message;

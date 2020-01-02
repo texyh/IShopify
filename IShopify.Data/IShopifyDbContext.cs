@@ -9,6 +9,7 @@ using IShopify.Core.Attributes.Models;
 using IShopify.Core.Orders.Models.Entity;
 using IShopify.Core.Orders.Models.Entities;
 using IShopify.Core.Security;
+using IShopify.Data.Bootstrap;
 
 namespace IShopify.Data
 {

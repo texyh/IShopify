@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using Autofac;
+﻿using Autofac;
+using AutoMapper;
+using IShopify.Common;
+using IShopify.Core.Helpers;
 using IShopify.Data;
 using IShopify.Data.Bootstrap;
+using IShopify.DomainServices.Bootstrap;
+using IShopify.WebApi;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using IShopify.Core.Helpers;
-using IShopify.Common;
-using IShopify.DomainServices.Bootstrap;
-using AutoMapper;
-using IShopify.WebApi;
+using System;
+using System.IO;
 using System.Reflection;
 
 namespace IShopify.IntegrationTests.Helpers
@@ -61,7 +59,7 @@ namespace IShopify.IntegrationTests.Helpers
         {
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
             var builder = new DbContextOptionsBuilder<IShopifyDbContext>();
-
+           
             builder.UseNpgsql(AppSettingsProvider.Current.IshopifyDB, x => x.MigrationsAssembly(migrationsAssembly));
 
             return builder.Options;

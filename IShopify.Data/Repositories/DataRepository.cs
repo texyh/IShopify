@@ -122,11 +122,11 @@ namespace IShopify.Data.Repositories
             return _dbContext.Set<TEntity>().AnyAsync(filter);
         }
 
-        public Task<IList<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> filter)
+        public async Task<IList<TEntity>> FindAllAsync(Expression<Func<TEntity, bool>> filter)
         {
             ArgumentGuard.NotNull(filter, nameof(filter));
 
-            throw new NotImplementedException();
+            return await _dbContext.Set<TEntity>().Where(filter).ToListAsync();
         }
 
         public async Task<IList<TEntity>> FindAllAsync()

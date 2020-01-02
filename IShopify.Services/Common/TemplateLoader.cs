@@ -15,7 +15,7 @@ namespace IShopify.DomainServices.Common
     {
         public Task<string> LoadEmailTemplateAsync(EmailTemplateType templateType)
         {
-            var manifestSearchText = $".{templateType}.cshtml";
+            var manifestSearchText = $"{templateType}.cshtml";
 
             return LoadTemplateAsStringAsync(Assembly.GetExecutingAssembly(), manifestSearchText);
         }

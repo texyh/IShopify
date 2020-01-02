@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using IShopify.Core.Customer;
 using IShopify.Core.Customer.Models;
 using IShopify.Framework.Auth;
 using IShopify.Framework.Auth.Models;
@@ -20,13 +21,20 @@ namespace IShopify.WebApi.Controllers
     {
         private readonly IAccountService _accountService;
 
+        private readonly ICustomerService _customerService;
+
+        private readonly ICustomerLookupService _customerLookupService;
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="accountService"></param>
-        public AccountController(IAccountService accountService)
+        public AccountController(IAccountService accountService, ICustomerService customerService,
+            ICustomerLookupService customerLookupService)
         {
             _accountService = accountService;
+            _customerService = customerService;
+            _customerLookupService = customerLookupService;
         }
 
         /// <summary>
@@ -51,6 +59,18 @@ namespace IShopify.WebApi.Controllers
         public async Task<AuthenticationResponse> Login([FromBody] CustomerLoginViewModel model)
         {
             return await _accountService.LoginCustomerAsync(model);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        [HttpPost("_resetPassword")]
+        [AllowAnonymous]
+        public async Task PasswordResetRequest(string email) 
+        {
+            await _customerService.PasswordResetRequestAsync(email);
         }
 
         /// <summary>

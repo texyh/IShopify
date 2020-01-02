@@ -5,8 +5,10 @@ using dotenv.net.DependencyInjection.Infrastructure;
 using IShopify.Common;
 using IShopify.Common.IocContainer;
 using IShopify.Core.Config;
+using IShopify.Data;
 using IShopify.Data.Bootstrap;
 using IShopify.DomainServices.Bootstrap;
+using IShopify.Framework.Bootstrap;
 using IShopify.ServiceBus.Bootstrap;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
@@ -30,6 +32,7 @@ namespace IShopify.BackgroundProcessor
             containerBuilder.RegisterModule<BackgroundServiceBusAutofacModule>();
             containerBuilder.RegisterModule<DataAutofacModule>();
             containerBuilder.RegisterModule<DomainServicesAutoFacModule>();
+            containerBuilder.RegisterModule<FrameworkAutoFacModule>();
 
             DotEnv.Config(throwOnError: false);
 
@@ -37,6 +40,10 @@ namespace IShopify.BackgroundProcessor
 
             containerBuilder.RegisterInstance(appSettings).AsSelf().SingleInstance();
             AppSettingsProvider.Register(appSettings);
+
+            containerBuilder.Register(context => DbContextFactory.CreateDbcontext())
+            .As<IShopifyDbContext>()
+            .SingleInstance();
 
             containerBuilder.Register(ctx => new MapperConfiguration(cfg =>
             {

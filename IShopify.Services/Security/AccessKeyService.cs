@@ -47,7 +47,7 @@ namespace IShopify.DomainServices.Security
 
         public async Task<string> GenerateAccessKeyAsync(CreateAccessKeyModel createAccessKeyModel)
         {
-            await _validatorFactory.ValidateAsync(createAccessKeyModel);
+            // await _validatorFactory.ValidateAsync(createAccessKeyModel);
 
             var accessKey = new AccessKeyEntity
             {

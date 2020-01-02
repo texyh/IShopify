@@ -38,12 +38,12 @@ namespace IShopify.WebApi.Bootstrap
             containerBuilder.RegisterModule<ApiServiceBusAutofacModule>();
             containerBuilder.RegisterInstance(new AppSettings(configuration)).AsSelf().SingleInstance();
 
-            services.AddStackExchangeRedisCache(options =>
-            {
-                options.Configuration = AppSettingsProvider.Current.RedisSettings.Host;
-                options.InstanceName = AppSettingsProvider.Current.RedisSettings.Instance;
-                options.ConfigurationOptions = AppSettingsProvider.Current.RedisSettings.Options;
-            });
+            //services.AddStackExchangeRedisCache(options =>
+            //{
+            //    options.Configuration = AppSettingsProvider.Current.RedisSettings.Host;
+            //    options.InstanceName = AppSettingsProvider.Current.RedisSettings.Instance;
+            //    options.ConfigurationOptions = AppSettingsProvider.Current.RedisSettings.Options;
+            //});
 
             services.AddScoped<IUserContext, WebUserContext>();
             services.AddScoped<IHttpContextAccessor, HttpContextAccessor>();

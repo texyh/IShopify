@@ -18,7 +18,9 @@ namespace IShopify.DomainServices.Customer
         private const int CacheDurationInMinutes = 5;
 
         private readonly IRedisCacheService _redisCacheService;
+
         private readonly ICustomerRepository _customerRepository;
+
         private readonly IMapper _mapper;
 
         public CustomerLookupService(

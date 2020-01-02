@@ -61,6 +61,7 @@ namespace IShopify.ServiceBus.BusProviders
 
                 ec.Consumer<ProductCreatedCommandConsumer>(_context);
                 ec.Consumer<OrderEmailCommandConsumer>(_context);
+                ec.Consumer<CustomerEmailMessageConsumer>(_context);
             });
         }
     }

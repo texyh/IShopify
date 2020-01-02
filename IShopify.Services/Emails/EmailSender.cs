@@ -18,8 +18,11 @@ namespace IShopify.Services.Emails
         private readonly ITemplateLoader _templateLoader;
         
         private readonly IEmailService _emailService;
+
         private readonly AppSettings _appSettings;
+
         private readonly ILogger _logger;
+
         private readonly string EmailLayoutKey = $"EmailLayout::Layout1";
 
         public EmailSender(

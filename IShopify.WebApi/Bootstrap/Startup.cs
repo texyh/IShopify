@@ -1,26 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using dotenv.net.DependencyInjection.Extensions;
+﻿using dotenv.net.DependencyInjection.Extensions;
 using IShopify.Common;
 using IShopify.Core.Config;
 using IShopify.Data;
-using IShopify.DomainServices.Bootstrap;
-using IShopify.Framework.Bootstrap;
 using IShopify.WebApi.Bootstrap;
-using IShopify.WebApiServices.Bootstrap;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
+using System;
+using System.IO;
+using System.Reflection;
+using System.Text;
 
 namespace IShopify.WebApi
 {
@@ -73,6 +64,7 @@ namespace IShopify.WebApi
             {
                 options.UseNpgsql(AppSettingsProvider.Current.IshopifyDB, b => b.MigrationsAssembly("IShopify.WebApi"));
             });
+
             _logger.Info("Configured DbContext");
 
             services.ConfigureSwagger();

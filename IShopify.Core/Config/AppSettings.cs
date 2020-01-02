@@ -2,6 +2,7 @@
 using IShopify.Core.Helpers;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -41,6 +42,8 @@ namespace IShopify.Core.Config
         public string SenderAddress =>  GetValue("SenderAddress");
 
         public string SenderName =>  GetValue("SenderName");
+
+        public string WebUrl => "http://localhost:4200"; // TODO move to env
 
         public string GetValue(string key, string defaultValue = null)
         {
@@ -93,7 +96,7 @@ namespace IShopify.Core.Config
                 if(isUrl) 
                 {
                     var userInfo = parsedUrl.UserInfo.Split(':');
-                    var configOptions = new StackExchange.Redis.ConfigurationOptions
+                    var configOptions = new ConfigurationOptions
                     {
                         ClientName = userInfo[0],
                         Password = userInfo[1],
