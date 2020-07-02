@@ -44,9 +44,9 @@ namespace IShopify.Framework.Auth
                 throw new InvalidCredentialException($"User with this {model.Email} does not exists");
             }
 
-            var userPasswordHash = _cryptoService.Hash(model.Password, SecurityConstants.Salt, 3535);
+            var userPasswordHash = _cryptoService.Hash(model.Password, userEntity.AuthProfile.Salt, 3535);
             
-            if(userEntity.Password != userPasswordHash)
+            if(userEntity.AuthProfile.Password != userPasswordHash)
             {
                 throw new InvalidCredentialException($"Incorrect password");
             }
@@ -56,8 +56,6 @@ namespace IShopify.Framework.Auth
             var token = _jwtHandler.CreateAccessToken(user);
 
             return new AuthenticationResponse { AccessToken = token };
-
-
         }
 
         public async Task<AuthenticationResponse> RegisterCustomerAsync(CustomerRegistrationViewModel model, bool isFaceBookRegistration = false)
@@ -82,9 +80,9 @@ namespace IShopify.Framework.Auth
 
             if(!isFaceBookRegistration && !model.Password.IsNullOrEmpty())
             {
-                //var salt = _cryptoService.GenerateSalt(32);
-                var hash = _cryptoService.Hash(model.Password, SecurityConstants.Salt, 3535); // TODO get salt from env
-                customer.Password = hash;
+                var salt = _cryptoService.GenerateSalt(32);
+                var hash = _cryptoService.Hash(model.Password, salt, 3535);
+                customer.AuthProfile = new CustomerAuthProfile { Salt = salt, Password = hash };
                 await _customerReposiotry.AddAsync(customer);
             }
 

@@ -118,16 +118,16 @@ namespace IShopify.Data.Repositories
             return await query.ToListAsync();
         }
 
-        public void Dispose()
-        {
-            if(_dbContext.IsNull())
-            {
-                return;
-            }
+        // public void Dispose()
+        // {
+        //     if(_dbContext.IsNull())
+        //     {
+        //         return;
+        //     }
 
-            _dbContext.Dispose();
-            GC.SuppressFinalize(this);
-        }
+        //     _dbContext.Dispose();
+        //     GC.SuppressFinalize(this);
+        // }
 
         public async Task<IList<ProductEntity>> GetProductSummaries(IList<int> ids = null)
         {
@@ -135,7 +135,7 @@ namespace IShopify.Data.Repositories
 
             if(!ids.IsNull())
             {
-                query =  query.Where(x => ids.ToList().Contains(x.Id));
+                query = query.Where(x => ids.ToList().Contains(x.Id));
             }
 
             return await query.Select(x => new ProductEntity

@@ -1,9 +1,11 @@
 ﻿using IShopify.Core.Framework;
 using IShopify.Core.Helpers;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Caching.Redis;
 using System.Text;
 
 namespace IShopify.Framework

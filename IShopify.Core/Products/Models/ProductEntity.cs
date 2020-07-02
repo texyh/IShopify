@@ -29,6 +29,8 @@ namespace IShopify.Core.Products.Models
 
         public int Display { get; set; }
 
+        public DateTime? DeleteDateUtc {get; set;}
+
         public virtual ICollection<ProductCategoryEntity> ProductCategories { get; set; }
 
         public virtual ICollection<ProductAttributeValueEntity> ProductAttributeValues { get; set; }

@@ -1,8 +1,10 @@
 ﻿using Autofac;
 using FluentValidation;
 using IShopify.Core.Common;
+using IShopify.Core.Emails;
 using IShopify.DomainServices.Common;
 using IShopify.DomainServices.Validation;
+using IShopify.Services.Emails;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +38,11 @@ namespace IShopify.DomainServices.Bootstrap
 
             builder.RegisterType<TemplateLoader>()
                 .As<ITemplateLoader>()
-                .SingleInstance();
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<EmailSender>()
+                .As<IEmailSender>()
+                .InstancePerLifetimeScope();
         }
     }
 }

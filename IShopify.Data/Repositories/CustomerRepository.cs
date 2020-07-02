@@ -41,5 +41,19 @@ namespace IShopify.Data.Repositories
 
             return customer;
         }
+
+        public async Task<CustomerEntity> GetCustomerWithAuthProfile(int id, bool allowNull = false)
+        {
+            ArgumentGuard.NotDefault(id, nameof(id));
+
+            var customer = await _dbContext.Customers.FirstOrDefaultAsync(x => x.Id == id);
+
+            if(customer.IsNull() && !allowNull) 
+            {
+                throw new ObjectNotFoundException($"No customer with id {id} exists");
+            }
+
+            return customer;
+        }
     }
 }

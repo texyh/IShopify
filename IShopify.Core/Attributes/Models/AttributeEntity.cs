@@ -18,5 +18,7 @@ namespace IShopify.Core.Attributes.Models
         public string Name { get; set; }
 
         public virtual ICollection<AttributeValueEntity> Values { get; set; }
+
+        public DateTime? DeleteDateUtc {get; set;}
     }
 }

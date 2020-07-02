@@ -7,5 +7,7 @@ namespace IShopify.Core.Data
     public interface IEntity<T> where T : struct
     {
         T Id { get; }
+
+        DateTime? DeleteDateUtc {get;}
     }
 }

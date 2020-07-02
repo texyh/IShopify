@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace IShopify.Core.Data
 {
-    public interface IProductRepository : IDataRepository<ProductEntity, int>, IDisposable
+    public interface IProductRepository : IDataRepository<ProductEntity, int> //, IDisposable
     {
         Task<IList<ProductEntity>> SearchAsync(ProductQueryModel searchQuery);
 

@@ -22,6 +22,8 @@ namespace IShopify.Core
 
         public DateTime CreatedOn { get; set; }
 
+        public DateTime? DeleteDateUtc {get; set;}
+
         public virtual ProductEntity Product { get; set; }
 
         public virtual CustomerEntity Customer { get; set; }

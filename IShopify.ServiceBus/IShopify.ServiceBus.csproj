@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IShopify.Core\IShopify.Core.csproj" />
+    <ProjectReference Include="..\IShopify.Common\IShopify.Common.csproj" />
   </ItemGroup>
 
 </Project>

@@ -25,5 +25,7 @@ namespace IShopify.Core.Categories.Models
         public virtual DepartmentEntity Department { get; set; }
 
         public virtual ICollection<ProductCategoryEntity> ProductCategories { get; set; }
+
+        public DateTime? DeleteDateUtc {get; set;}
     }
 }

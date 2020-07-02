@@ -18,6 +18,9 @@ namespace IShopify.Core.Orders.Models.Entity
 
         public int Quantity { get; set; }
 
+        public DateTime? DeleteDateUtc {get; set;}
+
+
         public virtual ProductEntity Product { get; set; }
 
         public virtual OrderEntity Order { get; set; }

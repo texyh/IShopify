@@ -27,6 +27,8 @@ namespace IShopify.Core.Orders.Models.Entity
 
         public int CustomerId { get; set; }
 
+        public DateTime? DeleteDateUtc {get; set;}
+
         public OrderStatus OrderStatus { get; set; }
 
         public PaymentStatus PaymentStatus { get; set; }

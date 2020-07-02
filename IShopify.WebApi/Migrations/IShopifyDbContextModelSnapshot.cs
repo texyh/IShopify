@@ -26,6 +26,9 @@ namespace IShopify.WebApi.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<DateTime?>("DeleteDateUtc")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -61,6 +64,9 @@ namespace IShopify.WebApi.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<DateTime?>("DeleteDateUtc")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<int>("DepartmentId")
                         .HasColumnType("integer");
 
@@ -84,7 +90,14 @@ namespace IShopify.WebApi.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<string>("AuthProfileJson")
+                        .HasColumnName("AuthProfile")
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("DateofBirth")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("DeleteDateUtc")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Email")
@@ -94,9 +107,6 @@ namespace IShopify.WebApi.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Password")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -110,6 +120,9 @@ namespace IShopify.WebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime?>("DeleteDateUtc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
@@ -143,6 +156,9 @@ namespace IShopify.WebApi.Migrations
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer");
+
+                    b.Property<DateTime?>("DeleteDateUtc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Email")
                         .HasColumnType("text");
@@ -187,6 +203,9 @@ namespace IShopify.WebApi.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime?>("DeleteDateUtc")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<int>("OrderStatus")
                         .HasColumnType("integer");
 
@@ -225,6 +244,9 @@ namespace IShopify.WebApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime?>("DeleteDateUtc")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uuid");
@@ -284,6 +306,9 @@ namespace IShopify.WebApi.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<DateTime?>("DeleteDateUtc")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
@@ -323,6 +348,9 @@ namespace IShopify.WebApi.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime?>("DeleteDateUtc")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<int>("ProductId")
                         .HasColumnType("integer");
 
@@ -339,6 +367,53 @@ namespace IShopify.WebApi.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("Reviews");
+                });
+
+            modelBuilder.Entity("IShopify.Core.Security.AccessKeyEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Attempts")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedDateUtc")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("DeleteDateUtc")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("DeletedDateUtc")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("ExpirationUtc")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Key")
+                        .HasColumnType("text");
+
+                    b.Property<int>("MaxAllowedAttempts")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid[]>("ResourceIds")
+                        .HasColumnType("uuid[]");
+
+                    b.Property<string>("ScopesJson")
+                        .HasColumnName("Scopes")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("StartTimeUtc")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AccessKeys");
                 });
 
             modelBuilder.Entity("IShopify.Core.Attributes.Models.AttributeValueEntity", b =>
@@ -441,6 +516,15 @@ namespace IShopify.WebApi.Migrations
                     b.HasOne("IShopify.Core.Products.Models.ProductEntity", "Product")
                         .WithMany("Reviews")
                         .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("IShopify.Core.Security.AccessKeyEntity", b =>
+                {
+                    b.HasOne("IShopify.Core.Customer.Models.CustomerEntity", "Customer")
+                        .WithMany("AccessKeys")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

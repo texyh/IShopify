@@ -8,6 +8,15 @@ namespace IShopify.Framework
 {
     public class CryptoService : ICryptoService
     {
+
+        public string CreateUniqueKey(int length = 32)
+        {
+            var bytes = new byte[length];
+            new RNGCryptoServiceProvider().GetBytes(bytes);
+
+            return ToHexString(bytes);
+        }
+        
         public string GenerateSalt(int maxLenght)
         {
             var salt = new byte[maxLenght];

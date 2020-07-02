@@ -5,6 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Emails\Templates\EmailLayout.cshtml" />
+    <None Remove="Emails\Templates\OrderConfirmed.cshtml" />
+    <None Remove="Emails\Templates\ResetPassword.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Emails\Templates\EmailLayout.cshtml" />
+    <EmbeddedResource Include="Emails\Templates\OrderConfirmed.cshtml" />
+    <EmbeddedResource Include="Emails\Templates\ResetPassword.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.3" />
     <PackageReference Include="AutoMapper" Version="8.1.1" />
     <PackageReference Include="FluentValidation" Version="8.5.0" />

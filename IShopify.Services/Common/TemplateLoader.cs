@@ -1,4 +1,5 @@
 ﻿using IShopify.Core.Common;
+using IShopify.Core.Emails;
 using IShopify.Core.Helpers;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,13 @@ namespace IShopify.DomainServices.Common
 {
     public class TemplateLoader : ITemplateLoader
     {
+        public Task<string> LoadEmailTemplateAsync(EmailTemplateType templateType)
+        {
+            var manifestSearchText = $"{templateType}.cshtml";
+
+            return LoadTemplateAsStringAsync(Assembly.GetExecutingAssembly(), manifestSearchText);
+        }
+
         public Stream LoadTemplate(Assembly excutingAssembly, string manifestSearchText)
         {
             var allManifests = excutingAssembly.GetManifestResourceNames();
